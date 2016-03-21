@@ -24,7 +24,7 @@
 \usepackage{calc}
 \usepackage{array}
 \usepackage{caption}
-\usepackage{subfigure}
+\usepackage{subcaption}
 \usepackage{footnote}
 \usepackage[ruled]{algorithm2e}
 \setsansfont[Ligatures=TeX]{texgyreadventor}
@@ -41,10 +41,11 @@
 \setlength{\parindent}{0pt}
 
 \begin{document}
+
 \frontmatter
 \portada{Título}{Ingeniería de Sistemas de Decisión}{Curso 2015--2016}{José Ignacio Escribano Pablos}{Tutores}
 
-\tableofcontents
+\tableofcontents*
 \cleardoublepage
 
 \listoffigures
@@ -62,7 +63,7 @@
 \input{capitulos/conclusiones}
 
 \appendix
-\input{anexos/teoria_grafos}
+%\input{anexos/teoria_grafos}
 
 \backmatter
 \nocite{*}

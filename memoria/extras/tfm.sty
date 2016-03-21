@@ -5,10 +5,9 @@
 \RequirePackage{amsmath, amssymb, amsthm}
 \RequirePackage[explicit]{titlesec}
 \RequirePackage{emptypage}
-\RequirePackage{fancyhdr}
 \RequirePackage{nameref}
 \RequirePackage{etoolbox}
-\RequirePackage[titles,subfigure]{tocloft}
+%\RequirePackage[titles,subfigure]{tocloft}
 \RequirePackage[font={sf}]{caption}
 \RequirePackage[svgnames]{xcolor}
 \RequirePackage{tikz}
@@ -35,7 +34,6 @@
 
 % Seleccionamos el estilo que acabamos de definir
 \chapterstyle{box}
-
 
 % Espacio del capítulo
 \titlespacing*{\chapter}{0pt}{50pt}{-60pt}
@@ -98,76 +96,72 @@
 \makeatother
 
 % Personalizamos el encabezado y el pie de página
-\pagestyle{fancy}{
-\fancyhead[LO]{}
-\fancyhead[RO]{\sffamily\large{\nouppercase{\rightmark}}  \ \ \ \ \normalfont\sffamily\large\Large\bfseries\scshape{\thepage}}
-\fancyhead[RE]{}
-\fancyhead[LE]{{\normalfont\sffamily\Large\bfseries\scshape{\thepage}} \ \ \ \ \sffamily\large{\nouppercase{\leftmark}}}
-\fancyfoot[CO,CE]{}
-
-
-
-}
+\nouppercaseheads
+\makeevenhead{headings}{\normalfont\sffamily\large\Large\bfseries\scshape{\thepage}}{\sffamily\large\leftmark}{}
+\makeoddhead{headings}{}{\sffamily\large\rightmark}{\sffamily\large\normalfont\sffamily\large\Large\bfseries\scshape{\thepage}}
+\makeheadrule{headings}{\textwidth}{\normalrulethickness}
+\makefootrule{headings}{0px}{\normalrulethickness}{0pt}
 
 % Personalizamos la primera hoja del capítulo
-\fancypagestyle{plain}{
-\fancyhead[L]{}
-\fancyhead[C]{}
-\fancyhead[R]{}
-\fancyfoot[L]{}
-\fancyfoot[C]{\normalfont\sffamily\Large\bfseries{\thepage}}
-\fancyfoot[R]{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-}
+\makeevenhead{plain}{}{}{}
+\makeoddhead{plain}{}{}{}
+\makeoddfoot{plain}{}{\normalfont\sffamily\Large\bfseries\thepage}{}
 
 % Personalizamos los niveles de los itemizes
-\renewcommand{\labelitemi}{\textcolor{blue}{$\blacktriangleright$}}
-\renewcommand{\labelitemii}{\textcolor{blue}{$\bullet$}}
-\renewcommand{\labelitemiii}{\textcolor{blue}{$\bullet$}}
+\renewcommand{\labelitemi}{\textcolor{black}{$\blacktriangleright$}}
+\renewcommand{\labelitemii}{\textcolor{black}{$\bullet$}}
+\renewcommand{\labelitemiii}{\textcolor{black}{$\bullet$}}
 
 % Cambiamos el estilo de los teoremas
 \theoremstyle{definition}
 
-% Personalizamos la fuentes de los títulos en el índice
+% Personalizamos la fuentes de los títulos en el índice 
 
 % Capítulo
-\renewcommand{\cftchapfont}
+\renewcommand{\cftchapterfont}
 	{\normalfont\sffamily\normalsize}
+
 	
 % Sección
-\renewcommand{\cftsecfont} 
+\renewcommand{\cftsectionfont} 
 	{\normalfont\sffamily\normalsize}
 
 % Subsección
-\renewcommand{\cftsubsecfont}
+\renewcommand{\cftsubsectionfont}
 	{\normalfont\sffamily\normalsize}
 
 % Subsubsección
-\renewcommand{\cftsubsubsecfont} 
+\renewcommand{\cftsubsubsectionfont} 
 	{\normalfont\sffamily\normalsize}
 
 % Parágrafo
-\renewcommand{\cftparafont}
+\renewcommand{\cftparagraphfont}
 	{\normalfont\sffamily\normalsize}
 
 % Subparágrafo
-\renewcommand{\cftsubparafont}
+\renewcommand{\cftsubparagraphfont}
 	{\normalfont\sffamily\normalsize}
+
+% Personalizamos los números de página
+\renewcommand{\cftchapterpagefont}{\normalfont\sffamily\normalsize}   
+\renewcommand{\cftsectionpagefont}{\normalfont\sffamily\normalsize} 
+\renewcommand{\cftsubsectionpagefont}{\normalfont\sffamily\normalsize}   
+\renewcommand{\cftsubsubsectionpagefont}{\normalfont\sffamily\normalsize} 
 
 % Personalizamos los títulos de las figuras y las tablas 
 % en sus respectivos índices
 
 % Figuras
-\renewcommand{\cftfigfont} 
+\renewcommand{\cftfigurefont} 
 	{\normalfont\sffamily\normalsize}
 
 % Tablas
-\renewcommand{\cfttabfont}
+\renewcommand{\cfttablefont}
 	{\normalfont\sffamily\normalsize}
 
 % Profundidad del índice
-\setcounter{tocdepth}{4}
-\setcounter{secnumdepth}{3}
+\maxtocdepth{subsubsection}
+\setsecnumdepth{subsubsection}
+
 
 % Fin de archivo
