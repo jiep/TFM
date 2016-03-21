@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,twoside,openright,titlepage,final]{book}
+\documentclass[12pt,a4paper,twoside,openright,final]{memoir}
 \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -43,10 +43,18 @@
 \begin{document}
 \frontmatter
 \portada{Título}{Ingeniería de Sistemas de Decisión}{Curso 2015--2016}{José Ignacio Escribano Pablos}{Tutores}
+
 \tableofcontents
+\cleardoublepage
+
 \listoffigures
+\cleardoublepage
+
 \listoftables
+\cleardoublepage
+
 \listoftodos
+\cleardoublepage
 
 \mainmatter
 \input{capitulos/introduccion}
@@ -54,7 +62,7 @@
 \input{capitulos/conclusiones}
 
 \appendix
-
+\input{anexos/teoria_grafos}
 
 \backmatter
 \nocite{*}

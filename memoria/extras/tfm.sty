@@ -18,25 +18,24 @@
 
 % Capítulo
 % Extraído de 
-% http://www.texample.net/tikz/examples/fancy-chapter-headings/
-\newcommand*\chapterlabel{}
-\titleformat{\chapter}
-{\gdef\chapterlabel{}
-\normalfont\sffamily\Huge\bfseries\scshape}
-{\gdef\chapterlabel{\thechapter\ }}{0pt}
-{\begin{tikzpicture}[remember picture,overlay]
-\node[yshift=-3cm] at (current page.north west)
-	{\begin{tikzpicture}[remember picture, overlay]
-	\filldraw[fill=LightSkyBlue, draw=LightSkyBlue] (0,0) rectangle
-	(\paperwidth,3cm);
-	\node[anchor=east,xshift=.9\paperwidth,rectangle,
-		rounded corners=20pt,inner sep=11pt,
-		fill=MidnightBlue, draw=LightSkyBlue]
-		{\color{white}\chapterlabel#1};
-	\end{tikzpicture}
-	};
-\end{tikzpicture}
+% http://hstuart.dk/2007/05/21/styling-the-chapter/
+\makechapterstyle{box}{
+  \renewcommand*{\printchaptername}{}
+  \renewcommand*{\chapnumfont}{\normalfont\sffamily\huge\bfseries}
+  \renewcommand*{\printchapternum}{
+    \flushright
+    \begin{tikzpicture}
+      \draw[fill,color=black] (0,0) rectangle (2cm,2cm);
+      \draw[color=white] (1cm,1cm) node { \chapnumfont\thechapter };
+    \end{tikzpicture}
+  }
+  \renewcommand*{\chaptitlefont}{\normalfont\sffamily\Huge\bfseries}
+  \renewcommand*{\printchaptertitle}[1]{\flushright\chaptitlefont##1}
 }
+
+% Seleccionamos el estilo que acabamos de definir
+\chapterstyle{box}
+
 
 % Espacio del capítulo
 \titlespacing*{\chapter}{0pt}{50pt}{-60pt}
