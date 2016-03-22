@@ -157,3 +157,6 @@ pythontex-files-*/
 
 # Latexian
 TSWLatexianTemp*
+
+# Dependency directories
+node_modules
