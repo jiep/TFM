@@ -1,0 +1,22 @@
+{
+  "name": "tfm",
+  "version": "0.0.1",
+  "description": "Parenclits Networks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiep/TFM.git"
+  },
+  "author": "José Ignacio Escribano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jiep/TFM/issues"
+  },
+  "homepage": "https://github.com/jiep/TFM#readme",
+  "dependencies": {
+    "fast-csv": "^1.0.0"
+  }
+}
