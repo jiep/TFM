@@ -46,10 +46,22 @@ var prod = function(array1, array2){
   return prod_array;
 }
 
+var convertToColumns = function(data){
+  columns = [];
+  for(var j = 0; j < data[0].length; j++){
+    columns[j] = [];
+    for(var i = 0; i < data.length; i++){
+      columns[j].push(data[i][j]);
+    }
+  }
+  return columns;
+}
+
 module.exports = {
   max: max,
   min: min,
   sum: sum,
   pow: pow,
-  prod: prod
+  prod: prod,
+  convertToColumns: convertToColumns
 }
