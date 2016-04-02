@@ -4,20 +4,34 @@ library(shinydashboard)
 dashboardPage(
   dashboardHeader(title = "Parenclitics Networks"),
   dashboardSidebar(sidebarMenu(
+    menuItem("Upload CSV file", tabName = "home", icon = icon("dashboard")),
     menuItem("Descriptive Statistics", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Parenclitics Networks", tabName = "widgets", icon = icon("th"))
   )),
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard",
+      tabItem(tabName = "home",
               fluidRow(
-                box(plotOutput("plot1", height = 250)),
-                
-                box(
-                  title = "Controls",
-                  sliderInput("slider", "Number of observations:", 1, 100, 50)
-                )
+                h1("Upload CSV file", align = "center")
+              ),
+              fluidRow(
+                column(4),
+                column(3, 
+                   fileInput('data', 'Choose file to upload', 
+                     accept = c(
+                       'text/csv',
+                       'text/comma-separated-values',
+                       '.csv'
+                     )
+                   )
+                ),
+                column(4)
+              ),
+              fluidRow(
+                column(1),
+                column(10, DT::dataTableOutput('contents')),
+                column(1)
               )
       ),
       
