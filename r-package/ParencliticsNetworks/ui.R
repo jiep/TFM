@@ -5,8 +5,10 @@ dashboardPage(
   dashboardHeader(title = "Parenclitics Networks"),
   dashboardSidebar(sidebarMenu(
     menuItem("Upload CSV file", tabName = "home", icon = icon("dashboard")),
-    menuItem("Descriptive Statistics", tabName = "dashboard", icon = icon("dashboard")),
-    menuItem("Parenclitics Networks", tabName = "widgets", icon = icon("th"))
+    menuItem("Descriptive Statistics", tabName = "descriptive", icon = icon("dashboard")),
+    menuItem("Parenclitics Networks", tabName = "parenclitics", icon = icon("th")),
+    menuItem("Prediction", tabName = "parenclitics", icon = icon("th"))
+    
   )),
   dashboardBody(
     tabItems(
@@ -35,9 +37,14 @@ dashboardPage(
               )
       ),
       
-      # Second tab content
-      tabItem(tabName = "widgets",
-              h2("Widgets tab content")
+      tabItem(tabName = "descriptive",
+          h2("Widgets tab content")
+      ),
+      tabItem(tabName = "parenclitics",
+          h2("Widgets tab content")
+      ),
+      tabItem(tabName = "prediction",
+          h2("Widgets tab content")
       )
     )
   )
