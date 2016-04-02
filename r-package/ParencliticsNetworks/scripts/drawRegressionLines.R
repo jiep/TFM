@@ -22,7 +22,8 @@ drawRegressionLines = function(data, target){
               panel.superpose(x, y, ...,
                               panel.groups = function(x,y, col, col.symbol, ...) {
                                 panel.xyplot(x, y, col=col.symbol, ...)
-                                panel.abline(lm(y~x), col.line=col.symbol)
+                                fit = lm(y~x+I(x^2))
+                                panel.lines(sort(x), fitted(fit)[order(x)], col.line=col.symbol)
                               }
               )
             },
