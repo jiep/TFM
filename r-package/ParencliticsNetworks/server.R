@@ -10,8 +10,8 @@ shinyServer(function(input, output) {
   
   observe({ 
     on.exit(
-      assign("regressionVariable", 
-             input$regressionVariable2, .GlobalEnv) 
+      assign("target", 
+             input$target, .GlobalEnv) 
     ) 
   })
   
@@ -36,8 +36,10 @@ shinyServer(function(input, output) {
     
     if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
-    # TODO: Quitar variable objetivo de la lista
-    selectInput("descriptiveVariables", "Variable", choices = colnames(datasetInput()))
+    cols = colnames(datasetInput())
+    index = which(names(datasetInput())==input$target)
+    cols = cols[-index]
+    selectInput("descriptiveVariables", "Variable", choices = cols)
     
   })
   
@@ -77,8 +79,10 @@ shinyServer(function(input, output) {
     
     if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
-    # TODO: Quitar variable objetivo de la lista
-    selectInput("regressionVariable1", "Variable 1", choices = colnames(datasetInput()))
+    cols = colnames(datasetInput())
+    index = which(names(datasetInput())==input$target)
+    cols = cols[-index]
+    selectInput("regressionVariable1", "Variable 1", choices = cols)
     
   })
   
@@ -86,8 +90,10 @@ shinyServer(function(input, output) {
     
     if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
-    # TODO: Quitar variable objetivo de la lista
-    selectInput("regressionVariable2", "Variable 2", choices = colnames(datasetInput()))
+    cols = colnames(datasetInput())
+    index = which(names(datasetInput())==input$target)
+    cols = cols[-index]
+    selectInput("regressionVariable2", "Variable 2", choices = cols)
     
   })
   
