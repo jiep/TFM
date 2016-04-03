@@ -1,5 +1,6 @@
 library(shiny)
 source("scripts/loadCSV.R")
+source("scripts/getFactorVariables.R")
 
 shinyServer(function(input, output) {
   
@@ -11,5 +12,14 @@ shinyServer(function(input, output) {
   })
   
   output$contents = DT::renderDataTable(datasetInput())
+  
+  output$target = renderUI({
+    
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    cols <- getFactorVariables(datasetInput())
+    selectInput("target", "Select the target variable:", choices=cols)  
+    
+  })
     
 })

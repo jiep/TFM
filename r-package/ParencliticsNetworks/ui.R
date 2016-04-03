@@ -7,7 +7,7 @@ dashboardPage(
     menuItem("Upload CSV file", tabName = "home", icon = icon("dashboard")),
     menuItem("Descriptive Statistics", tabName = "descriptive", icon = icon("dashboard")),
     menuItem("Parenclitics Networks", tabName = "parenclitics", icon = icon("th")),
-    menuItem("Prediction", tabName = "parenclitics", icon = icon("th"))
+    menuItem("Prediction", tabName = "prediction", icon = icon("th"))
     
   )),
   dashboardBody(
@@ -28,7 +28,8 @@ dashboardPage(
                      )
                    )
                 ),
-                column(4)
+                column(4,
+                  uiOutput("target"))
               ),
               fluidRow(
                 column(1),
