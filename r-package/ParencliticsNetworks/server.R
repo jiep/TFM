@@ -17,9 +17,33 @@ shinyServer(function(input, output) {
     
     if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
-    cols <- getFactorVariables(datasetInput())
-    selectInput("target", "Select the target variable:", choices=cols)  
+    targets <- getFactorVariables(datasetInput())
+    selectInput("target", "Select the target variable:", choices = colnames(datasetInput()[targets]))
+  })
+  
+  output$descriptiveVariables = renderUI({
     
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    # TODO: Quitar variable objetivo de la lista
+    selectInput("descriptiveVariables", "Variable", choices = colnames(datasetInput()))
+    
+  })
+  
+  selectedData = reactive({
+    datasetInput()[,input$descriptiveVariables]
+  })
+  
+  output$descriptivePlot = renderPlot({
+    hist(selectedData(), main = 
+          paste("Histogram of", colnames(datasetInput())[input$descriptiveVariables]),
+         xlab = colnames(datasetInput())[input$descriptiveVariables],
+         col = "blue"
+    )
+  })
+  
+  output$descriptiveSummary = renderPrint({
+    summary(selectedData())
   })
     
 })

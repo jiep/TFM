@@ -37,9 +37,17 @@ dashboardPage(
                 column(1)
               )
       ),
-      
       tabItem(tabName = "descriptive",
-          h2("Widgets tab content")
+              fluidRow(
+                column(3,
+                   uiOutput("descriptiveVariables"),
+                   br(),
+                   textOutput("descriptiveSummary")
+                ),
+                column(8,
+                   plotOutput("descriptivePlot")
+                )
+              )
       ),
       tabItem(tabName = "parenclitics",
           h2("Widgets tab content")
