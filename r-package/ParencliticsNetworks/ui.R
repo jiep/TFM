@@ -7,6 +7,7 @@ dashboardPage(
   dashboardSidebar(sidebarMenu(
     menuItem("Upload CSV file", tabName = "home", icon = icon("dashboard")),
     menuItem("Descriptive Statistics", tabName = "descriptive", icon = icon("dashboard")),
+    menuItem("Regression", tabName = "regression", icon = icon("dashboard")),
     menuItem("Parenclitics Networks", tabName = "parenclitics", icon = icon("th")),
     menuItem("Prediction", tabName = "prediction", icon = icon("th"))
     
@@ -53,6 +54,9 @@ dashboardPage(
                       plotlyOutput("descriptiveVariablesGroup"))
                 )
           
+      ),
+      tabItem(tabName = "regression",
+              h2("Widgets tab content")
       ),
       tabItem(tabName = "parenclitics",
           h2("Widgets tab content")
