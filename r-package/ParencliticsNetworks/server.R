@@ -1,8 +1,16 @@
 library(shiny)
+library(plotly)
 source("scripts/loadCSV.R")
 source("scripts/getFactorVariables.R")
 
 shinyServer(function(input, output) {
+  
+  observe({ 
+    on.exit(
+      assign("target", 
+             input$target, .GlobalEnv) 
+    ) 
+  })
   
   datasetInput <- reactive({
     infile <- input$data
@@ -34,16 +42,34 @@ shinyServer(function(input, output) {
     datasetInput()[,input$descriptiveVariables]
   })
   
-  output$descriptivePlot = renderPlot({
-    hist(selectedData(), main = 
-          paste("Histogram of", colnames(datasetInput())[input$descriptiveVariables]),
-         xlab = colnames(datasetInput())[input$descriptiveVariables],
-         col = "blue"
-    )
+  output$descriptivePlot = renderPlotly({
+    
+    plot = ggplot(data=iris, aes(selectedData())) + geom_histogram() 
+          
+    plot = plot + scale_x_continuous(name=input$descriptiveVariables) + scale_y_continuous(name="Count")
+    
+    p <- ggplotly(plot)
+    p
   })
   
   output$descriptiveSummary = renderPrint({
     summary(selectedData())
+  })
+  
+  output$descriptiveVariablesGroup = renderPlotly({
+    
+    plot = ggplot(datasetInput(), aes(x=selectedData(), fill=datasetInput()[,input$target])) +
+      geom_histogram(binwidth=.5, position="dodge")
+    
+    plot = plot + scale_fill_discrete(name=input$target) 
+    
+    plot = plot + scale_x_continuous(name=input$descriptiveVariables) + 
+      scale_y_continuous(name="Count")
+    
+    
+    p <- ggplotly(plot)
+    p
+    
   })
     
 })

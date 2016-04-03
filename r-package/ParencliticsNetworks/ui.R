@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(plotly)
 
 dashboardPage(
   dashboardHeader(title = "Parenclitics Networks"),
@@ -39,15 +40,17 @@ dashboardPage(
       ),
       tabItem(tabName = "descriptive",
               fluidRow(
-                column(3,
-                   uiOutput("descriptiveVariables"),
-                   br(),
-                   textOutput("descriptiveSummary")
-                ),
-                column(8,
-                   plotOutput("descriptivePlot")
+                  box(uiOutput("descriptiveVariables")),
+                  box(title = "Summary of variable",
+                      textOutput("descriptiveSummary"))
+              ),
+              fluidRow(
+                  box(title = "Histogram",
+                      plotlyOutput("descriptivePlot")),
+                  box(title = "Histogram by target groups",
+                      plotlyOutput("descriptiveVariablesGroup"))
                 )
-              )
+          
       ),
       tabItem(tabName = "parenclitics",
           h2("Widgets tab content")
