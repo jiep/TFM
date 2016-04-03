@@ -34,7 +34,9 @@ dashboardPage(
               ),
               fluidRow(
                 column(1),
-                column(10, DT::dataTableOutput('contents')),
+                column(10, 
+                  DT::dataTableOutput("contents")
+                ),
                 column(1)
               )
       ),
@@ -42,7 +44,7 @@ dashboardPage(
               fluidRow(
                   box(uiOutput("descriptiveVariables")),
                   box(title = "Summary of variable",
-                      textOutput("descriptiveSummary"))
+                      DT::dataTableOutput("descriptiveSummary"))
               ),
               fluidRow(
                   box(title = "Histogram",

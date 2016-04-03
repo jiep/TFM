@@ -2,6 +2,7 @@ library(shiny)
 library(plotly)
 source("scripts/loadCSV.R")
 source("scripts/getFactorVariables.R")
+source("scripts/summaryfunction.R")
 
 shinyServer(function(input, output) {
   
@@ -52,9 +53,7 @@ shinyServer(function(input, output) {
     p
   })
   
-  output$descriptiveSummary = renderPrint({
-    summary(selectedData())
-  })
+  output$descriptiveSummary = DT::renderDataTable(summaryfunction(selectedData()), options = list(dom = 't'))
   
   output$descriptiveVariablesGroup = renderPlotly({
     
