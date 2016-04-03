@@ -1,4 +1,4 @@
-source("setTargetVariable.R")
+source("scripts/setTargetVariable.R")
 
 require('lattice')
 
@@ -12,8 +12,6 @@ drawRegressionLines = function(data, target){
     linearPlots = matrix(list(), nrow = columnsLength, ncol = columnsLength)
     for(i in 1:columnsLength){
       for(j in 1:columnsLength){
-        if(i < j){
-          
           linearPlots[[i, j]] = xyplot(
             data[,i]  ~ data[,j],
             groups = target,
@@ -22,7 +20,7 @@ drawRegressionLines = function(data, target){
               panel.superpose(x, y, ...,
                               panel.groups = function(x,y, col, col.symbol, ...) {
                                 panel.xyplot(x, y, col=col.symbol, ...)
-                                fit = lm(y~x+I(x^2))
+                                fit = lm(y~x)
                                 panel.lines(sort(x), fitted(fit)[order(x)], col.line=col.symbol)
                               }
               )
@@ -31,7 +29,6 @@ drawRegressionLines = function(data, target){
             xlab = cols[i], 
             ylab = cols[j]
           )
-        }
       }
     }
   }

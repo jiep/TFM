@@ -3,13 +3,15 @@ library(plotly)
 source("scripts/loadCSV.R")
 source("scripts/getFactorVariables.R")
 source("scripts/summaryfunction.R")
+source("scripts/drawRegressionLines.R")
+
 
 shinyServer(function(input, output) {
   
   observe({ 
     on.exit(
-      assign("target", 
-             input$target, .GlobalEnv) 
+      assign("regressionVariable", 
+             input$regressionVariable2, .GlobalEnv) 
     ) 
   })
   
@@ -69,6 +71,42 @@ shinyServer(function(input, output) {
     p <- ggplotly(plot)
     p
     
+  })
+  
+  output$regressionVariable1 = renderUI({
+    
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    # TODO: Quitar variable objetivo de la lista
+    selectInput("regressionVariable1", "Variable 1", choices = colnames(datasetInput()))
+    
+  })
+  
+  output$regressionVariable2 = renderUI({
+    
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    # TODO: Quitar variable objetivo de la lista
+    selectInput("regressionVariable2", "Variable 2", choices = colnames(datasetInput()))
+    
+  })
+  
+  output$regressionMethod = renderUI({
+    
+    # TODO: Quitar variable objetivo de la lista
+    selectInput("regressionMethod", "Regression method", choices = c("linear"))
+    
+  })
+  
+  output$regressionPlot = renderPlot({
+    plots = drawRegressionLines(datasetInput(), input$target)
+    
+    index1 = which(names(datasetInput())==input$regressionVariable1)
+    index2 = which(names(datasetInput())==input$regressionVariable2)
+    
+    p=plots[[index1, index2]]
+    
+    p
   })
     
 })
