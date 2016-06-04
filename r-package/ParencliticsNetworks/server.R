@@ -4,6 +4,7 @@ source("scripts/loadCSV.R")
 source("scripts/getFactorVariables.R")
 source("scripts/summaryfunction.R")
 source("scripts/drawRegressionLines.R")
+source("scripts/drawParencliticsNetworks.R")
 
 
 shinyServer(function(input, output) {
@@ -113,6 +114,49 @@ shinyServer(function(input, output) {
     p=plots[[index1, index2]]
     
     p
+  })
+  
+  output$normalVariable1 = renderUI({
+    
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    cols = colnames(datasetInput())
+    index = which(names(datasetInput())==input$target)
+    cols = cols[-index]
+    selectInput("normalVariable1", "Variable 1", choices = cols)
+    
+  })
+  
+  output$normalVariable2 = renderUI({
+    
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    cols = colnames(datasetInput())
+    index = which(names(datasetInput())==input$target)
+    cols = cols[-index]
+    selectInput("normalVariable2", "Variable 2", choices = cols)
+    
+  })
+  
+  output$normalRegressionMethod = renderUI({
+    
+    # TODO: Quitar variable objetivo de la lista
+    selectInput("normalRegressionMethod", "Regression method", choices = c("linear"))
+    
+  })
+  
+  output$observation = renderUI({
+    
+    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
+    
+    selectInput("observation", "Observation", choices = 1:dim(datasetInput())[1])
+    
+  })
+  
+  output$normalPlot = renderPlot({
+    plot = drawParenclitsNetworks(datasetInput(), input$target, input$observation)
+    
+    plot
   })
     
 })

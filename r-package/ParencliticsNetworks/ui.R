@@ -69,7 +69,18 @@ dashboardPage(
         )
       ),
       tabItem(tabName = "parenclitics",
-          h2("Widgets tab content")
+        fluidRow(
+          box(width = 3,
+              uiOutput("normalVariable1"),
+              uiOutput("normalVariable2"),
+              uiOutput("normalRegressionMethod"),
+              uiOutput("observation")
+          ),
+          box(width = 9,
+              title="Regression plot by target",
+              plotOutput("normalPlot")
+          )       
+        )
       ),
       tabItem(tabName = "prediction",
           h2("Widgets tab content")
