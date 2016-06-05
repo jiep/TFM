@@ -2,7 +2,7 @@ source("scripts/setTargetVariable.R")
 
 require('lattice')
 
-drawRegressionLines = function(data, target){
+drawRegressionLines = function(data, target, i, j){
   targetIndex = setTargetVariable(data, target)
   if(targetIndex != -1){
     target = data[,targetIndex]
@@ -10,8 +10,8 @@ drawRegressionLines = function(data, target){
     cols = colnames(data)
     columnsLength = length(cols)
     linearPlots = matrix(list(), nrow = columnsLength, ncol = columnsLength)
-    for(i in 1:columnsLength){
-      for(j in 1:columnsLength){
+    #for(i in 1:columnsLength){
+      #for(j in 1:columnsLength){
           linearPlots[[i, j]] = xyplot(
             data[,i]  ~ data[,j],
             groups = target,
@@ -30,7 +30,7 @@ drawRegressionLines = function(data, target){
             ylab = cols[j]
           )
       }
-    }
-  }
+    #}
+  #}
   return(linearPlots)
 }

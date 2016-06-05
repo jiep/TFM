@@ -51,17 +51,19 @@ shinyServer(function(input, output) {
   
   output$descriptivePlot = renderPlotly({
     
-    plot = ggplot(data=iris, aes(selectedData())) + geom_histogram() 
+    
+    plot = ggplot(data=datasetInput(), aes(selectedData())) + geom_histogram(binwidth=.5, position="dodge") 
           
     plot = plot + scale_x_continuous(name=input$descriptiveVariables) + scale_y_continuous(name="Count")
     
-    p <- ggplotly(plot)
+    p = ggplotly(plot)
     p
   })
   
   output$descriptiveSummary = DT::renderDataTable(summaryfunction(selectedData()), options = list(dom = 't'))
   
   output$descriptiveVariablesGroup = renderPlotly({
+    
     
     plot = ggplot(datasetInput(), aes(x=selectedData(), fill=datasetInput()[,input$target])) +
       geom_histogram(binwidth=.5, position="dodge")
@@ -72,7 +74,7 @@ shinyServer(function(input, output) {
       scale_y_continuous(name="Count")
     
     
-    p <- ggplotly(plot)
+    p = ggplotly(plot)
     p
     
   })
@@ -107,10 +109,10 @@ shinyServer(function(input, output) {
   })
   
   output$regressionPlot = renderPlot({
-    plots = drawRegressionLines(datasetInput(), input$target)
-    
     index1 = which(names(datasetInput())==input$regressionVariable1)
     index2 = which(names(datasetInput())==input$regressionVariable2)
+    
+    plots = drawRegressionLines(datasetInput(), input$target,index1, index2)
     
     p=plots[[index1, index2]]
     
@@ -165,8 +167,8 @@ shinyServer(function(input, output) {
   
   output$normalPlot = renderPlot({
     plot = drawParenclitsNetworks(datasetInput(), input$target, input$observation)
-    
     plot
+
   })
     
 })
