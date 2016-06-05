@@ -70,16 +70,24 @@ dashboardPage(
       ),
       tabItem(tabName = "parenclitics",
         fluidRow(
-          box(width = 3,
-              uiOutput("normalVariable1"),
-              uiOutput("normalVariable2"),
-              uiOutput("normalRegressionMethod"),
-              uiOutput("observation")
+          column(width = 3,
+            box(width = NULL,
+                uiOutput("normalVariable1"),
+                uiOutput("normalVariable2"),
+                uiOutput("normalRegressionMethod"),
+                uiOutput("observation")
+            )
           ),
-          box(width = 9,
-              title="Regression plot by target",
-              plotOutput("normalPlot")
-          )       
+          column(width = 9,
+             box(width = NULL,
+               title="Normal distribution by regression",
+               plotOutput("normPlot")
+             ),
+             box(width = NULL,
+               title="Parenclitic network by observation",
+               plotOutput("normalPlot")
+             )  
+          )
         )
       ),
       tabItem(tabName = "prediction",

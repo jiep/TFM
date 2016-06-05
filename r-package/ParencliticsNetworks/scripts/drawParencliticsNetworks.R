@@ -12,7 +12,7 @@ getParenclitsNetworks = function(data, target, observation){
     print(classes)
     columnsLength = length(cols)
     X = data[observation,]
-    #data[-observation,]
+    data = data[setdiff(1:dim(data)[1], observation),]
     adyMatrix = matrix(rep(0,(nrow = columnsLength -1)^2), nrow = columnsLength -1, ncol = columnsLength-1)
     columns = setdiff(1:columnsLength, c(targetIndex))
     colnames(adyMatrix) = colnames(data)[columns]
@@ -30,7 +30,7 @@ getParenclitsNetworks = function(data, target, observation){
           cont = 1
           probabilities = array()
           for(model in models){
-            probabilities[cont] = dnorm(X[1,i],X[1,i]*model$coefficients[[2]], sd(model$residuals))
+            probabilities[cont] = dnorm(X[1,i],X[1,i]*model$coefficients[[2]] + model$coefficients[[1]], sd(model$residuals))
             cont = cont + 1
           }
           
@@ -45,7 +45,7 @@ getParenclitsNetworks = function(data, target, observation){
           i_ = 1
           for(model in models){
             if(i_ == index){
-              weight = abs(X[1,i] - model$coefficients[[2]]*X[1,i])
+              weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i]) + model$coefficients[[1]])
             }
             i_ = i_+1
           }
@@ -66,8 +66,12 @@ drawParenclitsNetworks = function(data, target, observation){
   
   c_scale = colorRamp(c('green','red'))
   
-  p=plot(network, edge.color=apply(c_scale(E(network)$weight/sum(E(network)$weight)), 1, function(x) rgb(x[1]/255,x[2]/255,x[3]/255)),
-                  edge.width=E(network)$weight,
+  x = E(network)$weight
+  
+  x_ = (x-min(x))/(max(x) - min(x))
+  
+  p=plot(network, edge.color=apply(c_scale(x_), 1, function(x) rgb(x[1]/255,x[2]/255,x[3]/255)),
+                  edge.width=2*E(network)$weight,
                   vertex.label.color = "black",
                   vertex.color = "white",
                   vertex.size=25*degree(network),

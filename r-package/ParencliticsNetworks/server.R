@@ -5,6 +5,7 @@ source("scripts/getFactorVariables.R")
 source("scripts/summaryfunction.R")
 source("scripts/drawRegressionLines.R")
 source("scripts/drawParencliticsNetworks.R")
+source("scripts/drawNormalPlot.R")
 
 
 shinyServer(function(input, output) {
@@ -132,8 +133,9 @@ shinyServer(function(input, output) {
     if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
     cols = colnames(datasetInput())
-    index = which(names(datasetInput())==input$target)
-    cols = cols[-index]
+    index1 = which(names(datasetInput())==input$target)
+    index2 = which(names(datasetInput())==input$normalVariable1)
+    cols = cols[-c(index1,index2)]
     selectInput("normalVariable2", "Variable 2", choices = cols)
     
   })
@@ -150,6 +152,14 @@ shinyServer(function(input, output) {
     if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
     selectInput("observation", "Observation", choices = 1:dim(datasetInput())[1])
+    
+  })
+  
+  output$normPlot = renderPlot({
+    plot = drawNormalPlot(datasetInput(), input$target, input$normalVariable1, input$normalVariable2, input$observation)
+    print(plot)
+    #p = ggplotly(plot)
+    #p
     
   })
   
