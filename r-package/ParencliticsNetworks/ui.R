@@ -42,18 +42,18 @@ dashboardPage(
               )
       ),
       tabItem(tabName = "descriptive",
-              fluidRow(
-                  box(uiOutput("descriptiveVariables")),
-                  box(title = "Summary of variable",
-                      DT::dataTableOutput("descriptiveSummary"))
-              ),
-              fluidRow(
-                  box(title = "Histogram",
-                      plotlyOutput("descriptivePlot")),
-                  box(title = "Histogram by target groups",
-                      plotlyOutput("descriptiveVariablesGroup"))
-                )
-          
+        fluidRow(
+            box(uiOutput("descriptiveVariables")),
+            box(title = "Summary of variable",
+                DT::dataTableOutput("descriptiveSummary"))
+        ),
+        fluidRow(
+          box(title = "Histogram",
+              plotlyOutput("descriptivePlot")),
+          box(title = "Histogram by target groups",
+              plotlyOutput("descriptiveVariablesGroup")
+          )
+        )
       ),
       tabItem(tabName = "regression",
         fluidRow(
@@ -91,7 +91,25 @@ dashboardPage(
         )
       ),
       tabItem(tabName = "prediction",
-          h2("Widgets tab content")
+        fluidRow(
+          column(width = 3,
+             box(width = NULL,
+              uiOutput("trainingSet"),
+              uiOutput("regressionMethodPrediction")
+             )
+          ),
+          column(width = 9,
+             box(width = NULL,
+                 title="Classification",
+                 DT::dataTableOutput("classification")
+             ),
+             box(width = NULL,
+                 title="Parenclitic network by observation",
+                 textOutput("text1")
+                 
+             )  
+          )
+        )
       )
     )
   )

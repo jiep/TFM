@@ -6,14 +6,14 @@ source("scripts/summaryfunction.R")
 source("scripts/drawRegressionLines.R")
 source("scripts/drawParencliticsNetworks.R")
 source("scripts/drawNormalPlot.R")
-
+source("scripts/calculatePrediction.R")
 
 shinyServer(function(input, output) {
   
   observe({ 
     on.exit(
-      assign("target", 
-             input$target, .GlobalEnv) 
+      assign("dataset", 
+             datasetInput(), .GlobalEnv) 
     ) 
   })
   
@@ -104,7 +104,7 @@ shinyServer(function(input, output) {
   output$regressionMethod = renderUI({
     
     # TODO: Quitar variable objetivo de la lista
-    selectInput("regressionMethod", "Regression method", choices = c("linear"))
+    selectInput("regressionMethod", "Regression method", choices = c("linear", "exponential", "quadratic", "reciprocal"))
     
   })
   
@@ -112,7 +112,7 @@ shinyServer(function(input, output) {
     index1 = which(names(datasetInput())==input$regressionVariable1)
     index2 = which(names(datasetInput())==input$regressionVariable2)
     
-    plots = drawRegressionLines(datasetInput(), input$target,index1, index2)
+    plots = drawRegressionLines(datasetInput(), input$target, index1, index2, input$regressionMethod)
     
     p=plots[[index1, index2]]
     
@@ -145,20 +145,18 @@ shinyServer(function(input, output) {
   output$normalRegressionMethod = renderUI({
     
     # TODO: Quitar variable objetivo de la lista
-    selectInput("normalRegressionMethod", "Regression method", choices = c("linear"))
+    selectInput("normalRegressionMethod", "Regression method", choices = c("linear", "exponential", "quadratic", "reciprocal"))
     
   })
   
   output$observation = renderUI({
-    
-    if (identical(datasetInput(), '') || identical(datasetInput(),data.frame())) return(NULL)
     
     selectInput("observation", "Observation", choices = 1:dim(datasetInput())[1])
     
   })
   
   output$normPlot = renderPlot({
-    plot = drawNormalPlot(datasetInput(), input$target, input$normalVariable1, input$normalVariable2, input$observation)
+    plot = drawNormalPlot(datasetInput(), input$target, input$normalVariable1, input$normalVariable2, input$observation, input$normalRegressionMethod)
     print(plot)
     #p = ggplotly(plot)
     #p
@@ -166,9 +164,33 @@ shinyServer(function(input, output) {
   })
   
   output$normalPlot = renderPlot({
-    plot = drawParenclitsNetworks(datasetInput(), input$target, input$observation)
+    plot = drawParenclitsNetworks(datasetInput(), input$target, input$observation, input$normalRegressionMethod)
     plot
 
   })
+  
+  predictions = reactive({
+    calculatePrediction(datasetInput(), input$target, input$trainingSet, input$regressionMethodPrediction)
+  })
+  
+  output$trainingSet = renderUI({
     
+    selectInput("trainingSet", "Training set", choices = c(0.8, 0.9, 0.95))
+    
+  })
+  
+  output$regressionMethodPrediction = renderUI({
+    
+    selectInput("regressionMethodPrediction", "Regression Method", choices = c("linear", "exponential", "quadratic", "reciprocal"))
+    
+  })
+  
+  output$classification = DT::renderDataTable({
+    DT::datatable(predictions()[[2]],options = list(dom = 't'))
+  })
+  
+  
+  output$text1 <- renderText({ 
+    input$regressionMethodPrediction
+  })
 })
