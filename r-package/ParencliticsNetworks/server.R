@@ -7,6 +7,7 @@ source("scripts/drawRegressionLines.R")
 source("scripts/drawParencliticsNetworks.R")
 source("scripts/drawNormalPlot.R")
 source("scripts/calculatePrediction.R")
+source("scripts/calculatePredictionML.R")
 
 shinyServer(function(input, output) {
   
@@ -190,7 +191,53 @@ shinyServer(function(input, output) {
   })
   
   
-  output$text1 <- renderText({ 
-    input$regressionMethodPrediction
+  output$linkDensity = renderPlot({
+    plot = predictions()[[3]][[1]]
+    print(plot)
+    #p = ggplotly(plot)
+    #p
+    
   })
+  
+  output$efficiency = renderPlot({
+    plot = predictions()[[3]][[2]]
+    print(plot)
+    #p = ggplotly(plot)
+    #p
+    
+  })
+  
+  output$clustering = renderPlot({
+    plot = predictions()[[3]][[3]]
+    print(plot)
+    #p = ggplotly(plot)
+    #p
+    
+  })
+  
+  output$cpl = renderPlot({
+    plot = predictions()[[3]][[4]]
+    print(plot)
+    #p = ggplotly(plot)
+    #p
+    
+  })
+  
+  predictionsML = reactive({
+    calculatePredictionML(datasetInput(), input$target, input$trainingSet)
+  })
+  
+  output$classification_tree = DT::renderDataTable({
+    DT::datatable(predictionsML()[[1]], options = list(dom = 't'))
+  })
+  
+  output$classification_svm = DT::renderDataTable({
+    DT::datatable(predictionsML()[[2]], options = list(dom = 't'))
+  })
+  
+  output$classification_ann = DT::renderDataTable({
+    DT::datatable(predictionsML()[[3]], options = list(dom = 't'))
+  })
+  
+  
 })

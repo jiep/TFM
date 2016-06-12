@@ -1,4 +1,5 @@
 source("scripts/drawParencliticsNetworks.R")
+source("scripts/multiplot.R")
 
 require("igraph")
 require("e1071")
@@ -35,6 +36,24 @@ calculatePrediction = function(data, target, percentage, type){
   result_training = as.data.frame(cbind(clustering_coefficient, link_density, efficiency, caracteristic_path_length))
   result_training = result_training[complete.cases(result_training),]
   result_training[,"labels"] = labels
+  result_training[,"observation"] = as.numeric(rownames(result_training))
+  
+  p1 = ggplot(result_training, aes(x=observation, y=link_density, colour=labels, group=labels)) +
+    geom_line() + ggtitle("Link density")
+  
+  p2 = ggplot(result_training, aes(x=observation, y=efficiency, colour=labels, group=labels)) +
+    geom_line() + ggtitle("Efficiency")
+  
+  p3 = ggplot(result_training, aes(x=observation, y=clustering_coefficient, colour=labels, group=labels)) +
+    geom_line() + ggtitle("Clustering coeffcient")
+  
+  p4 = ggplot(result_training, aes(x=observation, y=caracteristic_path_length, colour=labels, group=labels)) +
+    geom_line() + ggtitle("Characteristic path length")
+  
+  plot_measures = list(p1, p2, p3, p4)
+  
+  result_training[,"observation"] = NULL
+  
   
   parencliticsnetworks = array()
   clustering_coefficient = array()
@@ -42,7 +61,7 @@ calculatePrediction = function(data, target, percentage, type){
   efficiency = array()
   caracteristic_path_length = array()
   for(test in testingIndexes){
-    ady = parencliticNetwork(trainingSet, testingSet, target = target, test, type = "linear")
+    ady = parencliticNetwork(trainingSet, testingSet, target = target, test, type)
     network = graph.adjacency(ady, weighted=T, mode = "undirected")
     network_nodes = length(V(network))
     
@@ -60,7 +79,7 @@ calculatePrediction = function(data, target, percentage, type){
   }
   
   model = svm(labels ~ . , data = result_training, scale = FALSE)
-  predicts = predict(model, testingSet)
+  predicts = predict(model, result_testing)
   
   predicts = unname(predicts)
   
@@ -71,7 +90,7 @@ calculatePrediction = function(data, target, percentage, type){
   results = as.data.frame(cbind(as.character(predicts), as.character(labels_testing)))
   results["classification"] = ifelse(predicts == labels_testing, "Good", "Bad")
   colnames(results) = c("predicted", "labels", "classification")
-  rownames(results) = rownames(testingSet)
+  rownames(results) = as.numeric(rownames(testingSet))
   
-  return(list(results_percentage, results))
+  return(list(results_percentage, results, plot_measures))
 }

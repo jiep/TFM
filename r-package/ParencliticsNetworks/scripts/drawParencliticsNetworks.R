@@ -39,7 +39,11 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             }
             
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities)!=0){
+              prob = probabilities/sum(probabilities)
+            }else{
+              prob = 0
+            }
             
             cat("i:", i, "j:", j, "\n")
             cat("Probabilidades: ")
@@ -68,8 +72,13 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
               probabilities[cont] = dnorm(X[1,i],sqrt(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
               cont = cont + 1
             }
+            
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities)!=0){
+              prob = probabilities/sum(probabilities)
+            }else{
+              prob = 0
+            }
             
             cat("i:", i, "j:", j, "\n")
             cat("Probabilidades: ")
@@ -103,7 +112,11 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             }
             
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities)!=0){
+              prob = probabilities/sum(probabilities)
+            }else{
+              prob = 0
+            }
             
             cat("i:", i, "j:", j, "\n")
             cat("Probabilidades: ")
@@ -190,7 +203,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             cont = 1
             probabilities = array()
             for(model in models){
-              print(cont, model$coefficients)
               probabilities[cont] = dnorm(X[1,i],exp(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
               cont = cont + 1
             }
@@ -222,11 +234,15 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             probabilities = array()
             for(model in models){
               probabilities[cont] = dnorm(X[1,i],(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]])^2, sd(model$residuals))
+              cat("Prob: cont ", cont, ":", probabilities[cont], "\n")
               cont = cont + 1
             }
             
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities) != 0){
+              prob = probabilities/sum(probabilities)
+            }
+            prob = 0 
             
             cat("i:", i, "j:", j, "\n")
             cat("Probabilidades: ")
@@ -256,7 +272,11 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             }
             
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities)!=0){
+              prob = probabilities/sum(probabilities)
+            }else{
+              prob = 0
+            }
             
             cat("i:", i, "j:", j, "\n")
             cat("Probabilidades: ")
@@ -286,7 +306,9 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             }
             
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities) != 0){
+              prob = probabilities/sum(probabilities)
+            }
             
             cat("i:", i, "j:", j, "\n")
             cat("Probabilidades: ")

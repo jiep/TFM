@@ -9,7 +9,8 @@ dashboardPage(
     menuItem("Descriptive Statistics", tabName = "descriptive", icon = icon("dashboard")),
     menuItem("Regression", tabName = "regression", icon = icon("dashboard")),
     menuItem("Parenclitics Networks", tabName = "parenclitics", icon = icon("th")),
-    menuItem("Prediction", tabName = "prediction", icon = icon("th"))
+    menuItem("Prediction", tabName = "prediction", icon = icon("th")),
+    menuItem("Other prediction methods", tabName = "predictionML", icon = icon("th"))
     
   )),
   dashboardBody(
@@ -104,10 +105,39 @@ dashboardPage(
                  DT::dataTableOutput("classification")
              ),
              box(width = NULL,
-                 title="Parenclitic network by observation",
-                 textOutput("text1")
-                 
-             )  
+                 title="Link density",
+                 plotOutput("linkDensity")
+             ),
+             box(width = NULL,
+                 title="Efficiency",
+                 plotOutput("efficiency")
+             ),
+             box(width = NULL,
+                 title="Clustering coefficient",
+                 plotOutput("clustering")
+             ),
+             box(width = NULL,
+                 title="Characteristic path length",
+                 plotOutput("cpl")
+             )
+          )
+        )
+      ),
+      tabItem(tabName = "predictionML",
+        fluidRow(
+          column(width = 12,
+           box(width = NULL,
+               title="Classification with decision tree",
+               DT::dataTableOutput("classification_tree")
+           ),
+           box(width = NULL,
+               title="Classification with neural networks",
+               DT::dataTableOutput("classification_ann")
+           ),
+           box(width = NULL,
+               title="Classification with SVM",
+               DT::dataTableOutput("classification_svm")
+           )
           )
         )
       )
