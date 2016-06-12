@@ -6,7 +6,7 @@ require("e1071")
 
 calculatePrediction = function(data, target, percentage, type){
   n = floor(nrow(data)*as.numeric(percentage)) + 1
-  trainingIndexes = sort(sample(1:dim(data)[1], size = n))
+  trainingIndexes = sort(sample(1:nrow(data), size = n))
   testingIndexes = setdiff(1:dim(data)[1], trainingIndexes)
   trainingSet = data[trainingIndexes,]
   testingSet  = data[-trainingIndexes,]

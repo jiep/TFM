@@ -9,7 +9,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
   if(targetIndex != -1){
     cols = colnames(data)
     classes = unique(data[,targetIndex])
-    print(classes)
     columnsLength = length(cols)
     X = data[observation,]
     data = data[setdiff(1:dim(data)[1], observation),]
@@ -18,7 +17,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
     colnames(adyMatrix) = colnames(data)[columns]
     rownames(adyMatrix) = colnames(data)[columns]
     
-    print(columns)
     for(i in 1:length(columns)){
       for(j in 1:length(columns)){
         if(i<j){
@@ -44,10 +42,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             }else{
               prob = 0
             }
-            
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
             
             index = which.max(x = prob)
             i_ = 1
@@ -80,10 +74,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
               prob = 0
             }
             
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
-            
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
@@ -104,7 +94,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             models = lmList(formula, data = data)
             cont = 1
             for(model in models){
-              print(model)
               probabilities[cont] = 0
               if(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]] != 0)
                 probabilities[cont] = dnorm(X[1,i],1/(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
@@ -117,11 +106,7 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             }else{
               prob = 0
             }
-            
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
-            
+
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
@@ -149,10 +134,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             prob = array()
             prob = probabilities/sum(probabilities)
             
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
-            
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
@@ -175,8 +156,7 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
 parencliticNetwork = function(trainingSet, testingSet, target, observation, type){
 
   targetIndex = setTargetVariable(trainingSet, target)
-  cat(targetIndex)
-  
+
   adyMatrix = NULL
   if(targetIndex != -1){
     cols = colnames(trainingSet)
@@ -189,7 +169,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
     colnames(adyMatrix) = colnames(trainingSet)[columns]
     rownames(adyMatrix) = colnames(trainingSet)[columns]
     
-    print(columns)
     for(i in 1:length(columns)){
       for(j in 1:length(columns)){
         if(i<j){
@@ -197,8 +176,7 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             formula = as.formula(paste("log(",colnames(trainingSet)[j],")" ,"~",
                                        paste(colnames(trainingSet)[i], "|", paste(colnames(trainingSet)[targetIndex], collapse = "+"),sep = "")))
             
-            print(formula)
-            
+
             models = lmList(formula, data = trainingSet)
             cont = 1
             probabilities = array()
@@ -210,9 +188,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             prob = array()
             prob = probabilities/sum(probabilities)
             
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
             
             index = which.max(x = prob)
             i_ = 1
@@ -222,7 +197,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
               }
               i_ = i_+1
             }
-            cat("Indice mayor: ", index, "\n", "weight: ", weight, "classes[ind]:", classes[index], "\n")
             adyMatrix[i,j] = weight
             adyMatrix[j,i] = weight
           }else if(type == "quadratic"){
@@ -234,7 +208,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             probabilities = array()
             for(model in models){
               probabilities[cont] = dnorm(X[1,i],(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]])^2, sd(model$residuals))
-              cat("Prob: cont ", cont, ":", probabilities[cont], "\n")
               cont = cont + 1
             }
             
@@ -244,10 +217,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             }
             prob = 0 
             
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
-            
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
@@ -256,7 +225,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
               }
               i_ = i_+1
             }
-            cat("Indice mayor: ", index, "\n", "weight: ", weight, "classes[ind]:", classes[index], "\n")
             adyMatrix[i,j] = weight
             adyMatrix[j,i] = weight
           }else if(type == "reciprocal"){
@@ -278,10 +246,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
               prob = 0
             }
             
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
-            
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
@@ -290,7 +254,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
               }
               i_ = i_+1
             }
-            cat("Indice mayor: ", index, "\n", "weight: ", weight, "classes[ind]:", classes[index], "\n")
             adyMatrix[i,j] = weight
             adyMatrix[j,i] = weight
           }else{
@@ -310,10 +273,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
               prob = probabilities/sum(probabilities)
             }
             
-            cat("i:", i, "j:", j, "\n")
-            cat("Probabilidades: ")
-            print(prob)
-            
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
@@ -322,7 +281,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
               }
               i_ = i_+1
             }
-            cat("Indice mayor: ", index, "\n", "weight: ", weight, "classes[ind]:", classes[index], "\n")
             adyMatrix[i,j] = weight
             adyMatrix[j,i] = weight
           }

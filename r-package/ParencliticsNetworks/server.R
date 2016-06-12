@@ -1,5 +1,11 @@
 library(shiny)
 library(plotly)
+require("rmarkdown")
+require("stringi")
+require("pander")
+library("gridExtra")
+
+
 source("scripts/loadCSV.R")
 source("scripts/getFactorVariables.R")
 source("scripts/summaryfunction.R")
@@ -8,13 +14,14 @@ source("scripts/drawParencliticsNetworks.R")
 source("scripts/drawNormalPlot.R")
 source("scripts/calculatePrediction.R")
 source("scripts/calculatePredictionML.R")
+source("scripts/multiplot.R")
 
 shinyServer(function(input, output) {
   
   observe({ 
     on.exit(
-      assign("dataset", 
-             datasetInput(), .GlobalEnv) 
+      assign("input", 
+        input$data$datapath, .GlobalEnv) 
     ) 
   })
   
@@ -238,6 +245,30 @@ shinyServer(function(input, output) {
   output$classification_ann = DT::renderDataTable({
     DT::datatable(predictionsML()[[3]], options = list(dom = 't'))
   })
+  
+  output$downloadReport <- downloadHandler(
+    filename = function() {
+      paste('my-report.pdf')
+    },
+    content = function(file) {
+      cat("Directorio actual:", getwd())
+      src <- normalizePath('report.RMD')
+      
+      owd <- setwd(tempdir())
+      cat(owd)
+      on.exit(setwd(owd))
+      file.copy(src, 'report.RMD', overwrite = TRUE)
+      
+      cat("Path:", input$data$datapath, "\n")
+      
+      out <- rmarkdown::render('report.RMD', encoding = 'UTF-8',
+         params = list(path = gsub("\\", "/", input$data$datapath, fixed=TRUE),
+                       target = input$target,
+                       percentage = input$trainingSet
+                      ))
+      file.rename(out, file)
+    }
+  )
   
   
 })

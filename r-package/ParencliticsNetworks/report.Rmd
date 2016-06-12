@@ -1,0 +1,123 @@
+---
+title: "Parenclitic Networks Application Report"
+output: pdf_document
+params:
+  path: 'NULL'
+  target: 'NULL'
+  percentage: 0.8
+---
+
+# Data
+
+This is the loaded data:
+
+```{r, echo=FALSE}
+library("pander")
+library("ggplot2")
+```
+
+```{r results="asis", messages=FALSE, errors=FALSE, echo=FALSE}
+path = params[["path"]]
+data=read.csv(path, header = TRUE) 
+
+panderOptions('knitr.auto.asis', FALSE)
+pander(data, caption = "Data loaded")
+
+```
+
+# Descriptive data
+
+```{r results = "asis", echo = FALSE}
+target = params[["target"]]
+
+for(var in colnames(data)){
+  if(is.numeric(data[,var])){
+    cat("\n\n## Variable", var, "\n\n")
+    pander(summary(data[,var]), caption = paste("Summary of", var))
+
+    plot = ggplot(data=data, aes(data[,var])) + geom_histogram(binwidth=.5,position="dodge") 
+          
+    plot = plot + scale_x_continuous(name=var) + scale_y_continuous(name="Count")
+    
+    plot(plot)
+    
+    plot2 = ggplot(data, aes(x=data[,var], fill=data[,target])) +
+      geom_histogram(binwidth=.5, position="dodge")
+    
+    plot2 = plot2 + scale_fill_discrete(name=target) 
+    
+    plot2 = plot2 + scale_x_continuous(name=var) + 
+      scale_y_continuous(name="Count")
+    
+    
+    plot(plot2)
+  }
+}
+
+```
+
+# Regression
+
+```{r results="asis", messages=FALSE, errors=FALSE, echo=FALSE}
+types = c("linear", "exponential", "quadratic", "reciprocal")
+n = length(colnames(data))
+for(type in types){
+  cat("\n\n## Regression type: ", type, "\n\n")
+  for(i in 1:n){
+    for(j in 1:n){
+      var1 = colnames(data)[i]
+      var2 = colnames(data)[j]
+      if(i < j && (is.numeric(data[,var1]) && is.numeric(data[,var2]))){
+        cat(paste("\n\n###", var1, " vs ", var2, "\n\n"))
+        a = plot(drawRegressionLines(data, target, i, j, type=type)[[i,j]])
+        a
+      }
+    }
+  }
+}
+
+```
+
+# Parenclitics networks
+
+```{r results="asis", messages=FALSE, errors=FALSE, echo=FALSE}
+types = c("linear", "exponential", "quadratic", "reciprocal")
+n = length(colnames(data))
+observations = nrow(data)
+for(observation in 1:observations){
+  cat("\n## Observation: ", observation, "\n\n")
+  #p1 = drawNormalPlot(data, target, var1, var2, observation, type="linear")
+  #p2 = drawNormalPlot(data, target, var1, var2, observation, type="exponential")
+  #p3 = drawNormalPlot(data, target, var1, var2, observation, type="quadratic")
+  #p4 = drawNormalPlot(data, target, var1, var2, observation, type="reciprocal")
+  #print(multiplot(p1,p2,p3,p4))
+  for(type in types){
+    cat("\n### Type:", type ,"\n\n")
+    print(drawParenclitsNetworks(data, target, observation, type))
+  }
+  
+}
+```
+
+# Prediction with Parenclitics Networks
+
+```{r results="asis", messages=FALSE, errors=FALSE, echo = FALSE}
+ percentage = params[["percentage"]]
+ cat("Percentage: ", percentage)
+ for(type in types){
+   cat("## Regression method: ", type, "\n")
+   pander(calculatePrediction(data, target, 0.8, type)[[2]], caption = paste("Classification with method", type))
+ }
+```
+
+# Prediction with other Machine Learning algorithms
+
+```{r results="asis", messages=FALSE, errors=FALSE, echo=FALSE}
+   cat("## Decision trees: ", "\n")
+   results = calculatePredictionML(data, target, 0.8)
+   pander(results[[1]], caption = paste("Classification with decision tree", type))
+   cat("## Support Vector Machine: ", "\n")
+   pander(results[[2]], caption = paste("Classification with SVM ", type))
+   cat("## Artifitial Neural Networks: ", "\n")
+   pander(results[[3]], caption = paste("Classification with ANN ", type))
+```

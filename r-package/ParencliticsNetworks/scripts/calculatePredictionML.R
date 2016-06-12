@@ -28,7 +28,7 @@ calculatePredictionML = function(data, target, percentage){
   colnames(results_svm) = c("predicted", "labels", "classification")
   rownames(results_svm) = as.numeric(rownames(testingSet))
   
-  model_ann = nnet(formula, size = 10, data = trainingSet)
+  model_ann = nnet(formula, size = 10, data = trainingSet,trace = FALSE)
   predicts_ann = unname(predict(model_ann, testingSet, type = "class"))
   results_percentage_ann = sum(predicts_ann == labels_testing)/length(predicts_ann)
   results_ann = as.data.frame(cbind(as.character(predicts_ann), as.character(labels_testing)))

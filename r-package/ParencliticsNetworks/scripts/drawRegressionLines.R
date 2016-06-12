@@ -22,23 +22,18 @@ drawRegressionLines = function(data, target, i, j, type="linear"){
                   panel.xyplot(x, y, col=col.symbol, ...)
                     fit = NULL
                     if(type == "exponential"){
-                      cat("exponencial")
                       fit = lm(log(y)~x)
                       panel.curve(exp(predict(fit, newdata = list(x = x))), col.line=col.symbol)
                     }else if(type == "quadratic"){
-                      cat("quadratic")
                       fit = lm(sqrt(y)~x)
                       panel.curve((predict(fit, newdata = list(x = x)))^2, col.line=col.symbol)
                     }else if(type=="reciprocal"){
-                      cat("reciprocal")
                       fit = lm(1/y~x)
                       panel.curve(1/(predict(fit, newdata = list(x = x))), col.line=col.symbol)
                     }else{
-                      cat("lineal")
                       fit = lm(y~x)
                       panel.lines(sort(x), fitted(fit)[order(x)], col.line=col.symbol)
                     }
-                
                 }
               )
             },

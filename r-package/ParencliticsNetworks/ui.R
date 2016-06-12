@@ -18,6 +18,7 @@ dashboardPage(
       # First tab content
       tabItem(tabName = "home",
               fluidRow(
+                downloadButton("downloadReport"),
                 h1("Upload CSV file", align = "center")
               ),
               fluidRow(
