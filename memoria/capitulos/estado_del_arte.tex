@@ -1,0 +1,190 @@
+\chapter{Introducción al Machine Learning}
+
+El Machine Learning o Aprendizaje Automático es la rama de las Ciencias de la Computación, y en particular, de la Inteligencia de la Artificial que se encarga del reconocimiento de patrones y de la teoría computacional del aprendizaje. El machine learning se basa en la construcción de modelos que permitan aprender y hacer predicciones sobre unos datos, de forma automática, es decir, sin intervención humana.\\
+
+El machine learning permite resolver infinidad de problemas que se pueden clasificar de la siguiente manera:
+
+\begin{itemize}
+	\item Clasificación: las entradas son divididas entre dos o más clases y el modelo debe aprender a asignar a cada entrada una de las clases.\\
+	
+	
+	Un ejemplo clásico de problema de clasificación es el filtro de spam: el modelo debe ser capaz de identificar un correo electrónico como ``spam'' o ``no spam'', es decir, éstas serán las clases en las que se deberán dividir las entradas (por ejemplo, número de apariciones o frecuencia de distintas palabras en el correo) para identificar el spam.
+	
+	\item Regresión: las salidas son continuas. En contraposición con la clasificación la regresión tiene una salida continua, es decir, puede tomar todos los valores reales o un intervalo de ellos.\\
+	
+	Por ejemplo, el valor de las acciones de una determinada empresa a lo largo del tiempo puede ser un ejemplo de regresión, ya que el valor de las acciones pueden tomar cualquier valor en el intervalo $[0, \infty)$.
+	
+	\item Clustering: un conjunto de entrada se divide en grupos (los grupos no están fijados de antemano).
+	
+	Un ejemplo clásico es la segmentación del mercado, es decir, encontrar grupos con similares características de una población para ofrecer ofertas personalizadas.
+	
+	\item Reducción de dimensionalidad: simplifica las entradas por medio de una función a un espacio de dimensión inferior.    
+\end{itemize}
+
+En el machine learning puede clasificarse por tipo de aprendizaje:
+
+\begin{itemize}
+	\item Aprendizaje supervisado: consiste en construir un modelo a partir de un conjunto de entrenamiento que contiene los datos de entrada y la salida (o etiqueta) esperada. El algoritmo produce un modelo para inferir la salida de nuevos ejemplos.
+	
+	En este tipo de aprendizaje se incluye la tarea de clasificación y la regresión.
+	
+	\item Aprendizaje no supervisado: en este caso no existen etiquetas predefinidas de antemano, y se trata de encontrar una función que describa la estructura oculta de los datos.\\
+	
+	En este tipo de aprendizaje se incluye el clustering.
+	
+	\item Aprendizaje por refuerzo: un ordenador interactúa con un entorno dinámico para conseguir una determinada, sin que un nadie le diga como de lejos está de conseguirla.  
+\end{itemize}
+
+\section{Aprendizaje supervisado}
+
+En el aprendizaje supervisado existe un conjunto de entrenamiento que consiste en un conjunto de datos de entrada junto con su correspondiente salida, que es la respuesta que un algoritmo de machine learning debería producir para esa entrada. Normalmente se representa como $(\mathbf{x}, \mathbf{y})$, donde $x_i$ son las entradas, y $y_i$ son las salidas.\\
+
+Una característica importante de los algoritmos de machine learning es la capacidad de generalización: el algoritmo debería de producir salidas sensatas para entradas que no se introdujeron en el entrenamiento. También es importante que el algoritmo pueda tratar con el ruido, es decir, con las imprecisiones que se  obtienen al medir cualquier variable del mundo real.\\
+
+Dentro de este tipo de aprendizaje tenemos varios tipos de problemas, entre los que se encuentran la clasificación y la regresión.
+
+\paragraph{Clasificación}
+El problema de clasificación consiste en tomar las entradas y decidir en cuál de las $n$ clases pertenece cada entrada, basado en el entrenamiento con ejemplares de cada clase. Un punto clave en el problema de clasificación es que es discreto, es decir, cada ejemplo pertenece a una sola de las clases y el conjunto de clases cubre por completo el espacio de salida.
+
+\begin{ejemplo}
+Consideremos la clasificación de un correo electrónico como ``spam'' o ``no spam''. En este caso el conjunto de clases vendría dado por $C = \{ \text{spam}, \text{no spam} \}$. Las entradas podrían venir dadas, por ejemplo, por la frecuencia de aparición de distintas palabras claves del correo electrónico. 
+\end{ejemplo}
+
+\paragraph{Regresión}
+El problema de regresión consiste en obtener un valor de salida a partir de las entradas. En contraposición con el problema de clasificación, las salidas toman valores sobre un intervalo continuo.
+
+\begin{ejemplo}
+Supongamos que queremos estimar el valor de las acciones de una determinada empresa a partir de una serie de variables como el número de empleados, los ingresos, etc. En este caso estamos ante un problema de regresión ya que la variable salida (valor de las acciones) toma un valor continuo en el intervalo $[0,\infty)$.  
+\end{ejemplo}
+
+\subparagraph{Regresión lineal}
+La regresión lineal viene dada por
+
+\begin{equation}
+y_i = \sum_{i=1}^{n} \alpha_i x_i + \alpha_0
+\end{equation}
+
+donde $y_i$ es la variable salida y $x_i$ es la variable de entrada.\\
+
+El método de mínimos cuadrados nos garantiza que los parámetros $\alpha_i$ que minimizan el error cuadrático vienen dados por
+
+\begin{equation}
+\mathbf{\alpha} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}.
+\end{equation}
+
+En el caso bidimensional el modelo viene dado por
+
+\begin{equation}
+y = \alpha_1 x + \alpha_0
+\end{equation}
+
+Se tiene que $\alpha_0$ y $\alpha_1$ vienen dados por este sistema de ecuaciones lineales:
+
+\begin{equation}
+\begin{cases}
+\begin{array}{ccccc}
+\left(\sum_{i=1}^{n} x_i^2\right) \alpha_1 & + & \left(\sum_{i=1}^{n} x_i\right) \alpha_0 & = & \sum_{i=1}^{n} x_i y_i \\
+ \left(\sum_{i=1}^{n} x_i\right) \alpha_1 & + & n \alpha_0 & = & \sum_{i=1}^{n} y_i
+\end{array}
+\end{cases}
+\end{equation}
+
+\begin{ejemplo}
+	Supongamos que disponemos de los datos de la Tabla~\ref{tbl:regresion_lineal} y queremos ajustar un modelo lineal de la forma $y = \alpha_1 x + \alpha_0$.\\
+	
+	De acuerdo a lo anterior,
+	
+	\begin{equation*}
+	\begin{cases}
+	\begin{array}{ccccc}
+	92 \alpha_1 & + & 20 \alpha_0 & = & 25 \\
+	20 \alpha_1 & + &  8 \alpha_0 & = & 37
+	\end{array}
+	\end{cases}
+	\end{equation*}
+	
+	Resolviendo el sistema lineal, se tiene que,
+	
+	\begin{eqnarray*}
+	\alpha_1 \approx -1.607 \\
+	\alpha_0 \approx  8.642
+	\end{eqnarray*}
+	
+	Por tanto, $y = -1.607x + 8.642$.
+	
+	Si quisiéramos predecir el valor para $x=7$, tendríamos que $y = -1.607\cdot 7 + 8.642 = -2.607$.
+	
+	\begin{table}[htbp!]
+		\centering
+		\caption{Datos para regresión lineal}
+		\label{tbl:regresion_lineal}
+		\begin{tabular}{@{}lllllllll@{}}
+			\toprule
+			$x$ & -1 & 0 & 1 & 2 & 3 & 4 & 5 & 6  \\ \midrule
+			$y$ & 10 & 9 & 7 & 5 & 4 & 3 & 0 & -1 \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+\end{ejemplo}
+
+Este método permite ajustar modelos que, en principio, no son lineales como, por ejemplo, 
+
+\[ y = ax^m \]
+
+Este modelo no puede ajustarse como regresión lineal, pero se pueden linealizar las variables $x$, $y$ para convertirlo en un modelo lineal.\\
+
+Tomando logaritmos a ambos lados de la igualdad,
+
+\[ \log y = \log(ax^m)  = \log a + m \log x \]
+
+Haciendo $Y = \log y$, $X = \log x$, $\alpha_1 = \log a$ y $m = \alpha_0$, tenemos un modelo lineal.\\
+
+En la Tabla~\ref{tbl:linealizacion} se pueden encontrar cómo linealizar distintos modelos.
+
+\begin{table}[htbp!]
+	\centering
+	\caption{Linealización de distintos modelos}
+	\label{tbl:linealizacion}
+	\begin{tabular}{@{}ccc@{}}
+		\toprule
+		$y = f(x)$                             & \begin{tabular}[c]{@{}c@{}}Forma linealizada\\ $y = \alpha_1 x + \alpha_0$\end{tabular} & \begin{tabular}[c]{@{}c@{}}Cambio de variables\\ y constantes\end{tabular} \\ \midrule
+		$y = \dfrac{\alpha_1}{x} + \alpha_0$   & $y = \alpha_1 \dfrac{1}{x} + \alpha_0$                                                  & $X=\dfrac{1}{x}$; $Y=y$                                                    \\
+		$y = \dfrac{1}{\alpha_1 x + \alpha_0}$ & $\dfrac{1}{y} = \alpha_1 x + \alpha_0$                                                  & $Y=\dfrac{1}{y}$; $X=x$                                                    \\
+		$y = \alpha_1 \log x + \alpha_0$       & $y = \alpha_1 \log x + \alpha_0$                                                        & $Y = y$; $X = \log x$                                                      \\
+		$y = \alpha_1 e^{\alpha_0 x}$          & $\log y = \log \alpha_1 + \alpha_2 \log x$                                              & $Y = \log y$; $X = \log x$; $\alpha_1 = \log \alpha_1$                     \\
+		$y = (\alpha_0 + \alpha_1 x)^2$        & $\sqrt{y} = \alpha_0 + \alpha_1 x$                                                      & $Y = \sqrt{y}$; $X=x$                                                      \\ \bottomrule
+	\end{tabular}
+\end{table}  
+
+\subsection{El proceso de Machine Learning}
+
+El proceso general para resolver un problema usando aprendizaje supervisado consiste en los siguientes pasos:
+
+\begin{enumerate}
+	\item Obtención de datos y preparación: consiste en obtener y preparar los datos que se usarán para obtener un modelo de machine learning adecuado para los datos. Consiste en obtener unos datos que sean relevantes, tarea que es difícil cuando se dispone de una cantidad de datos muy grande y que contiene outliers y datos faltantes.
+	
+	\item Selección de características: consiste en la identificación de características que sean más útiles para el problema en cuestión.
+	
+	\item Elección del algoritmo: dado el conjunto de datos, consiste en elegir uno o varios algoritmos adecuados que permita resolver el problema de manera satisfactoria.
+	
+	\item Selección del modelo y sus parámetros: la mayoría de los algoritmos de Machine Learning tienen parámetros que deben ser fijados manualmente, o que requieren experimentación para obtener valores adecuados.
+	
+	\item Entrenamiento: dado el conjunto de datos, el algoritmo y los parámetros, el entrenamiento deberá construir un modelo a partir de los datos para predecir las salidas de nuevos datos.
+	
+	\item Evaluación: antes de que el sistema sea desplegado, necesita ser probado y evaluado con datos con los que no ha sido entrenado. A veces, incluye una comparación con expertos humanos en el campo y la selección de métricas apropiadas para esa comparación.    
+\end{enumerate}
+
+De los 6 puntos anteriores, nos centraremos en la elección del algoritmo. De entre todos los algoritmos entraremos en detalle de las redes neuronales, los Support Vector Machine (SVM) y los árboles de decisión. 
+
+\subsection{Redes neuronales}
+
+Las redes neuronales fueron propuestas en 1943 por McCulloch y Pitts.
+
+\subsection{Support Vector Machine}
+
+\subsection{Árboles de decisión}
+
+\section{Aprendizaje no supervisado}
+
+\section{Aprendizaje por refuerzo}
+
