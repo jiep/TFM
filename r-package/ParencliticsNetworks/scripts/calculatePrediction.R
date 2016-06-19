@@ -83,7 +83,7 @@ calculatePrediction = function(data, target, percentage, type){
   cat("Testing indexes")
   print(testingIndexes)
   
-  model = nnet(labels ~ ., data = result_training, size=200, maxit = 1000, MaxNWts = 10000)
+  model = nnet(labels ~ ., data = result_training, size=50, maxit = 1000, MaxNWts = 10000)
   predicts = predict(model, result_testing, type = "class")
   cat("predicts\n")
   View(predicts)

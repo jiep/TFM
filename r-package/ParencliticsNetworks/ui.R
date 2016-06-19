@@ -14,6 +14,10 @@ dashboardPage(
     
   )),
   dashboardBody(
+    tags$style(type="text/css",
+               ".shiny-output-error { visibility: hidden; }",
+               ".shiny-output-error:before { visibility: hidden; }"
+    ),
     tabItems(
       # First tab content
       tabItem(tabName = "home",
