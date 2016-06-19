@@ -17,31 +17,33 @@ dashboardPage(
     tabItems(
       # First tab content
       tabItem(tabName = "home",
-              fluidRow(
-                downloadButton("downloadReport"),
-                h1("Upload CSV file", align = "center")
-              ),
-              fluidRow(
-                column(4),
-                column(3, 
-                   fileInput('data', 'Choose file to upload', 
-                     accept = c(
-                       'text/csv',
-                       'text/comma-separated-values',
-                       '.csv'
-                     )
+        fluidRow(
+          column(width = 12,
+             box(width = NULL,
+                 title="Upload CSV",
+                 fileInput('data', 'Choose file to upload', 
+                   accept = c(
+                     'text/csv',
+                     'text/comma-separated-values',
+                     '.csv'
                    )
-                ),
-                column(4,
-                  uiOutput("target"))
-              ),
-              fluidRow(
-                column(1),
-                column(10, 
-                  DT::dataTableOutput("contents")
-                ),
-                column(1)
-              )
+                 )
+             ),
+             box(width=NULL,
+                 title = "Target variable",
+                 uiOutput("target")
+             ),
+             box(width = NULL,
+              title = "Download report",
+              downloadButton("downloadReport")
+             ),
+             box(width = NULL,
+                 title = "Data",
+                 DT::dataTableOutput("contents")
+             )
+          )
+          
+        )
       ),
       tabItem(tabName = "descriptive",
         fluidRow(

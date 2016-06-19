@@ -6,11 +6,13 @@ require("e1071")
 
 calculatePrediction = function(data, target, percentage, type){
   n = floor(nrow(data)*as.numeric(percentage)) + 1
-  trainingIndexes = sort(sample(1:nrow(data), size = n))
+  trainingIndexes = sort(sample(nrow(data), size = n))
   testingIndexes = setdiff(1:dim(data)[1], trainingIndexes)
   trainingSet = data[trainingIndexes,]
   testingSet  = data[-trainingIndexes,]
   labels_testing = data[testingIndexes,target]
+  
+  cat("labels indexes", length(labels_testing), "\n")
   
   parencliticsnetworks = array()
   clustering_coefficient = array()
@@ -52,8 +54,8 @@ calculatePrediction = function(data, target, percentage, type){
   
   plot_measures = list(p1, p2, p3, p4)
   
-  result_training[,"observation"] = NULL
   
+  result_training[,"observation"] = NULL
   
   parencliticsnetworks = array()
   clustering_coefficient = array()
@@ -74,14 +76,25 @@ calculatePrediction = function(data, target, percentage, type){
     efficiency[test] = coef*sum(1/matrix_distance[row(matrix_distance)!=col(matrix_distance)])
     caracteristic_path_length[test] = coef*sum(matrix_distance[row(matrix_distance)!=col(matrix_distance)])
     
-    result_testing = as.data.frame(cbind(clustering_coefficient, link_density, efficiency, caracteristic_path_length))
-    result_testing = result_testing[complete.cases(result_testing),]
   }
   
-  model = svm(labels ~ . , data = result_training, scale = FALSE)
-  predicts = predict(model, result_testing)
+  result_testing = as.data.frame(cbind(clustering_coefficient, link_density, efficiency, caracteristic_path_length))
+  result_testing = result_testing[complete.cases(result_testing),]
+  cat("Testing indexes")
+  print(testingIndexes)
+  
+  model = nnet(labels ~ ., data = result_training, size=200, maxit = 1000, MaxNWts = 10000)
+  predicts = predict(model, result_testing, type = "class")
+  cat("predicts\n")
+  View(predicts)
+  print(labels_testing)
+  
+  View(predicts)
   
   predicts = unname(predicts)
+  print(predicts)
+  
+  View(testingSet)
   
   results_percentage = sum(predicts == labels_testing)/length(predicts)
   
