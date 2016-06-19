@@ -184,7 +184,146 @@ Las redes neuronales fueron propuestas en 1943 por McCulloch y Pitts.
 
 \subsection{Árboles de decisión}
 
+La idea de los árboles de decisión es partir el conjunto de clasificación en un conjunto de opciones sobre cada variable comenzando por la raíz del árbol y bajando hasta las hojas, donde se reciben la decisión de clasificación. \\
+
+\begin{ejemplo}
+Supongamos que queremos decidir qué hacer en función del dinero que tengamos y el tiempo que haga. Supongamos que el tiempo sólo puede ser soleado y lluvioso y el dinero que tenemos es mucho o poco.\\
+
+Queremos decidir si ir al parque, al cine o quedarse en casa.\\
+
+Así, un posible árbol de decisión sería:
+
+\textcolor{red}{Aquí va un ejemplo} 
+\end{ejemplo}
+
+Una de las ventajas de los árboles de decisión es que pueden convertirse en una unión de conjunción programarse de la forma ``Si ... Entonces ...``.
+
+\subsubsection{Algoritmo ID3}
+
+El algoritmo ID3 se basa en el concepto de entropía, propuesto por Claude Shannon, padre de la Teoría de la Información. La entropía se define como
+
+\begin{equation}
+E(p) = -\sum_{i} p_i \log_2 p_i
+\end{equation}
+
+donde $\mathbf{p} = (p_1, \dots, p_n)$ es un vector de probabilidad.
+
+\begin{ejemplo}
+Supongamos que tenemos una variable que toma dos posibles valores: $+$ y $-$, y la probabilidad de cada clase es 0.6 y 0.4 respectivamente.\\
+
+Entonces,
+
+\begin{align}
+E(p) & = - (0.6 \log_2 0.6 + 0.4 \log_2 0.4) \\
+     & = -(-0.44 - 0.52)\\
+     & = 0.96
+\end{align}
+\end{ejemplo}
+
+La idea detrás de ID3 es calcular cuánta entropía del conjunto de entrenamiento completo disminuirá si elegimos una variable particular en el siguiente paso. Esto es lo que se conoce como ganancia de información y se define como la entropía del conjunto completo menos la entropía cuando una variable es elegida. Matemáticamente, se define como
+
+\begin{equation}
+G(S, F) = E(S) - \sum_{f \in \text{valores}(F)} \dfrac{|S_f|}{|S|} E(S_f)
+\end{equation}
+
+donde $S$ es el conjunto de entrenamiento, $F$ es una posible variable fuera del conjunto de todas las variables posibles.\\
+
+El algoritmo ID3 computa la ganancia de información de cada variable y elige la que produce un mayor valor.\\
+
+El pseudocódigo del algoritmo se puede ver a continuación:
+
+\begin{itemize}
+\item Si todos los ejemplos tienen la misma etiqueta,
+
+\begin{itemize}
+\item Devuelve una hoja con esa etiqueta.
+\end{itemize}
+
+\item Si no hay variables restantes para probar
+
+\begin{itemize}
+\item Devuelve una hoja con la etiqueta más común.
+\end{itemize}
+
+\item Si no
+
+\begin{itemize}
+\item Elige la variable $\hat{F}$ que maximiza la información de $S$ para ser el siguiente nodo del árbol.
+\item Añade una rama del nodo para cada posible valor $f \in \hat{F}$.
+\item Por cada rama,
+
+\begin{itemize}
+\item Calcula $S_f$ eliminando $\hat{F}$ del conjunto de variables.
+\item Recursivamente llamar al algoritmo con $S_f$ para calcular la ganancia relativa al conjunto actual de ejemplos.
+\end{itemize}
+
+\begin{ejemplo}
+\textcolor{red}{Añadir ejemplo ID3}
+\end{ejemplo}
+
+\end{itemize}
+
+\end{itemize}
+
 \section{Aprendizaje no supervisado}
+
+Los algoritmos vistos anteriormente usaban un conjunto de entrenamiento que consistía en una colección de datos con la salida que se debía producir. El aprendizaje no supervisado tiene conocimiento sobre los valores correctos de la salida. Esto hace que no se pueda resolver un problema de regresión con aprendizaje no supervisado.\\
+
+El objetivo del aprendizaje no supervisado es encontrar clústers, es decir, conjuntos de ejemplares que se parezcan entre ellos. Una forma de medir la similitud es la distancia, normalmente la distancia euclídea.
+
+\subsection{Algoritmo de las k-Medias}
+
+Supongamos que queremos dividir nuestros de entrada en $k$ categorías ($k$ es un valor fijado). La idea es situar los centros de los clústers en el espacio de entrada y situar los centros en el medio de los clústers.\\
+
+Para medir la cercanía entre los puntos usamos alguna distancia como la euclídea. Una vez que tenemos la distancia, podemos calcular el centro como la media (aunque sólo es válido en el caso euclídeo).\\
+
+El pseudocódigo de este algoritmo es el siguiente:
+
+\begin{itemize}
+\item Inicialización
+
+\begin{itemize}
+\item Elegir $k$.
+\item Elegir $k$ posiciones aleatoria para el espacio de entrada.
+\item Asignar el centro de los clústers $\mathbf{\mu}_j$ a esas posiciones.
+\end{itemize}
+
+\item Aprendizaje
+
+\begin{itemize}
+\item Repetir
+
+\begin{itemize}
+\item Para cada punto $x_i$
+
+\begin{itemize}
+\item Computar la distancia a cada centro del clúster.
+\item Asignar el punto al clúster más cercano con distancia
+
+\begin{equation}
+d_i = \min_j d(x_i, \mathbf{x_i})
+\end{equation}
+\end{itemize}
+
+\item Para cada centro del clúster
+
+\begin{itemize}
+\item Mover la posición del centro a la media de los puntos en el clúster
+
+\begin{equation}
+\mathbf{\mu}_j = \dfrac{1}{N_j} \sum_{i=1}^{N_j} x_i
+\end{equation}
+
+donde $N_j$ es el número de puntos del clúster $j$.
+\end{itemize}
+
+\end{itemize}
+
+\item Hasta que el centro del clúster para de moverse.
+
+\end{itemize}
+
+\end{itemize}  
 
 \section{Aprendizaje por refuerzo}
 
