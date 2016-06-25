@@ -178,7 +178,113 @@ De los 6 puntos anteriores, nos centraremos en la elección del algoritmo. De en
 
 \subsection{Redes neuronales}
 
-Las redes neuronales fueron propuestas en 1943 por McCulloch y Pitts.
+Las redes neuronales están basadas en el modo que funcionan las neuronas en el cerebro. La operación general de la misma es transmitir químicos dentro del fluido del cerebro para aumentar o disminuir el potencial eléctrico dentro del cuerpo de la neurona. Si el potencial de la neurona alcanza algún determinado umbral, la neurona se activa y un pulso de duración fija se envía al axón. El axón se divide en conexiones a muchas otras neuronas, conectando a estas neuronas en una sinapsis.\\
+
+\begin{figure}[tbph!]
+\centering
+\includegraphics[width=0.7\linewidth]{imagenes/neurona.png}
+\caption{Estructura de una neurona}
+\label{fig:neurona}
+\end{figure}
+
+En 1943, McCulloch y Pitts propusieron un modelo matemático simplificado del funcionamiento de una neurona con las siguientes características (Figura~\ref{fig:mccullochpitts}):
+
+\begin{figure}[htbp!]
+\label{fig:mccullochpitts}
+\begin{center}
+	\neuronaMcCullochPitts
+\end{center}
+\caption{Neurona de McCulloch y Pitts}
+\end{figure}
+
+\begin{itemize}
+	\item Un conjunto de pesos $w_i$ que corresponden con la sinapsis.
+	\item Un sumador que suma las señales entrantes (equivalente a la membrana de la célula que recoge la carga eléctrica)
+	\item Una función de activación que decide si la membrana se activa o no para las entradas actuales. 
+\end{itemize} 
+
+Llamaremos $h$ a
+
+\begin{equation}
+h = \sum_{i=1}^{n} w_i x_i
+\end{equation}
+
+a la suma de las entradas multiplicadas por los pesos.\\
+
+Si $h > \theta$ (valor fijado), la neurona se activará. Matemáticamente,
+
+\begin{equation}
+y = g(h) =
+\begin{cases}
+1 & \text{ si } h > \theta \\
+0 & \text{ si h \leq \theta}
+\end{cases}
+\end{equation}
+
+Un problema obvio de la neurona de MacCulloch y Pitts es que sólo puede activarse o no hacerlo, por lo que no puede aprender. Para ello, necesitamos poner neuronas juntas formando una red neuronal.\\
+
+El perceptrón es la red neuronal más sencilla, ya que no es más que una colección de neuronas de MacCulloch y Pitts (Figura~\ref{perceptron}).
+
+\begin{figure}[htbp!]
+	\label{fig:perceptron}
+	\begin{center}
+		\perceptron
+	\end{center}
+	\caption{Perceptrón}
+\end{figure}
+
+A la izquierda se sitúan las entradas y a la derecha se muestran las neuronas. Éstas son completamente indepedendientes unas de otras: no importa qué estén haciendo las otras neuronas, la neurona se activará multiplicando sus pesos por las entradas, sumando el resultado y comparando el resultado con su umbral, sin importar lo que estén haciendo las demás neuronas.\\
+
+Una limitación importante del perceptrón es que sólo es capaz de clasificar conjuntos linealmente separables. Un conjunto es linealmente separable si existe un hiperplano que separe dos clases.
+
+\begin{figure}[htbp!]
+	\label{fig:linealmente_separable}
+	\begin{center}
+		\subfigure[Linealmente separable]{\linealmenteseparable}\hspace{5em}
+		\subfigure[No linealmente separable]{\nolinealmenteseparable}
+	\end{center}
+	\caption{Conjuntos linealmente separables y no separables}
+\end{figure}
+
+Un ejemplo clásico que no puede aprender un perceptrón es la función XOR: $\{0,1\} \times \{0,1\} \to \{0,1\}$, que se define de la como se ve en la Tabla~\ref{tbl:xor}.\\
+
+
+\begin{table}[htbp!]
+	\centering
+	\caption{Definición de la función XOR}
+	\label{tbl:xor}
+	\begin{tabular}{@{}ccc@{}}
+		\toprule
+		x & y & XOR \\ \midrule
+		0 & 0 & 0   \\
+		0 & 1 & 1   \\
+		1 & 0 & 1   \\
+		1 & 1 & 0   \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+Si representamos estos puntos en el plano xy (Figura~\ref{fig:xor}), veremos que no podemos encontrar ningún hiperplano (en este caso, recta) que divida a las dos clases.\\
+
+\begin{figure}[htbp!]
+	\label{fig:xor}
+	\begin{center}
+		\xor
+	\end{center}
+	\caption{Función XOR}
+\end{figure}
+
+Para suplir la limitación anterior, nació el perceptrón multicapa, que consiste en múltiples capas de neuronas (Figura~\ref{fig:perceptron_multicapa}).
+
+\begin{figure}[htbp!]
+	\label{fig:perceptron_multicapa}
+	\begin{center}
+		\perceptronmulticapa
+	\end{center}
+	\caption{Perceptrón multicapa}
+\end{figure}
+
+El teorema de aproximación universal establece que un perceptrón multicapa con una capa oculta puede aproximar funciones continuas sobre conjuntos compactos de $\R^n$.
+
 
 \subsection{Support Vector Machine}
 
@@ -191,9 +297,15 @@ Supongamos que queremos decidir qué hacer en función del dinero que tengamos y
 
 Queremos decidir si ir al parque, al cine o quedarse en casa.\\
 
-Así, un posible árbol de decisión sería:
+Así, un posible árbol de decisión se puede ver en la Figura~\ref{fig:arboldecision}.
 
-\textcolor{red}{Aquí va un ejemplo} 
+\begin{figure}[htbp!]
+	\label{fig:arboldecision}
+	\begin{center}
+		\arboldedecision
+	\end{center}
+	\caption{Árbol de decisión}
+\end{figure}
 \end{ejemplo}
 
 Una de las ventajas de los árboles de decisión es que pueden convertirse en una unión de conjunción programarse de la forma ``Si ... Entonces ...``.
@@ -257,13 +369,21 @@ El pseudocódigo del algoritmo se puede ver a continuación:
 \item Recursivamente llamar al algoritmo con $S_f$ para calcular la ganancia relativa al conjunto actual de ejemplos.
 \end{itemize}
 
+\end{itemize}
+
+\end{itemize}
+
 \begin{ejemplo}
-\textcolor{red}{Añadir ejemplo ID3}
+	\textcolor{red}{Añadir ejemplo ID3}
+	
+	\begin{figure}[htbp!]
+		\label{fig:arboldecision}
+		\begin{center}
+			\ejemploarboldecision
+		\end{center}
+		\caption{Árbol de decisión tras la ejecución del algoritmo ID3}
+	\end{figure}
 \end{ejemplo}
-
-\end{itemize}
-
-\end{itemize}
 
 \section{Aprendizaje no supervisado}
 
