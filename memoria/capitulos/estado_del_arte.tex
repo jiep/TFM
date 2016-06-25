@@ -32,7 +32,7 @@ En el machine learning puede clasificarse por tipo de aprendizaje:
 	
 	En este tipo de aprendizaje se incluye el clustering.
 	
-	\item Aprendizaje por refuerzo: un ordenador interactúa con un entorno dinámico para conseguir una determinada, sin que un nadie le diga como de lejos está de conseguirla.  
+	\item Aprendizaje por refuerzo: un ordenador interactúa con un entorno dinámico para conseguir una determinada recompensa, sin que un nadie le diga como de lejos está de conseguirla.  
 \end{itemize}
 
 \section{Aprendizaje supervisado}
@@ -553,4 +553,21 @@ donde $N_j$ es el número de puntos del clúster $j$.
 \end{itemize}  
 
 \section{Aprendizaje por refuerzo}
+El aprendizaje por refuerzo rellena el hueco entre el aprendizaje supervisado, donde el algoritmo se entrenado con las respuestas correctas, y el aprendizaje no supervisado, donde el algoritmo sólo puede explotar similitudes en los datos para agruparlos. Este enfoque intermedio es que se proporciona información acerca de si la respuesta es correcta o no, pero no cómo mejorarla, por lo que es necesario probar distintas estrategias y ver cuál funciona mejor.\\
 
+Un algoritmo por refuerzo busca sobre un espacio de búsqueda de posibles entradas y salidas y trata de maximizar la recompensa.\\
+
+El aprendizaje por refuerzo asigna estados a acciones para maximizar alguna recompensa numérica. Esto es, el agente (cosa que aprende) conoce la entrada actual (el estado) del entorno (lugar sobre el que actúa el agente), y las posibles acciones que puede realizar y su objetivo es maximizar la recompensa.\\
+
+En~\cite{Sutton:1998:IRL:551283, Marsland:2009:MLA:1571643} se pueden encontrar algunos algoritmos sobre aprendizaje por refuerzo y algunas de sus aplicaciones.\\
+
+
+\begin{figure}[htbp!]
+	\label{fig:aprendizajerefuerzo}
+	\begin{center}
+		\resizebox{10cm}{!}{%
+			\aprendizajerefuerzo
+		}
+	\end{center}
+	\caption{Esquema del aprendizaje por refuerzo}
+\end{figure}

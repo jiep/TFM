@@ -83,6 +83,22 @@
 	}
 }
 
+\tikzset{
+	every node/.style={
+		font=\scriptsize
+	},
+	node/.style={
+		shape=rectangle,
+		minimum height=1cm,
+		text width=2cm,
+		text centered,
+		rounded corners=1ex,
+		draw,
+	},
+	myarrow/.style={->},
+	myarrow2/.style={<-},        
+}
+
 \newcommand{\arboldedecision}{
 \begin{tikzpicture}[scale = 1.5]
 \node [tiempo] {Tiempo }
@@ -315,3 +331,17 @@ child { node [ingresos] { Ingresos }
 	\node[annot,left of=hl] {Entradas};
 	\node[annot,right of=hl] {Salidas};
 \end{tikzpicture}}
+
+\newcommand{\aprendizajerefuerzo}{\begin{tikzpicture}[scale = 1.5]
+	\node [node] (agt) at (0,1) {Entorno};
+	\node [node] (ent) at (0,0) {Agente};
+	\draw [myarrow2] (ent.east) -- ++(.25,0) -- ++(0,1) -|  (agt.east);		
+	\draw [myarrow] (-0.75, 0.2) -- (-1,0.2) -- (-1,0.8) -- (-0.75,0.8);
+	\draw [myarrow] (-0.75,-0.2) -- (-1.25,-0.2) -- (-1.25,1.2) -- (-0.75,1.2);
+	
+	\node[draw=none] at (1.4,0.5) {Acción};
+	\node[draw=none] at (-0.4,0.5) {Recompensa};
+	\node[draw=none] at (-1.6,0.5) {Estado};
+	
+	
+	\end{tikzpicture}}
