@@ -374,7 +374,114 @@ El pseudocódigo del algoritmo se puede ver a continuación:
 \end{itemize}
 
 \begin{ejemplo}
-	\textcolor{red}{Añadir ejemplo ID3}
+	Supongamos que queremos construir un árbol de decisión con el algoritmo ID3 usando los datos de la Tabla~\ref{tbl:ejemploarboldecision} para decidir si conceder un crédito o no de acuerdo a distintas variables (morosidad, antigüedad, ingresos, etc).\\
+	
+	\begin{table}[htbp!]
+		\centering
+		\caption{Datos para el ejemplo del algoritmo ID3}
+		\label{tbl:ejemploarboldecision}
+		\begin{tabular}{@{}cccccc@{}}
+			\toprule
+			Cliente & Moroso & Antigüedad    & Ingresos         & Trabajo fijo & Conceder crédito \\ \midrule
+			1       & Sí     & \textgreater5 & 600--1200        & Sí           & No               \\
+			2       & No     & \textless1    & 600--1200        & Sí           & Sí               \\
+			3       & Sí     & 1--5          & \textgreater1200 & Sí           & No               \\
+			4       & No     & \textgreater5 & \textgreater1200 & No           & Sí               \\
+			5       & No     & \textless1    & \textgreater1200 & Sí           & Sí               \\
+			6       & Sí     & 1--5          & 600--1200        & Sí           & No               \\
+			7       & No     & 1--5          & \textgreater1200 & Sí           & Sí               \\
+			8       & No     & \textless1    & \textless600     & Sí           & No               \\
+			9       & No     & \textgreater5 & 600--1200        & No           & No               \\
+			10      & Sí     & 1--5          & \textless600     & No           & No               \\ \bottomrule
+		\end{tabular}
+	\end{table}
+	
+	En primer lugar calculamos la entropía de la variable Conceder crédito.\\
+	
+	\begin{align*}
+	E(\text{Conceder crédito})& = -p_\text{sí}\log_2 p_\text{sí}- -p_\text{no}\log_2 p_\text{no}\\
+	                          & = -0.4\log_2 0.4 - 0.6 \log_2 0.6 \\
+	                          & = 0.96
+	\end{align*}
+	
+	Ahora calculamos la ganancia de cada variable.
+	
+	\begin{align*}
+	G(S, \text{Moroso}) & = 0.96 - \dfrac{|S_\text{sí}|}{10}E(S_\text{sí}) - \dfrac{|S_\text{no}|}{10}E(S_\text{no}) \\
+	                    & = 0.96 - 0.4 \left(-\log_2 1\right) - \dfrac{6}{10} \left( -\dfrac{4}{6} \log_2 \dfrac{4}{6} - \dfrac{2}{6} \log_2 \dfrac{2}{6} \right)\\
+	                    & = 0.42
+	\end{align*}
+	
+	\begin{align*}
+	G(S, \text{Antigüedad}) & = 0.96 - \dfrac{|S_{>5}|}{10} E(S_{>5}) - \dfrac{|S_{<1}|}{10} E(S_{<1}) - \dfrac{|S_{1-5}|}{10} E(S_{1-5})\\
+	                        & = 0.11
+	\end{align*}
+	
+	\begin{align*}
+	G(S, \text{Ingresos}) & = 0.96 - \dfrac{|S_{600-1200}|}{10} E(S_{600-1200}) - \dfrac{|S_{>1200}|}{10} E(S_{>1200}) - \dfrac{|S_{<600}|}{10} E(S_{<600})\\
+	                      & = 0.31
+	\end{align*}
+	
+	\begin{align*}
+	G(S, \text{Trabajo fijo}) & = 0.96 - \dfrac{|S_{\text{sí}}|}{10} E(S_\text{sí}) - \dfrac{|S_{\text{no}}|}{10} E(S_\text{no})\\
+	                          & = 0.12 
+	\end{align*}
+	
+	Elegimos la variable Moroso por tener una mayor ganancia. Éste será nuestro nodo raíz del árbol.\\
+	
+	Puesto que todos los ejemplos llevan a que si se es moroso, no se concede el crédito, añadimos una rama desde el nodo raíz hasta la hoja NO con la etiqueta Sí.\\
+	
+	Calculamos la nueva entropía del conjunto, que llamaremos $S'$.
+	
+	\begin{equation*}
+	E(S') = -\dfrac{4}{6}\log_2 \dfrac{4}{6} - \dfrac{2}{6} \log_2 \dfrac{2}{6} = 0.90
+	\end{equation*}
+	
+	Calculamos la ganancias de las variables restantes,
+	
+	\begin{align*}
+	G(S', \text{Antigüedad}) & = 0.90 - \dfrac{|S_{<1}|}{6}E(S_{<1}) - \dfrac{|S_{1-5}|}{6}E(S_{1-5}) - \dfrac{|S_{>5}|}{6}E(S_{>5})\\
+	                         & = 0.12
+	\end{align*}
+	
+	\begin{align*}
+	G(S', \text{Ingresos}) & = 0.90 - \dfrac{|S_{600-1200}|}{6}E(S_{600-1200}) - \dfrac{|S_{<600}|}{6}E(S_{<600}) - \dfrac{|S_{>1200}|}{6}E(S_{>1200})\\
+	                       & = 0.56
+	\end{align*}
+	
+	\begin{align*}
+	G(S', \text{Trabajo fijo}) & = 0.90 - \dfrac{|S_{\text{sí}}|}{6}E(S_{\text{sí}}) - \dfrac{|S_{\text{no}}|}{6}E(S_{\text{no}})\\
+	                           & = 0 
+	\end{align*}
+	
+	Así pues, la variable con mayor ganancia es Ingresos, por lo que se añade una rama desde Moroso hasta Ingresos con etiqueta NO.\\
+	
+	Puesto que en todos los ejemplos llevan a que si los ingresos son <600 no se concede el crédito y si son >1200 sí se concede, se añaden dos ramas desde Ingresos y se añaden dos hojas con etiquetas NO y SÍ, respectivamente.\\
+	
+	Calculamos la entropía del nuevo conjunto, que llamamos $S''$.
+	
+	\begin{align*}
+	E(S'') & = -\dfrac{1}{2}\log_2 \dfrac{1}{2} - \dfrac{1}{2}\log_2 \dfrac{1}{2}\\
+	       & = 1
+	\end{align*}
+	
+	Calculamos la ganancia de las variables restantes,
+	
+	\begin{align*}
+	G(S'', \text{Antigüedad}) & = 1 - \dfrac{|S_{<1}|}{2}E(S_{<1}) - \dfrac{|S_{>5}|}{2}E(S_{>5})\\
+	                          & = 1
+	\end{align*}
+	
+	\begin{align*}
+	G(S'', \text{Trabajo fijo}) & = 1 - \dfrac{|S_{\text{sí}}|}{2} E(S_{\text{sí}}) - \dfrac{|S_\text{no}|}{2} E(S_\text{no})\\
+	                            & = 1
+	\end{align*}
+	
+	En este caso, tenemos que la ganancia es la misma, por lo que elegimos una variable al azar, en este caso, Trabajo fijo.\\
+	
+	Añadimos un nodo y una rama desde Ingresos. Puesto que todos los ejemplos restantes llevan a que si se tiene trabajo fijo se concede el crédito, y que en caso contrario, no se concede. Se añaden dos hojas procedentes de Trabajo fijo con valores SÍ y NO, respectivamente.\\
+	
+	El árbol completo se puede ver en la Figura~\ref{fig:arboldecision}.\\
 	
 	\begin{figure}[htbp!]
 		\label{fig:arboldecision}
