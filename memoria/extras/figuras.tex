@@ -1,6 +1,9 @@
 \usepackage{pgf}
 \usepackage{tikz}
-\usetikzlibrary{arrows,automata,fit, shapes, calc}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usetikzlibrary{arrows,automata,fit, shapes, calc, positioning}
+
 
 \tikzstyle{inputNode}=[draw=white,circle,minimum size=10pt,inner sep=0pt]
 \tikzstyle{stateTransition}=[->, thick]
@@ -83,21 +86,7 @@
 	}
 }
 
-\tikzset{
-	every node/.style={
-		font=\scriptsize
-	},
-	node/.style={
-		shape=rectangle,
-		minimum height=1cm,
-		text width=2cm,
-		text centered,
-		rounded corners=1ex,
-		draw,
-	},
-	myarrow/.style={->},
-	myarrow2/.style={<-},        
-}
+
 
 \newcommand{\arboldedecision}{
 \begin{tikzpicture}[scale = 1.5]
@@ -199,7 +188,7 @@ child { node [ingresos] { Ingresos }
 	
 	\draw[color=red,line width=2pt] (8.5,6) -- (12,0);
 	
-	\def\positive{{%
+	\def\pos{{%
 			{9.3,3.3},
 			{11,.8},
 			{8.5,2},
@@ -215,12 +204,12 @@ child { node [ingresos] { Ingresos }
 		}}
 		
 		\foreach \i in {0,...,11} {
-			\pgfmathparse{\positive[\i][0]}\let \x \pgfmathresult;
-			\pgfmathparse{\positive[\i][1]}\let \y \pgfmathresult;
+			\pgfmathparse{\pos[\i][0]}\let \x \pgfmathresult;
+			\pgfmathparse{\pos[\i][1]}\let \y \pgfmathresult;
 			\fill[black] (\x,\y) circle (2pt);
 		}
 		
-		\def\negative{{%
+		\def\neg{{%
 				{10.75,3},
 				{10.5,5},
 				{11.6,1.6},
@@ -233,8 +222,8 @@ child { node [ingresos] { Ingresos }
 			}}
 			
 			\foreach \i in {0,...,8} {
-				\pgfmathparse{\negative[\i][0]}\let \x \pgfmathresult;
-				\pgfmathparse{\negative[\i][1]}\let \y \pgfmathresult;
+				\pgfmathparse{\neg[\i][0]}\let \x \pgfmathresult;
+				\pgfmathparse{\neg[\i][1]}\let \y \pgfmathresult;
 				\draw[black] (\x,\y) circle (3pt);
 			}
 			
@@ -332,7 +321,23 @@ child { node [ingresos] { Ingresos }
 	\node[annot,right of=hl] {Salidas};
 \end{tikzpicture}}
 
-\newcommand{\aprendizajerefuerzo}{\begin{tikzpicture}[scale = 1.5]
+\newcommand{\aprendizajerefuerzo}{
+	\tikzset{
+		every node/.style={
+			font=\scriptsize
+		},
+		node/.style={
+			shape=rectangle,
+			minimum height=1cm,
+			text width=2cm,
+			text centered,
+			rounded corners=1ex,
+			draw,
+		},
+		myarrow/.style={->},
+		myarrow2/.style={<-},        
+	}
+	\begin{tikzpicture}[scale = 1.5]
 	\node [node] (agt) at (0,1) {Entorno};
 	\node [node] (ent) at (0,0) {Agente};
 	\draw [myarrow2] (ent.east) -- ++(.25,0) -- ++(0,1) -|  (agt.east);		
@@ -342,6 +347,108 @@ child { node [ingresos] { Ingresos }
 	\node[draw=none] at (1.4,0.5) {Acción};
 	\node[draw=none] at (-0.4,0.5) {Recompensa};
 	\node[draw=none] at (-1.6,0.5) {Estado};
+
+\end{tikzpicture}}
+
+
+\tikzset{main node/.style={circle,draw,minimum size=0.5cm,inner sep=0pt},
+}
+
+\tikzstyle{every pin edge}=[<-,shorten <=1pt]
 	
+	\pgfmathsetseed{1138} % set the random seed
+	\pgfplotstableset{ % Define the equations for x and y
+		create on use/x/.style={create col/expr={42+2*\pgfplotstablerow}},
+		create on use/y/.style={create col/expr={(0.6*\thisrow{x}+130)+5*rand}}
+	}
+	
+	\pgfplotstablenew[columns={x,y}]{10}{\loadedtable}
+	
+	
+	\pgfplotstableset{ % Define the equations for x and y
+		create on use/x/.style={create col/expr={20+2*\pgfplotstablerow}},
+		create on use/y/.style={create col/expr={(0.3*\thisrow{x}+100)+10*rand}}
+	}
+	
+	\pgfplotstablenew[columns={x,y}]{10}{\loadedtableB}
+	
+	\tikzset{
+		every node/.style={
+			font=\scriptsize
+		},
+		node/.style={
+			shape=rectangle,
+			minimum height=3cm,
+			text width=2cm,
+			text centered,
+			draw,
+		},
+		myarrow/.style={->},
+		myarrow2/.style={<-},        
+	}
+	
+	
+	\newcommand{\papel}{
+		\begin{tikzpicture}[scale = 1.5]
+		\node [node] at (0,0) {};
+		
+		\foreach \x in {0,1,2,3,4,5,6,7,8,9}{
+			\draw (-0.5,-0.1*\x+0.5) -- coordinate(a\x) (0.5,-0.1*\x +0.5);	}
+		
+		\end{tikzpicture}}
+	\newcommand{\reg}{
+		\begin{tikzpicture}[scale = 0.25]
+		\begin{axis}[
+		axis lines=left,
+		xtick=\empty, 
+		ytick=\empty
+		]
+		\addplot [only marks, fill=blue, draw=blue, thick] table {\loadedtable};
+		\addplot [no markers, thick, blue] table [y={create col/linear regression={y=y}}] {\loadedtable} node [anchor=west] {};
+		\end{axis}
+		\end{tikzpicture}}
+	
+	\newcommand{\regg}{
+		\begin{tikzpicture}[scale = 0.25]
+		\begin{axis}[
+		axis lines=left,
+		xtick=\empty, 
+		ytick=\empty
+		]
+		\addplot [only marks, fill=green, draw=green, thick] table {\loadedtableB};
+		\addplot [no markers, thick, green] table [y={create col/linear regression={y=y}}] {\loadedtableB} node [anchor=west] {};
+		\end{axis}
+		\end{tikzpicture}}
+	
+	\newcommand{\regresionplot}{
+		\begin{tikzpicture}
+		\node[]() at (0,0) {\reg} ;
+		\node[]() at (0,1.5) {\regg};
+		\end{tikzpicture}}
+	
+	\newcommand{\grafo}{\begin{tikzpicture}
+		
+		\node[main node] (1) {};
+		\node[main node] (2) [right = 2cm  of 1]  {};
+		\node[main node] (3) [below = 2cm  of 1] {};
+		\node[main node] (4) [right = 2cm  of 3] {};
+		
+		\path[draw,thick]
+		(1) edge node {} (2)
+		(2) edge node {} (4)
+		(3) edge node {} (4)
+		(2) edge node {} (3);
+		
+		\end{tikzpicture}}
+	
+	\newcommand{\redesparencliticas}{\begin{tikzpicture}
+	\node[](a) at (0,0) {\papel};
+	\node[](b) at (4,0) {\regresionplot};
+	\node[](c) at (7.5,0) {\grafo};
+	\node[pin={[pin edge={->}]right:Clasificación}](d) at (12,0) {\papel};
+	
+	\draw [->] (a) -> node[midway,fill=white] {Regresión} (b);
+	\draw [->] (b) -> (c);
+	\draw [->] (c) -> node[midway,fill=white] {Medidas} (d);
 	
 	\end{tikzpicture}}

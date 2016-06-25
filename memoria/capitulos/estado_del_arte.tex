@@ -154,7 +154,7 @@ En la Tabla~\ref{tbl:linealizacion} se pueden encontrar cómo linealizar distint
 		$y = \alpha_1 e^{\alpha_0 x}$          & $\log y = \log \alpha_1 + \alpha_2 \log x$                                              & $Y = \log y$; $X = \log x$; $\alpha_1 = \log \alpha_1$                     \\
 		$y = (\alpha_0 + \alpha_1 x)^2$        & $\sqrt{y} = \alpha_0 + \alpha_1 x$                                                      & $Y = \sqrt{y}$; $X=x$                                                      \\ \bottomrule
 	\end{tabular}
-\end{table}  
+\end{table} 
 
 \subsection{El proceso de Machine Learning}
 
@@ -240,8 +240,17 @@ Una limitación importante del perceptrón es que sólo es capaz de clasificar c
 \begin{figure}[htbp!]
 	\label{fig:linealmente_separable}
 	\begin{center}
-		\subfigure[Linealmente separable]{\linealmenteseparable}\hspace{5em}
-		\subfigure[No linealmente separable]{\nolinealmenteseparable}
+		\begin{subfigure}[b]{.40\textwidth}
+			\centering
+			\linealmenteseparable
+			\caption{Linealmente separable}
+		\end{subfigure}
+		\begin{subfigure}[b]{.40\textwidth}
+			\centering
+			\nolinealmenteseparable
+			\caption{No linealmente separable}
+		\end{subfigure}
+		
 	\end{center}
 	\caption{Conjuntos linealmente separables y no separables}
 \end{figure}
@@ -284,7 +293,6 @@ Para suplir la limitación anterior, nació el perceptrón multicapa, que consis
 \end{figure}
 
 El teorema de aproximación universal establece que un perceptrón multicapa con una capa oculta puede aproximar funciones continuas sobre conjuntos compactos de $\R^n$.
-
 
 \subsection{Support Vector Machine}
 
