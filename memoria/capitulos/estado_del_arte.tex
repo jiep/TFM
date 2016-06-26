@@ -295,6 +295,70 @@ Para suplir la limitación anterior, nació el perceptrón multicapa, que consis
 El teorema de aproximación universal establece que un perceptrón multicapa con una capa oculta puede aproximar funciones continuas sobre conjuntos compactos de $\R^n$.
 
 \subsection{Support Vector Machine}
+Los Support Vector Machine (SVM) son uno de los algoritmos más populares en machine learning. Fueron introducidos en 1992 por Vapnik y se han empleado en multitud de aplicaciones desde entonces, debido principalmente a que consigue una gran tasa de clasificación en conjuntos de datos con tamaño razonable. SVM no funcionan bien en conjuntos de datos muy grande, ya que los cálculos no escalan bien con el número de datos, y se vuelve computacionalmente muy costoso.\\
+
+La Figura~\ref{fig:clasificador} muestra una clasificación con tres posibles clasificadores lineales. Las tres rectas dividen de forma ``correcta'' ambas clases, por lo que el perceptrón pararía si encontrara cualquiera de ellas.\\
+
+\begin{figure}[htbp!]
+	\label{fig:clasificador}
+	\begin{center}
+		\clasificador
+	\end{center}
+	\caption{Distintos clasificadores lineales}
+\end{figure}
+
+Los SVM se basan el concepto de margen (Figura~\ref{fig:margen}), que no es nada más que la región más grande que podemos separar las clases sin que haya puntos dentro, donde la caja se hace con dos líneas paralelas al clasificador lineal. El clasificador que tenga mayor margen se llamará clasificador con mayor margen. Los puntos de cada clase que están más cerca de la recta reciben el nombre de vectores de soporte (support vectors).\\
+
+ \begin{figure}[htbp!]
+ 	\label{fig:margen}
+ 	\begin{center}
+ 		\margen
+ 	\end{center}
+ 	\caption{Margen en SVM}
+ \end{figure} 
+ 
+ Se puede demostrar que el problema anterior se puede plantear como un problema de programación cuadrática con la siguiente estructura:
+ 
+ \begin{align}
+ \min & \ \ \ \dfrac{1}{2}\mathbf{w}^T \mathbf{w}\\
+ \text{s.a. } & \ \ \ y_i (\mathbf{w}^T x_i + b) \geq 1 \ \forall i = 1,\dots, n
+ \end{align}
+ 
+ donde $\mathbf{x}$ es el vector de entradas, $\mathbf{w}$ es un vector de perpendicular al hiperplano clasificador, $b$ es una constante y $y_i$ es el valor de la salida i-ésima que puede  tomar dos valores $\{-1,1\}$.\\
+ 
+ Otro concepto fundamental en SVM es el de kernel, que consiste en modificar las variables de alguna forma que se puedan separar los datos (Figura~\ref{fig:kernel}).\\
+ 
+\begin{figure}[htbp!]
+	\label{fig:kernel}
+	\begin{center}
+		\kernel
+	\end{center}
+	\caption{Kernel}
+\end{figure} 
+
+Un kernel $K$ de define como $K(\mathbf{x}, \mathbf{y}) = \phi(\mathbf{x})^T \phi(\mathbf{y})$, donde $\mathbf{x}$, $\mathbf{y}$son vectores de entradas, $\phi$ es una función a un espacio de dimensión superior al de entrada.\\
+
+Los kernels más habituales son:
+
+\begin{itemize}
+	\item Polinomiales de grado $s$
+	
+	\begin{equation}
+	K(\mathbf{x},\mathbf{y}) = (1 + \mathbf{x}^T \mathbf{y})^s
+	\end{equation}
+	
+	\item Sigmoidales con parámetros $\kappa$ y $\delta$
+	
+	\begin{equation}
+	K(\mathbf{x}, \mathbf{y}) = \tanh(\kappa \mathbf{x}^T\mathbf{y} - \delta)
+	\end{equation}
+	
+	\item Funciones de base redial con parámetro $\sigma$
+	
+	\begin{equation}
+	K(\mathbf{x}, \mathbf{y}) = \exp(-\left(\dfrac{\mathbf{x} - \mathbf{y}}{2\sigma^2}\right)^2)
+	\end{equation}
+\end{itemize}
 
 \subsection{Árboles de decisión}
 
@@ -492,10 +556,10 @@ El pseudocódigo del algoritmo se puede ver a continuación:
 	El árbol completo se puede ver en la Figura~\ref{fig:arboldecision}.\\
 	
 	\begin{figure}[htbp!]
-		\label{fig:arboldecision}
 		\begin{center}
 			\ejemploarboldecision
 		\end{center}
+		\label{fig:arboldecision}
 		\caption{Árbol de decisión tras la ejecución del algoritmo ID3}
 	\end{figure}
 \end{ejemplo}
