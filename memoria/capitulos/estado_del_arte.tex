@@ -190,11 +190,11 @@ Las redes neuronales están basadas en el modo que funcionan las neuronas en el 
 En 1943, McCulloch y Pitts propusieron un modelo matemático simplificado del funcionamiento de una neurona con las siguientes características (Figura~\ref{fig:mccullochpitts}):
 
 \begin{figure}[htbp!]
-\label{fig:mccullochpitts}
-\begin{center}
-	\neuronaMcCullochPitts
-\end{center}
+
+\centering
+\neuronaMcCullochPitts
 \caption{Neurona de McCulloch y Pitts}
+\label{fig:mccullochpitts}
 \end{figure}
 
 \begin{itemize}
@@ -217,7 +217,7 @@ Si $h > \theta$ (valor fijado), la neurona se activará. Matemáticamente,
 y = g(h) =
 \begin{cases}
 1 & \text{ si } h > \theta \\
-0 & \text{ si h \leq \theta}
+0 & \text{ si } h  \leq \theta
 \end{cases}
 \end{equation}
 
@@ -226,10 +226,9 @@ Un problema obvio de la neurona de MacCulloch y Pitts es que sólo puede activar
 El perceptrón es la red neuronal más sencilla, ya que no es más que una colección de neuronas de MacCulloch y Pitts (Figura~\ref{perceptron}).
 
 \begin{figure}[htbp!]
+	\centering
+	\perceptron
 	\label{fig:perceptron}
-	\begin{center}
-		\perceptron
-	\end{center}
 	\caption{Perceptrón}
 \end{figure}
 
@@ -310,11 +309,11 @@ La Figura~\ref{fig:clasificador} muestra una clasificación con tres posibles cl
 Los SVM se basan el concepto de margen (Figura~\ref{fig:margen}), que no es nada más que la región más grande que podemos separar las clases sin que haya puntos dentro, donde la caja se hace con dos líneas paralelas al clasificador lineal. El clasificador que tenga mayor margen se llamará clasificador con mayor margen. Los puntos de cada clase que están más cerca de la recta reciben el nombre de vectores de soporte (support vectors).\\
 
  \begin{figure}[htbp!]
- 	\label{fig:margen}
  	\begin{center}
  		\margen
  	\end{center}
  	\caption{Margen en SVM}
+ 	\label{fig:margen}
  \end{figure} 
  
  Se puede demostrar que el problema anterior se puede plantear como un problema de programación cuadrática con la siguiente estructura:
@@ -329,11 +328,11 @@ Los SVM se basan el concepto de margen (Figura~\ref{fig:margen}), que no es nada
  Otro concepto fundamental en SVM es el de kernel, que consiste en modificar las variables de alguna forma que se puedan separar los datos (Figura~\ref{fig:kernel}).\\
  
 \begin{figure}[htbp!]
-	\label{fig:kernel}
 	\begin{center}
 		\kernel
 	\end{center}
 	\caption{Kernel}
+	\label{fig:kernel}
 \end{figure} 
 
 Un kernel $K$ de define como $K(\mathbf{x}, \mathbf{y}) = \phi(\mathbf{x})^T \phi(\mathbf{y})$, donde $\mathbf{x}$, $\mathbf{y}$son vectores de entradas, $\phi$ es una función a un espacio de dimensión superior al de entrada.\\
@@ -553,13 +552,12 @@ El pseudocódigo del algoritmo se puede ver a continuación:
 	
 	Añadimos un nodo y una rama desde Ingresos. Puesto que todos los ejemplos restantes llevan a que si se tiene trabajo fijo se concede el crédito, y que en caso contrario, no se concede. Se añaden dos hojas procedentes de Trabajo fijo con valores SÍ y NO, respectivamente.\\
 	
-	El árbol completo se puede ver en la Figura~\ref{fig:arboldecision}.\\
+	El árbol completo se puede ver en la Figura~\ref{fig:arboldecisionejemplo}.\\
 	
 	\begin{figure}[htbp!]
-		\begin{center}
-			\ejemploarboldecision
-		\end{center}
-		\label{fig:arboldecision}
+		\centering
+		\ejemploarboldecision
+		\label{fig:arboldecisionejemplo}
 		\caption{Árbol de decisión tras la ejecución del algoritmo ID3}
 	\end{figure}
 \end{ejemplo}
