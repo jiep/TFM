@@ -340,3 +340,84 @@ En~\cite{cond-mat/0505185} se pueden encontrar una extensa lista con distintas m
 
 
 \section{Método de redes parenclíticas}
+
+A continuación describimos el método de redes parenclíticas propuesto en~\cite{metabo3010155}.\\
+
+Supongamos que tenemos un conjunto de datos con $n$ variables para cada una de las $m$ observaciones, y cada una de éstas vienen clasificadas en la clase $c$ o $d$. Estas dos clases actuarán como datos de entrenamiento. Además, se supone que existe una observación, que llamaremos X, para la que la clase se desconoce.\\
+
+El objetivo es construir un grafo, extraer de una serie de medidas y conseguir su clasificación mediante algoritmos clásicos de machine learning.\\
+
+La creación del grafo requiere analizar todos los pares de nodos. Para ello, se proyectan cada par de variables sobre el plano xy y se aplica un modelo. En~\cite{metabo3010155, 1304.1896, Zanin2014} se aplican modelos de regresión lineal.
+
+\begin{equation}
+y = \alpha_1 x + \alpha_2 + \epsilon
+\end{equation} 
+
+donde $\alpha_1$ es la pendiente del modelo, $\alpha_2$ es el término independiente y $\epsilon$ es el término del error del modelo.\\
+
+Esto se hace por cada clase, dando lugar a dos modelos distintos. Se puede representar la salida de la variable proyecta de la observación $X$ como dos distribuciones normales (una por cada clase) con parámetros $\mu$ como el valor esperado de la variable salida y $\sigma$ como la desviación estándar del vector $\epsilon$.\\
+
+Se puede asignar una probabilidad a cada una de las clases de la siguiente forma.
+
+\begin{equation}\label{eq:prob1}
+p_d = \dfrac{\tilde{p}_d}{\tilde{p}_d + \tilde{p}_c}
+\end{equation}
+
+\begin{equation}\label{eq:prob2}
+p_c = \dfrac{\tilde{p}_c}{\tilde{p}_d + \tilde{p}_c}
+\end{equation}
+
+donde $\tilde{p}_d$, $\tilde{p}_d$ son las probabilidades de estar en la clase $d$ o $c$ dadas por las distribuciones normales mencionadas anteriormente.\\
+
+Para formar el grafo, asociamos un peso a la arista entre esas dos variables dado por el error entre el valor estimado y el valor real, es decir,
+
+\begin{equation}
+\hat{\epsilon} = |\hat{y} - y|
+\end{equation} 
+
+donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salida, de la clase con mayor probabilidad de las calculadas anteriormente.\\
+
+Este método tiene algunas limitaciones:
+
+\begin{enumerate}
+	\item Las variables no tienen porqué comportarse de forma lineal, por lo que este modelo podría ajustar de forma incorrecta.
+	\item Se limita a una limitación binaria. 
+\end{enumerate}
+
+La primera limitación se puede solventar aplicando otros métodos distintos al lineal.\\
+
+Proponemos aplicar tres métodos distintos:
+
+\begin{enumerate}
+	\item Exponencial
+	
+	\begin{equation}
+	y = \exp(\alpha_1 + \alpha_2 x)
+	\end{equation}
+	
+	\item Cuadrático
+	
+	\begin{equation}
+	y = (\alpha_1 + \alpha_2 x)^2
+	\end{equation}
+	
+	\item Recíproco
+	
+	\begin{equation}
+	y = \dfrac{1}{\alpha_1 + \alpha_2 x}
+	\end{equation}
+\end{enumerate}
+
+Estos métodos pueden ser linealizados como hemos visto en la Tabla~\ref{tbl:linealizacion}.\\
+
+La segunda limitación se puede solventar generalizando la Fórmula~\ref{eq:prob1} a lo siguiente:
+
+\begin{equation}
+p_i = \dfrac{\tilde{p}_i}{\sum_{i} \tilde{p}_i }
+\end{equation}
+
+donde ${p}_i$ es la probabilidad de pertenecer a la clase $i$.\\
+
+Una vez hecho ésto se puede aplicar el método descrito.\\
+
+En el capítulo siguiente veremos el diseño y la tecnología utilizada para implementar una aplicación que permita analizar un conjunto de datos utilizando las redes parenclíticas.
