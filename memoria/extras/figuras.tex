@@ -3,6 +3,12 @@
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \usetikzlibrary{arrows,automata,fit, shapes, calc, positioning}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.5}
+
+\pgfmathdeclarefunction{gauss}{2}{%
+	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
 
 
 \tikzstyle{inputNode}=[draw=white,circle,minimum size=10pt,inner sep=0pt]
@@ -786,3 +792,88 @@ child { node [ingresos] { Ingresos }
 	\path (b)   edge                node {$\pi$} (c);
 
 	\end{tikzpicture}}
+
+\begin{filecontents}{data1.csv}
+	x,y
+	0.5,1.5
+	1.5,2.5
+	1,2.5
+	0.75,2
+	0.6,1.9
+	0.77, 2.5
+	1.5,3
+	1.3,3.3
+	0.6,3.2
+\end{filecontents}
+
+\begin{filecontents}{data2.csv}
+	x,y
+	4,1 
+	3.3,.3
+	4.5,1.2 
+	4.5,.5
+	3.9,.7 
+	5,1 
+	3.5,.2
+	4,.3 
+\end{filecontents}
+
+\begin{filecontents}{data3.csv}
+	x,y
+	3,3
+\end{filecontents}
+
+\newcommand{\regresionred}{
+	
+		\begin{tikzpicture}
+		\begin{groupplot}[axis lines=left, xtick=\empty, ytick=\empty]
+		\nextgroupplot
+		\addplot[only marks,mark=,mark options={blue}]
+		table[y={y},x=x,col sep=comma]{data1.csv};
+		\addplot[only marks,mark=,mark options={orange}]
+		table[y={y},x=x,col sep=comma]{data2.csv};
+		\addplot[only marks,mark=*,mark options={black}]
+		table[y={y},x=x,col sep=comma]{data3.csv};
+		\addplot[thick, blue]
+		table [col sep=comma,x=x,y={create col/linear regression={y={y}}}]
+		{data1.csv};
+		\xdef\slopeA{\pgfplotstableregressiona}
+		\xdef\interceptA{\pgfplotstableregressionb}
+		\addplot [thick, orange]
+		table [col sep=comma,x=x,y={create col/linear regression={y={y},}}]
+		{data3.csv};
+		
+		\end{groupplot} 
+		\end{tikzpicture}	
+	}
+	
+	\newcommand{\distnormales}{\begin{tikzpicture}
+		\begin{axis}[
+		no markers, domain=-2:10, samples=200,
+		axis lines*=left,
+		every axis y label/.style={at=(current axis.above origin),anchor=south},
+		every axis x label/.style={at=(current axis.right of origin),anchor=west},
+		height=5cm, width=12cm,
+		xtick={3}, ytick=\empty,
+		enlargelimits=false, clip=false, axis on top,
+		grid = major
+		]
+		\addplot [very thick,blue] {gauss(4.15,0.5135)};
+		\addplot [very thick,orange] {gauss(0.13,0.2801)};
+		
+		
+		
+		\end{axis}
+		
+		\end{tikzpicture}}
+	
+	
+	\newcommand{\ejemploredparenclitica}{\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+		\tikzstyle{every state}=[draw=black,text=black]
+		
+		\node[state]         (A)                    {$A$};
+		\node[state]         (B) [right of=A]       {$B$};
+		
+		\path (A) edge  node {$1.15$}  (B);
+		\end{tikzpicture}}
+
