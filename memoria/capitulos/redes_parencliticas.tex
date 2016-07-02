@@ -293,7 +293,7 @@ Podemos definir operaciones sobre grafos, como la unión o la intersección.
 
 \begin{defi}
 	Se define densidad de enlaces\footnote{Traducción de link density} del grafo $G$ como el número de enlaces dividido entre el número de enlaces que pueden estar presentes en el grafo.
-	\begin{equation}
+	\begin{equation}\label{eq:density}
 	d(G) = \dfrac{1}{n(n-1)} \sum_{i,j} a_{i,j}
 	\end{equation}
 	
@@ -303,7 +303,7 @@ Podemos definir operaciones sobre grafos, como la unión o la intersección.
 \begin{defi}
 	Se define coeficiente de clustering $C$ del grafo $G$ como
 	
-	\begin{equation}
+	\begin{equation}\label{eq:clustering}
 	C(G) = \dfrac{3N_{\triangle}}{N_3}
 	\end{equation}
 	
@@ -313,7 +313,7 @@ Podemos definir operaciones sobre grafos, como la unión o la intersección.
 \begin{defi}
 	Se define eficiencia de un grafo $G$ como
 	
-	\begin{equation}
+	\begin{equation}\label{eq:eficiencia}
 	\mathrm{E}(\mathcal{G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} \dfrac{1}{d(i,j)}
 	\end{equation}
 	
@@ -327,7 +327,7 @@ Para calcular la distancia entre los nodos del grafo se pueden aplicar los algor
 \begin{defi}
 	Se define longitud del camino característico\footnote{Traducción de characteristic path length} del grafo $G$ de la siguiente forma:
 	
-	\begin{equation}
+	\begin{equation}\label{eq:camino}
 	\mathrm{L}(\mathcal{G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} d(i,j)
 	\end{equation}
 	
@@ -384,7 +384,7 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 		\centering
 		\caption{Datos del ejemplo}
 		\label{tbl:ejemploredparenclitica}
-		\begin{tabular}{@{}lll@{}}
+		\begin{tabular}{@{}ccc@{}}
 			\toprule
 			x    & y   & Clase \\ \midrule
 			0.5  & 1.5 & A     \\
@@ -459,7 +459,7 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 	\epsilon = |4.15 - 3| = 1.15
 	\end{equation*}
 	
-	Éste es el peso entre los nodos $x$,$y$, que da lugar a la red parenclítica del individuo $X$ (Figura~\ref{fig:red_par}).
+	Éste es el peso entre los nodos $x$,$y$, que da lugar a la red parenclítica del individuo $X$ (Figura~\ref{fig:red_par}).\\
 	
 	\begin{figure}[htbp!]
 		\centering
@@ -507,7 +507,7 @@ Estos métodos pueden ser linealizados como hemos visto en la Tabla~\ref{tbl:lin
 La segunda limitación se puede solventar generalizando la Fórmula~\ref{eq:prob1} a lo siguiente:
 
 \begin{equation}
-p_i = \dfrac{\tilde{p}_i}{\sum_{i} \tilde{p}_i }
+p_i = \dfrac{\tilde{p}_i}{\displaystyle \sum_{i} \tilde{p}_i }
 \end{equation}
 
 donde ${p}_i$ es la probabilidad de pertenecer a la clase $i$.\\

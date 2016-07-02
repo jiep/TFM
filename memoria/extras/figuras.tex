@@ -871,9 +871,27 @@ child { node [ingresos] { Ingresos }
 	\newcommand{\ejemploredparenclitica}{\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
 		\tikzstyle{every state}=[draw=black,text=black]
 		
-		\node[state]         (A)                    {$A$};
-		\node[state]         (B) [right of=A]       {$B$};
+		\node[state]         (A)                    {$x$};
+		\node[state]         (B) [right of=A]       {$y$};
 		
 		\path (A) edge  node {$1.15$}  (B);
 		\end{tikzpicture}}
 
+
+\newcommand{\arquitectura}{
+	
+	\tikzstyle{block} = [very thick,rectangle, draw, text width=10em, text centered, minimum height=6em]
+	\tikzstyle{line} = [very thick, draw, <->]
+	
+	\begin{tikzpicture}[node distance=1.5cm, auto]
+	
+	\node [block] (A) {Shiny Dashboard};
+	\node [block, right= of A] (B) {R \\ RStudio Server \\ Shiny};
+	
+	\node [above = of A] {\textbf{Cliente}};
+	\node [above = of B] {\textbf{Servidor}};
+	
+	\path [line] (A) -- node [text width=2.5cm,midway,align=center] {HTTP} (B);
+	\end{tikzpicture}
+	
+	}
