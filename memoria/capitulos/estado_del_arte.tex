@@ -69,7 +69,7 @@ donde $y_i$ es la variable salida y $x_i$ es la variable de entrada.\\
 El método de mínimos cuadrados nos garantiza que los parámetros $\alpha_i$ que minimizan el error cuadrático vienen dados por
 
 \begin{equation}
-\mathbf{\alpha} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}.
+\boldsymbol{\alpha} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}.
 \end{equation}
 
 En el caso bidimensional el modelo viene dado por
@@ -83,8 +83,8 @@ Se tiene que $\alpha_0$ y $\alpha_1$ vienen dados por este sistema de ecuaciones
 \begin{equation}
 \begin{cases}
 \begin{array}{ccccc}
-\left(\sum_{i=1}^{n} x_i^2\right) \alpha_1 & + & \left(\sum_{i=1}^{n} x_i\right) \alpha_0 & = & \sum_{i=1}^{n} x_i y_i \\
- \left(\sum_{i=1}^{n} x_i\right) \alpha_1 & + & n \alpha_0 & = & \sum_{i=1}^{n} y_i
+\left(\displaystyle\sum_{i=1}^{n} x_i^2\right) \alpha_1 & + & \left(\displaystyle\sum_{i=1}^{n} x_i\right) \alpha_0 & = & \displaystyle \sum_{i=1}^{n} x_i y_i \\
+ \left(\displaystyle \sum_{i=1}^{n} x_i\right) \alpha_1 & + & n \alpha_0 & = & \displaystyle \sum_{i=1}^{n} y_i
 \end{array}
 \end{cases}
 \end{equation}
@@ -139,7 +139,9 @@ Tomando logaritmos a ambos lados de la igualdad,
 
 Haciendo $Y = \log y$, $X = \log x$, $\alpha_1 = \log a$ y $m = \alpha_0$, tenemos un modelo lineal.\\
 
-En la Tabla~\ref{tbl:linealizacion} se pueden encontrar cómo linealizar distintos modelos.
+En la Tabla~\ref{tbl:linealizacion} se pueden encontrar cómo linealizar distintos modelos.\\
+
+Otros tipos de regresión se pueden encontrar en ~\cite{citeulike:12658828}.
 
 \begin{table}[htbp!]
 	\centering
