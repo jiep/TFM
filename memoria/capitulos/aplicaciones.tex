@@ -42,10 +42,9 @@ Con la aplicación podemos ver cuál es la distribución de cada una de las vari
 	\label{fig:thickness}
 \end{figure}
 
-Se puede observar que la presencia de un espesor menor está presente se da en tumores benignos, y a medida que el espesor es mayor se producen más tumores malignos.\\
+Se puede observar que la presencia de un espesor menor está presente en tumores benignos, y a medida que el espesor es mayor se producen más tumores malignos.\\
 
 \begin{figure}[htbp!]
-	\label{fig:cancer_par}
 	\begin{center}
 		\begin{subfigure}[t]{\textwidth}
 			\centering
@@ -60,6 +59,7 @@ Se puede observar que la presencia de un espesor menor está presente se da en t
 		
 	\end{center}
 	\caption{Redes parenclíticas con modelo de regresión lineal}
+	\label{fig:cancer_par}
 \end{figure}
  
 En la Figura~\ref{fig:cancer_par} se pueden observar las redes parenclíticas de las dos primeras observaciones obtenidas con el modelo lineal.\\
@@ -67,7 +67,6 @@ En la Figura~\ref{fig:cancer_par} se pueden observar las redes parenclíticas de
 Podemos ver si existen diferencias entre las redes parenclíticas de las observaciones con tumores benignos y malignos. La Figura~\ref{fig:cancer_diferencias} muestra cuatro observaciones de cada clase de tumor.\\
 
 \begin{figure}[htbp!]
-	\label{fig:cancer_diferencias}
 	\begin{center}
 		\begin{subfigure}[t]{0.2\textwidth}
 			\centering
@@ -112,6 +111,7 @@ Podemos ver si existen diferencias entre las redes parenclíticas de las observa
 		\end{subfigure}		
 	\end{center}
 	\caption[Redes parenclíticas por clase de tumor con modelo de regresión lineal]{Redes parenclíticas por clase de tumor con modelo de regresión lineal. En la primera fila se muestran las observaciones con tumor benigno y, en la segunda, con tumor maligno}
+	\label{fig:cancer_diferencias}
 \end{figure}
 
 Se puede observar que en el caso de las observaciones con tumor benigno existe un menor peso en las aristas (color verde de las aristas), y en las observaciones con tumor maligno existe un mayor entre las aristas (color rojo de las aristas).\\
@@ -132,7 +132,6 @@ Sobre todos los clasificadores, el mejor son los árboles de decisión, seguido 
 Puesto que el mejor modelo de redes parenclíticas es el modelo recíproco, veamos si existen diferencias entre las redes parenclíticas según la clase de tumor (Figura~\ref{fig:cancer_rec}).\\
 
 \begin{figure}[htbp!]
-	\label{fig:cancer_diferencias}
 	\begin{center}
 		\begin{subfigure}[t]{0.25\textwidth}
 			\centering
@@ -167,4 +166,5 @@ Puesto que el mejor modelo de redes parenclíticas es el modelo recíproco, veam
 		\end{subfigure}
 	\end{center}
 	\caption[Redes parenclíticas por clase de tumor con modelo de regresión recíproco]{Redes parenclíticas por clase de tumor con modelo de regresión recíproco. En la primera fila se muestran las observaciones con tumor benigno y, en la segunda, con tumor maligno}
+	\label{fig:cancer_rec}
 \end{figure}

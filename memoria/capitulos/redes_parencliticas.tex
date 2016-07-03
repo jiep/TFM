@@ -10,18 +10,18 @@ En~\cite{Zanin2014} se aplican las redes parenclíticas a los genes de la planta
 
 En~\cite{Zanin2012} se usan las redes parenclíticas para la optimización de series temporales multivariantes.\\
 
-En~\cite{1506.04421} se utilizan redes parenclíticas para la clasificación de los datos de metilzación del ADN humano. Aplicado en 14 distintos tipos de cáncer, en 12 de ellos se obtiene una gran tasa de clasificación (clasificando como paciente con cáncer o sin cáncer), situándose en torno al 90--100\%.\\
+En~\cite{1506.04421} se utilizan redes parenclíticas para la clasificación de los datos de metilación del ADN humano. Aplicado en 14 distintos tipos de cáncer, en 12 de ellos se obtiene una gran tasa de clasificación (clasificando como paciente con cáncer o sin cáncer), situándose en torno al 90--100\%.\\
 
 El método de redes parenclíticas se puede ver en la Figura~\ref{fig:redesparencliticas}. Partiendo de unos datos estructurados, se calcula la curva de regresión sobre cada par de variables, y se calcula el error de la estimación obtenida sobre un nuevo ejemplo (que no ha sido ajustado el modelo de regresión con él), que será el peso de la arista de entre las dos variables en el grafo. Con todas las redes parenclíticas se obtienen distintas medidas, que se pasan a un algoritmo de machine learning clásico, que obtiene la clasificación final.     
 
 \begin{figure}[htbp!]
-	\label{fig:redesparencliticas}
 	\begin{center}
 		\resizebox{\textwidth}{!}{%
 			\redesparencliticas
 		}
 	\end{center}
 	\caption{Esquema de redes parenclíticas}
+	\label{fig:redesparencliticas}
 \end{figure}
 
 \section{Introducción a la teoría de grafos}
@@ -34,7 +34,7 @@ A continuación, introduciremos el concepto de grafo, algunas operaciones que se
 	Un grafo (o grafo no dirigido) es un par $G = (V,E)$ de conjuntos que satisfacen que $E \subseteq V^2$ y $V \cap E = \emptyset$. Los elementos de $V$ se denominan vértices (o nodos) del grafo $G$ y los elementos de $E$ se denominan arcos (o aristas). Una arista entre los véctices $x, y \in V$ se denota como $xy$ o $yx \in E$.
 \end{defi}
 
-La forma usual de representar un grafo es dibujar un punto (o círculo) por cada vértice y unir dos de estos dos puntos (o círculos) con una línea para formar un arco. Cómo estén dibujados los vértices y los arcos es irrelevante. sólo importa qué pares de nodos forman una arista y cuáles no.
+La forma usual de representar un grafo es dibujar un punto (o círculo) por cada vértice y unir dos de estos dos puntos (o círculos) con una línea para formar un arco. Cómo estén dibujados los vértices y los arcos es irrelevante, sólo importa qué pares de nodos forman una arista y cuáles no.
 
 \begin{ejemplo}
 	
@@ -293,7 +293,7 @@ Podemos definir operaciones sobre grafos, como la unión o la intersección.
 
 \begin{defi}
 	Se define densidad de enlaces\footnote{Traducción de link density} del grafo $G$ como el número de enlaces dividido entre el número de enlaces que pueden estar presentes en el grafo.
-	\begin{equation}\label{eq:density}
+	\begin{equation}\label{eq:densidad}
 	d(G) = \dfrac{1}{n(n-1)} \sum_{i,j} a_{i,j}
 	\end{equation}
 	
@@ -412,15 +412,15 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 	\begin{figure}[htbp!]
 		\centering
 		\regresionred
-		\caption{Recta de regresión de cada una de las clases}
+		\caption[Recta de regresión de cada una de las clases]{Recta de regresión de cada una de las clases. La clase A se muestra en azul y la clase B en naranja}
 		\label{fig:reg_rectas}
 	\end{figure}
 	
 	La recta para la clase A y B son respectivamente:
 	
 	\begin{align*}
-	y & = 0.82x + 1.69 \\
-	y & = 0.46x - 1.25
+	y_A & = 0.82x + 1.69 \\
+	y_B & = 0.46x - 1.25
 	\end{align*}
 	
 	y desviaciones típicas de los residuos son:
@@ -433,8 +433,8 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 	Por tanto, la probabilidad de que esté en una de las clases son, es una variable aleatoria normal con media, el valor esperado de $x$ sobre la recta de regresión del individuo $X$, y desviación típica, la obtenida de los residuos del modelo:
 	
 	\begin{align*}
-	Y_A & = \mathcal{N}(0.82\cdot 3 + 1.69, 0.5135)\\
-	Y_B & = \mathcal{N}(0.46\cdot 3 - 1.25, 0.2801)
+	Y_A & = \mathcal{N}(0.82\cdot 3 + 1.69, 0.5135) = \mathcal{N}(4.15, 0.5135)\\
+	Y_B & = \mathcal{N}(0.46\cdot 3 - 1.25, 0.2801) = \mathcal{0.13, 0.2801}
 	\end{align*}
 	
 	La Figura~\ref{fig:dist_normales} muestra este hecho. Por tanto, la probabilidad de estar en cada una de las clase viene dado por 
@@ -468,13 +468,13 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 		\label{fig:red_par}
 	\end{figure}
 	
-	En caso de tener más variables repetiríamos este proceso con cada par de variables. Una vez obtenidas todas las redes parenclíticas de los individuos desconocidos, se extraerían medidas de los grafos como las vistas en la Sección~\ref{sec:medidas}, que actuarían como entrada a un algoritmo de machine learning visto en la Sección~\ref{cap:ml}, que obtendrían la clasificación. 
+	En caso de tener más variables repetiríamos este proceso con cada par de variables. Una vez obtenidas todas las redes parenclíticas de los individuos desconocidos, se extraerían medidas de los grafos como las vistas en la Sección~\ref{sec:medidas}, que actuarían como entrada a un algoritmo de machine learning visto en la Sección~\ref{cap:ml}, que obtendría la clasificación. 
 \end{ejemplo}
 
 Este método tiene algunas limitaciones:
 
 \begin{enumerate}
-	\item Las variables no tienen porqué comportarse de forma lineal, por lo que este modelo podría ajustar de forma incorrecta.
+	\item Las variables no tienen por qué comportarse de forma lineal, por lo que este modelo podría ajustar de forma incorrecta.
 	\item Se limita a una limitación binaria. 
 \end{enumerate}
 

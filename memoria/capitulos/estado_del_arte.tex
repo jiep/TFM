@@ -10,9 +10,9 @@ El machine learning permite resolver infinidad de problemas que se pueden clasif
 	
 	Un ejemplo clásico de problema de clasificación es el filtro de spam: el modelo debe ser capaz de identificar un correo electrónico como ``spam'' o ``no spam'', es decir, éstas serán las clases en las que se deberán dividir las entradas (por ejemplo, número de apariciones o frecuencia de distintas palabras en el correo) para identificar el spam.
 	
-	\item Regresión: las salidas son continuas. En contraposición con la clasificación la regresión tiene una salida continua, es decir, puede tomar todos los valores reales o un intervalo de ellos.\\
+	\item Regresión: las salidas son continuas. En contraposición con la clasificación, la regresión tiene una salida continua, es decir, puede tomar todos los valores reales o un intervalo de ellos.\\
 	
-	Por ejemplo, el valor de las acciones de una determinada empresa a lo largo del tiempo puede ser un ejemplo de regresión, ya que el valor de las acciones pueden tomar cualquier valor en el intervalo $[0, \infty)$.
+	Por ejemplo, el valor de las acciones de una determinada empresa a lo largo del tiempo es un ejemplo de regresión, ya que el valor de las acciones pueden tomar cualquier valor en el intervalo $[0, \infty)$.
 	
 	\item Clustering: un conjunto de entrada se divide en grupos (los grupos no están fijados de antemano).
 	
@@ -37,14 +37,14 @@ En el machine learning puede clasificarse por tipo de aprendizaje:
 
 \section{Aprendizaje supervisado}
 
-En el aprendizaje supervisado existe un conjunto de entrenamiento que consiste en un conjunto de datos de entrada junto con su correspondiente salida, que es la respuesta que un algoritmo de machine learning debería producir para esa entrada. Normalmente se representa como $(\mathbf{x}, \mathbf{y})$, donde $x_i$ son las entradas, y $y_i$ son las salidas.\\
+En el aprendizaje supervisado existe un conjunto de entrenamiento que consiste en un conjunto de datos de entrada junto con su correspondiente salida, que es la respuesta que un algoritmo de machine learning debería producir para esa entrada. Normalmente se representa como un vector $(\mathbf{x}, \mathbf{y})$, donde $x_i$ son las entradas, y $y_i$ son las salidas.\\
 
 Una característica importante de los algoritmos de machine learning es la capacidad de generalización: el algoritmo debería de producir salidas sensatas para entradas que no se introdujeron en el entrenamiento. También es importante que el algoritmo pueda tratar con el ruido, es decir, con las imprecisiones que se  obtienen al medir cualquier variable del mundo real.\\
 
 Dentro de este tipo de aprendizaje tenemos varios tipos de problemas, entre los que se encuentran la clasificación y la regresión.
 
 \paragraph{Clasificación}
-El problema de clasificación consiste en tomar las entradas y decidir en cuál de las $n$ clases pertenece cada entrada, basado en el entrenamiento con ejemplares de cada clase. Un punto clave en el problema de clasificación es que es discreto, es decir, cada ejemplo pertenece a una sola de las clases y el conjunto de clases cubre por completo el espacio de salida.
+El problema de clasificación consiste en tomar las entradas y decidir a cuál de las $n$ clases pertenece cada entrada, basado en el entrenamiento con ejemplares de cada clase. Un punto clave en el problema de clasificación es que es discreto, es decir, cada ejemplo pertenece a una sola de las clases y el conjunto de clases cubre por completo el espacio de salida.
 
 \begin{ejemplo}
 Consideremos la clasificación de un correo electrónico como ``spam'' o ``no spam''. En este caso el conjunto de clases vendría dado por $C = \{ \text{spam}, \text{no spam} \}$. Las entradas podrían venir dadas, por ejemplo, por la frecuencia de aparición de distintas palabras claves del correo electrónico. 
@@ -58,7 +58,7 @@ Supongamos que queremos estimar el valor de las acciones de una determinada empr
 \end{ejemplo}
 
 \subparagraph{Regresión lineal}
-La regresión lineal viene dada por
+La regresión lineal viene dada por el modelo
 
 \begin{equation}
 y_i = \sum_{i=1}^{n} \alpha_i x_i + \alpha_0
@@ -190,7 +190,6 @@ Las redes neuronales están basadas en el modo que funcionan las neuronas en el 
 En 1943, McCulloch y Pitts propusieron un modelo matemático simplificado del funcionamiento de una neurona con las siguientes características (Figura~\ref{fig:mccullochpitts}):
 
 \begin{figure}[htbp!]
-
 \centering
 \neuronaMcCullochPitts
 \caption{Neurona de McCulloch y Pitts}
@@ -221,23 +220,22 @@ y = g(h) =
 \end{cases}
 \end{equation}
 
-Un problema obvio de la neurona de MacCulloch y Pitts es que sólo puede activarse o no hacerlo, por lo que no puede aprender. Para ello, necesitamos poner neuronas juntas formando una red neuronal.\\
+Un problema obvio de la neurona de McCulloch y Pitts es que sólo puede activarse o no hacerlo, por lo que no puede aprender. Para ello, necesitamos poner neuronas juntas formando una red neuronal.\\
 
-El perceptrón es la red neuronal más sencilla, ya que no es más que una colección de neuronas de MacCulloch y Pitts (Figura~\ref{perceptron}).
+El perceptrón es la red neuronal más sencilla, ya que no es más que una colección de neuronas de MacCulloch y Pitts (Figura~\ref{fig:perceptron}).
 
 \begin{figure}[htbp!]
 	\centering
 	\perceptron
-	\label{fig:perceptron}
 	\caption{Perceptrón}
+	\label{fig:perceptron}
 \end{figure}
 
 A la izquierda se sitúan las entradas y a la derecha se muestran las neuronas. Éstas son completamente indepedendientes unas de otras: no importa qué estén haciendo las otras neuronas, la neurona se activará multiplicando sus pesos por las entradas, sumando el resultado y comparando el resultado con su umbral, sin importar lo que estén haciendo las demás neuronas.\\
 
-Una limitación importante del perceptrón es que sólo es capaz de clasificar conjuntos linealmente separables. Un conjunto es linealmente separable si existe un hiperplano que separe dos clases.
+Una limitación importante del perceptrón es que sólo es capaz de clasificar conjuntos linealmente separables. Un conjunto es linealmente separable si existe un hiperplano que separe dos clases.\\
 
 \begin{figure}[htbp!]
-	\label{fig:linealmente_separable}
 	\begin{center}
 		\begin{subfigure}[b]{.40\textwidth}
 			\centering
@@ -252,9 +250,10 @@ Una limitación importante del perceptrón es que sólo es capaz de clasificar c
 		
 	\end{center}
 	\caption{Conjuntos linealmente separables y no separables}
+	\label{fig:linealmente_separable}
 \end{figure}
 
-Un ejemplo clásico que no puede aprender un perceptrón es la función XOR: $\{0,1\} \times \{0,1\} \to \{0,1\}$, que se define de la como se ve en la Tabla~\ref{tbl:xor}.\\
+Un ejemplo clásico que no puede aprender un perceptrón es la función XOR: $\{0,1\} \times \{0,1\} \to \{0,1\}$, que se define como se ve en la Tabla~\ref{tbl:xor}.\\
 
 
 \begin{table}[htbp!]
@@ -274,68 +273,65 @@ Un ejemplo clásico que no puede aprender un perceptrón es la función XOR: $\{
 Si representamos estos puntos en el plano xy (Figura~\ref{fig:xor}), veremos que no podemos encontrar ningún hiperplano (en este caso, recta) que divida a las dos clases.\\
 
 \begin{figure}[htbp!]
-	\label{fig:xor}
-	\begin{center}
-		\xor
-	\end{center}
+	\centering
+	\xor
 	\caption{Función XOR}
+	\label{fig:xor}
 \end{figure}
 
 Para suplir la limitación anterior, nació el perceptrón multicapa, que consiste en múltiples capas de neuronas (Figura~\ref{fig:perceptron_multicapa}).
 
 \begin{figure}[htbp!]
-	\label{fig:perceptron_multicapa}
-	\begin{center}
-		\perceptronmulticapa
-	\end{center}
+	\centering
+	\perceptronmulticapa
 	\caption{Perceptrón multicapa}
+	\label{fig:perceptron_multicapa}
 \end{figure}
 
-El teorema de aproximación universal establece que un perceptrón multicapa con una capa oculta puede aproximar funciones continuas sobre conjuntos compactos de $\R^n$.
+El teorema de aproximación universal establece que un perceptrón multicapa con una capa oculta puede aproximar funciones continuas sobre conjuntos compactos de $\R^n$ \cite{Cybenko1989}.\\
+
+Una descripción de los algoritmos del perceptrón multicapa se pueden encontrar en~\cite{Bishop:2006:PRM:1162264,Marsland:2009:MLA:1571643, Murphy:2012:MLP:2380985}.
 
 \subsection{Support Vector Machine}
-Los Support Vector Machine (SVM) son uno de los algoritmos más populares en machine learning. Fueron introducidos en 1992 por Vapnik y se han empleado en multitud de aplicaciones desde entonces, debido principalmente a que consigue una gran tasa de clasificación en conjuntos de datos con tamaño razonable. SVM no funcionan bien en conjuntos de datos muy grande, ya que los cálculos no escalan bien con el número de datos, y se vuelve computacionalmente muy costoso.\\
+Los Support Vector Machine (SVM) son uno de los algoritmos más populares en machine learning. Fueron introducidos en 1992 por Vapnik y se han empleado en multitud de aplicaciones desde entonces, debido principalmente a que consigue una gran tasa de clasificación en conjuntos de datos con tamaño razonable. Los SVM no funcionan bien en conjuntos de datos muy grande, ya que los cálculos no escalan bien con el número de datos, y se vuelve computacionalmente muy costoso.\\
 
 La Figura~\ref{fig:clasificador} muestra una clasificación con tres posibles clasificadores lineales. Las tres rectas dividen de forma ``correcta'' ambas clases, por lo que el perceptrón pararía si encontrara cualquiera de ellas.\\
 
 \begin{figure}[htbp!]
-	\label{fig:clasificador}
-	\begin{center}
-		\clasificador
-	\end{center}
+	\centering
+	\clasificador
 	\caption{Distintos clasificadores lineales}
+	\label{fig:clasificador}
 \end{figure}
 
 Los SVM se basan el concepto de margen (Figura~\ref{fig:margen}), que no es nada más que la región más grande que podemos separar las clases sin que haya puntos dentro, donde la caja se hace con dos líneas paralelas al clasificador lineal. El clasificador que tenga mayor margen se llamará clasificador con mayor margen. Los puntos de cada clase que están más cerca de la recta reciben el nombre de vectores de soporte (support vectors).\\
 
  \begin{figure}[htbp!]
- 	\begin{center}
- 		\margen
- 	\end{center}
+	\centering
+	\margen
  	\caption{Margen en SVM}
  	\label{fig:margen}
  \end{figure} 
  
- Se puede demostrar que el problema anterior se puede plantear como un problema de programación cuadrática con la siguiente estructura:
+ Se puede demostrar~\cite{Bishop:2006:PRM:1162264,Marsland:2009:MLA:1571643} que el problema anterior se puede plantear como un problema de programación cuadrática con la siguiente estructura:
  
  \begin{align}
  \min & \ \ \ \dfrac{1}{2}\mathbf{w}^T \mathbf{w}\\
  \text{s.a. } & \ \ \ y_i (\mathbf{w}^T x_i + b) \geq 1 \ \forall i = 1,\dots, n
  \end{align}
  
- donde $\mathbf{x}$ es el vector de entradas, $\mathbf{w}$ es un vector de perpendicular al hiperplano clasificador, $b$ es una constante y $y_i$ es el valor de la salida i-ésima que puede  tomar dos valores $\{-1,1\}$.\\
+ donde $\mathbf{x}$ es el vector de entradas, $\mathbf{w}$ es un vector perpendicular al hiperplano clasificador, $b$ es una constante y $y_i$ es el valor de la salida i-ésima que puede  tomar dos valores $\{-1,1\}$.\\
  
  Otro concepto fundamental en SVM es el de kernel, que consiste en modificar las variables de alguna forma que se puedan separar los datos (Figura~\ref{fig:kernel}).\\
  
 \begin{figure}[htbp!]
-	\begin{center}
-		\kernel
-	\end{center}
+	\centering
+	\kernel
 	\caption{Kernel}
 	\label{fig:kernel}
 \end{figure} 
 
-Un kernel $K$ de define como $K(\mathbf{x}, \mathbf{y}) = \phi(\mathbf{x})^T \phi(\mathbf{y})$, donde $\mathbf{x}$, $\mathbf{y}$son vectores de entradas, $\phi$ es una función a un espacio de dimensión superior al de entrada.\\
+Un kernel $K$ de define como $K(\mathbf{x}, \mathbf{y}) = \phi(\mathbf{x})^T \phi(\mathbf{y})$, donde $\mathbf{x}$, $\mathbf{y}$ son vectores de entradas, $\phi$ es una función a un espacio de dimensión superior al de entrada.\\
 
 Los kernels más habituales son:
 
@@ -359,6 +355,8 @@ Los kernels más habituales son:
 	\end{equation}
 \end{itemize}
 
+Una descripción de los algoritmos de los Support Vector Machine se puede encontrar en~\cite{Cristianini:1999:ISV:345662}.
+
 \subsection{Árboles de decisión}
 
 La idea de los árboles de decisión es partir el conjunto de clasificación en un conjunto de opciones sobre cada variable comenzando por la raíz del árbol y bajando hasta las hojas, donde se reciben la decisión de clasificación. \\
@@ -371,22 +369,21 @@ Queremos decidir si ir al parque, al cine o quedarse en casa.\\
 Así, un posible árbol de decisión se puede ver en la Figura~\ref{fig:arboldecision}.
 
 \begin{figure}[htbp!]
-	\label{fig:arboldecision}
-	\begin{center}
-		\arboldedecision
-	\end{center}
+	\centering
+	\arboldedecision
 	\caption{Árbol de decisión}
+	\label{fig:arboldecision}
 \end{figure}
 \end{ejemplo}
 
-Una de las ventajas de los árboles de decisión es que pueden convertirse en una unión de conjunción programarse de la forma ``Si ... Entonces ...``.
+Una de las ventajas de los árboles de decisión es que pueden convertirse en una unión de conjunciones y programarse de la forma ``Si [...], Entonces [...]``.
 
 \subsubsection{Algoritmo ID3}
 
 El algoritmo ID3 se basa en el concepto de entropía, propuesto por Claude Shannon, padre de la Teoría de la Información. La entropía se define como
 
 \begin{equation}
-E(p) = -\sum_{i} p_i \log_2 p_i
+E(\mathbf{p}) = -\sum_{i} p_i \log_2 p_i
 \end{equation}
 
 donde $\mathbf{p} = (p_1, \dots, p_n)$ es un vector de probabilidad.
@@ -470,7 +467,7 @@ El pseudocódigo del algoritmo se puede ver a continuación:
 	En primer lugar calculamos la entropía de la variable Conceder crédito.\\
 	
 	\begin{align*}
-	E(\text{Conceder crédito})& = -p_\text{sí}\log_2 p_\text{sí}- -p_\text{no}\log_2 p_\text{no}\\
+	E(\text{Conceder crédito})& = -p_\text{sí}\log_2 p_\text{sí}- p_\text{no}\log_2 p_\text{no}\\
 	                          & = -0.4\log_2 0.4 - 0.6 \log_2 0.6 \\
 	                          & = 0.96
 	\end{align*}
@@ -557,10 +554,12 @@ El pseudocódigo del algoritmo se puede ver a continuación:
 	\begin{figure}[htbp!]
 		\centering
 		\ejemploarboldecision
-		\label{fig:arboldecisionejemplo}
 		\caption{Árbol de decisión tras la ejecución del algoritmo ID3}
+		\label{fig:arboldecisionejemplo}
 	\end{figure}
 \end{ejemplo}
+
+Otros algoritmos de árboles de decisión se pueden encontrar en~\cite{Rokach:2008:DMD:1796114}.
 
 \section{Aprendizaje no supervisado}
 
@@ -568,7 +567,7 @@ Los algoritmos vistos anteriormente usaban un conjunto de entrenamiento que cons
 
 El objetivo del aprendizaje no supervisado es encontrar clústers, es decir, conjuntos de ejemplares que se parezcan entre ellos. Una forma de medir la similitud es la distancia, normalmente la distancia euclídea.
 
-\subsection{Algoritmo de las k-Medias}
+\subsection{Algoritmo de las k-medias}
 
 Supongamos que queremos dividir nuestros de entrada en $k$ categorías ($k$ es un valor fijado). La idea es situar los centros de los clústers en el espacio de entrada y situar los centros en el medio de los clústers.\\
 
@@ -621,6 +620,9 @@ donde $N_j$ es el número de puntos del clúster $j$.
 \end{itemize}
 
 \end{itemize}  
+
+
+Otros algoritmos de aprendizaje no supervisado se pueden encontrar en~\cite{hinton1999unsupervised}.
 
 \section{Aprendizaje por refuerzo}
 El aprendizaje por refuerzo rellena el hueco entre el aprendizaje supervisado, donde el algoritmo se entrenado con las respuestas correctas, y el aprendizaje no supervisado, donde el algoritmo sólo puede explotar similitudes en los datos para agruparlos. Este enfoque intermedio es que se proporciona información acerca de si la respuesta es correcta o no, pero no cómo mejorarla, por lo que es necesario probar distintas estrategias y ver cuál funciona mejor.\\
