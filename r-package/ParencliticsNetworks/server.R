@@ -269,6 +269,4 @@ shinyServer(function(input, output) {
       file.rename(out, file)
     }
   )
-  
-  
 })

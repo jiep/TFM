@@ -85,14 +85,11 @@ calculatePrediction = function(data, target, percentage, type){
   
   model = nnet(labels ~ ., data = result_training, size=50, maxit = 1000, MaxNWts = 10000)
   predicts = predict(model, result_testing, type = "class")
-  cat("predicts\n")
-  View(predicts)
-  print(labels_testing)
+  predict = predict(model, result_testing)
   
-  View(predicts)
   
   predicts = unname(predicts)
-  print(predicts)
+  
   
   View(testingSet)
   
@@ -105,5 +102,5 @@ calculatePrediction = function(data, target, percentage, type){
   colnames(results) = c("predicted", "labels", "classification")
   rownames(results) = as.numeric(rownames(testingSet))
   
-  return(list(results_percentage, results, plot_measures))
+  return(list(results_percentage, results, plot_measures, predict, labels_testing))
 }

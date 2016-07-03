@@ -307,7 +307,7 @@ drawParenclitsNetworks = function(data, target, observation, type){
                   edge.width=2*E(network)$weight,
                   vertex.label.color = "black",
                   vertex.color = "white",
-                  vertex.size=25*degree(network),
+                  vertex.size=5*degree(network),
                   layout=layout.fruchterman.reingold)
   
   return(p)
