@@ -1,0 +1,76 @@
+\documentclass[12pt,a4paper,twoside,openright,final]{memoir}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage[hidelinks,unicode=true]{hyperref}
+\usepackage[spanish,es-nodecimaldot,es-lcroman,es-tabla,es-noshorthands]{babel}
+\unaccentedoperators
+\usepackage[left=3cm,right=2cm, bottom=4cm]{geometry}
+\usepackage[sort&compress]{natbib}
+\usepackage{microtype}
+\usepackage{extras/tfm}
+\usepackage{ifdraft}
+\usepackage[obeyDraft]{todonotes}
+\ifdraft{
+	\usepackage{draftwatermark}
+	\SetWatermarkText{BORRADOR}
+	\SetWatermarkScale{0.7}
+	\SetWatermarkColor{red}
+}{}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{footnote}
+
+\setsansfont[Ligatures=TeX]{texgyreadventor}
+\setmainfont[Ligatures=TeX]{texgyrepagella}
+
+\author{José Ignacio Escribano}
+
+\input{extras/comandos}
+\input{extras/portada}
+\input{extras/figuras}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\frontmatter
+\portada{Título}{Ingeniería de Sistemas de Decisión}{Curso 2015--2016}{José Ignacio Escribano Pablos}{Tutores}
+
+\tableofcontents*
+\cleardoublepage
+
+\listoffigures
+\cleardoublepage
+
+\listoftables
+\cleardoublepage
+
+\listoftodos
+\cleardoublepage
+
+\mainmatter
+\input{capitulos/introduccion}
+\input{capitulos/estado_del_arte}
+\input{capitulos/redes_parencliticas}
+\input{capitulos/diseno_aplicacion}
+\input{capitulos/aplicaciones}
+
+\input{capitulos/conclusiones}
+
+\appendix
+\input{anexos/manual_instalación}
+
+\backmatter
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bibliografia/bibliografia}
+\nobibintoc
+
+\end{document}
