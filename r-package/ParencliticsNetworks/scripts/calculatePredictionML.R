@@ -19,7 +19,7 @@ calculatePredictionML = function(data, target, percentage){
   results_tree["classification"] = ifelse(predicts_tree == labels_testing, "Good", "Bad")
   colnames(results_tree) = c("predicted", "labels", "classification")
   
-  predict_tree = predict(model_tree, testingSet, type="prob")
+  #predict_tree = predict(model_tree, testingSet, type="prob")
   
   rownames(results_tree) = as.numeric(rownames(testingSet))
   
@@ -28,7 +28,7 @@ calculatePredictionML = function(data, target, percentage){
   
   model_svm2 = svm(formula, data = trainingSet, probability = TRUE)
   
-  predict_svm = predict(model_svm2, testingSet, type="prob", probability = TRUE)
+  #predict_svm = predict(model_svm2, testingSet, type="prob", probability = TRUE)
   
   
   results_percentage_svm = sum(predicts_svm == labels_testing)/length(predicts_svm)
@@ -39,7 +39,7 @@ calculatePredictionML = function(data, target, percentage){
   
   model_ann = nnet(formula, size = 10, data = trainingSet,trace = FALSE)
   predicts_ann = unname(predict(model_ann, testingSet, type = "class"))
-  predict_ann = predict(model_ann, testingSet)
+  #predict_ann = predict(model_ann, testingSet)
   
   results_percentage_ann = sum(predicts_ann == labels_testing)/length(predicts_ann)
   results_ann = as.data.frame(cbind(as.character(predicts_ann), as.character(labels_testing)))
@@ -48,6 +48,6 @@ calculatePredictionML = function(data, target, percentage){
   rownames(results_ann) = as.numeric(rownames(testingSet))
   
   
-  return(list(results_tree, results_svm, results_ann, predict_tree, predict_svm, predict_ann, labels_testing))
+  return(list(results_tree, results_svm, results_ann, labels_testing))
   
 }
