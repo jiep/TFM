@@ -252,16 +252,16 @@ shinyServer(function(input, output) {
     },
     content = function(file) {
       cat("Directorio actual:", getwd())
-      src <- normalizePath('report.RMD')
+      src <- normalizePath('report.Rmd')
       
       owd <- setwd(tempdir())
       cat(owd)
       on.exit(setwd(owd))
-      file.copy(src, 'report.RMD', overwrite = TRUE)
+      file.copy(src, 'report.Rmd', overwrite = TRUE)
       
       cat("Path:", input$data$datapath, "\n")
       
-      out <- rmarkdown::render('report.RMD', encoding = 'UTF-8',
+      out <- rmarkdown::render('report.Rmd', encoding = 'UTF-8',
          params = list(path = gsub("\\", "/", input$data$datapath, fixed=TRUE),
                        target = input$target,
                        percentage = input$trainingSet
