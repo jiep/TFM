@@ -23,122 +23,47 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
           class = which(classes == X[1,targetIndex])
           probabilities = array()
           
-          if(type == "exponential"){
-            probabilities = array()
-          
-            formula = as.formula(paste("log(",colnames(data)[j],")", "~",
-                                       paste(colnames(data)[i], "|", paste(colnames(data)[targetIndex], collapse = "+"),sep = "")))
-            
-            models = lmList(formula, data = data)
-            cont = 1
-            for(model in models){
-              probabilities[cont] = dnorm(X[1,i],exp(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
-              cont = cont + 1
-            }
-            
-            prob = array()
-            if(sum(probabilities)!=0){
-              prob = probabilities/sum(probabilities)
-            }else{
-              prob = 0
-            }
-            
-            index = which.max(x = prob)
-            i_ = 1
-            for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - exp(model$coefficients[[2]]*X[1,i] + model$coefficients[[1]]))
-              }
-              i_ = i_+1
-            }
-            
-            adyMatrix[i,j] = weight
-            adyMatrix[j,i] = weight
-          }else if(type == "quadratic"){
-            probabilities = array()
-            
-            formula = as.formula(paste("sqrt(",colnames(data)[j],")", "~",
-                                       paste(colnames(data)[i], "|", paste(colnames(data)[targetIndex], collapse = "+"),sep = "")))
-            
-            models = lmList(formula, data = data)
-            cont = 1
-            for(model in models){
-              probabilities[cont] = dnorm(X[1,i],sqrt(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
-              cont = cont + 1
-            }
-            
-            prob = array()
-            if(sum(probabilities)!=0){
-              prob = probabilities/sum(probabilities)
-            }else{
-              prob = 0
-            }
-            
-            index = which.max(x = prob)
-            i_ = 1
-            for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i] + model$coefficients[[1]])^2)
-              }
-              i_ = i_+1
-            }
-            
-            adyMatrix[i,j] = weight
-            adyMatrix[j,i] = weight
-          }else if(type == "reciprocal"){
-            probabilities = array()
-            
-            formula = as.formula(paste("1/",colnames(data)[j], "~",
-                                       paste(colnames(data)[i], "|", paste(colnames(data)[targetIndex], collapse = "+"),sep = "")))
-            
-            models = lmList(formula, data = data)
-            cont = 1
-            for(model in models){
-              probabilities[cont] = 0
-              if(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]] != 0)
-                probabilities[cont] = dnorm(X[1,i],1/(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
-              cont = cont + 1
-            }
-            
-            prob = array()
-            if(sum(probabilities)!=0){
-              prob = probabilities/sum(probabilities)
-            }else{
-              prob = 0
-            }
-
-            index = which.max(x = prob)
-            i_ = 1
-            for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - 1/(model$coefficients[[2]]*X[1,i] + model$coefficients[[1]]))
-              }
-              i_ = i_+1
-            }
-            
-            adyMatrix[i,j] = weight
-            adyMatrix[j,i] = weight
-          }else {
+          # Type `linear`
             probabilities = array()
             
             formula = as.formula(paste(colnames(data)[j], "~",
                                        paste(colnames(data)[i], "|", paste(colnames(data)[targetIndex], collapse = "+"),sep = "")))
             
+            #print(formula)
+            
             models = lmList(formula, data = data)
+            #cat("models")
+            #print(models)
             cont = 1
             for(model in models){
-              probabilities[cont] = dnorm(X[1,i],sqrt(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
+              probabilities[cont] = dnorm(X[1,i],(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
               cont = cont + 1
             }
             
+            #cat("probabilities")
+            #print(probabilities)
+            #cat("\n")
+            
             prob = array()
-            prob = probabilities/sum(probabilities)
+            if(sum(probabilities) != 0 && !any(is.na(probabilities))){
+              #cat("Entra en la primera condición")
+              #prob = probabilities/sum(probabilities)
+            }else{
+              #cat("Entra en la segunda condición")
+              prob = rep(0, length(probabilities))
+            }
+            #cat("prob")
+            #print(prob)
+            #cat("\n")
             
             index = which.max(x = prob)
+            #cat("index", index)
             i_ = 1
             for(model in models){
-              if(i_ == index){
+              if(is.null(index) && i_ == index){
                 weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i] + model$coefficients[[1]]))
+              }else{
+                weight = 0.5
               }
               i_ = i_+1
             }
@@ -147,7 +72,6 @@ getParenclitsNetworks = function(data, target, observation, type = "linear"){
             adyMatrix[j,i] = weight
           }
         }
-      }
     }
   }
   return(adyMatrix)
@@ -172,91 +96,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
     for(i in 1:length(columns)){
       for(j in 1:length(columns)){
         if(i<j){
-          if(type == "exponential"){
-            formula = as.formula(paste("log(",colnames(trainingSet)[j],")" ,"~",
-                                       paste(colnames(trainingSet)[i], "|", paste(colnames(trainingSet)[targetIndex], collapse = "+"),sep = "")))
-            
-
-            models = lmList(formula, data = trainingSet)
-            cont = 1
-            probabilities = array()
-            for(model in models){
-              probabilities[cont] = dnorm(X[1,i],exp(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
-              cont = cont + 1
-            }
-            
-            prob = array()
-            prob = probabilities/sum(probabilities)
-            
-            
-            index = which.max(x = prob)
-            i_ = 1
-            for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - exp(model$coefficients[[2]]*X[1,i] + model$coefficients[[1]]))
-              }
-              i_ = i_+1
-            }
-            adyMatrix[i,j] = weight
-            adyMatrix[j,i] = weight
-          }else if(type == "quadratic"){
-            formula = as.formula(paste("sqrt(", colnames(trainingSet)[j],")", "~",
-                                       paste(colnames(trainingSet)[i], "|", paste(colnames(trainingSet)[targetIndex], collapse = "+"),sep = "")))
-            
-            models = lmList(formula, data = trainingSet)
-            cont = 1
-            probabilities = array()
-            for(model in models){
-              probabilities[cont] = dnorm(X[1,i],(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]])^2, sd(model$residuals))
-              cont = cont + 1
-            }
-            
-            prob = array()
-            if(sum(probabilities) != 0){
-              prob = probabilities/sum(probabilities)
-            }
-            prob = 0 
-            
-            index = which.max(x = prob)
-            i_ = 1
-            for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i] + model$coefficients[[1]])^2)
-              }
-              i_ = i_+1
-            }
-            adyMatrix[i,j] = weight
-            adyMatrix[j,i] = weight
-          }else if(type == "reciprocal"){
-            formula = as.formula(paste("1/",colnames(trainingSet)[j], "~",
-                                       paste(colnames(trainingSet)[i], "|", paste(colnames(trainingSet)[targetIndex], collapse = "+"),sep = "")))
-            
-            models = lmList(formula, data = trainingSet)
-            cont = 1
-            probabilities = array()
-            for(model in models){
-              probabilities[cont] = dnorm(X[1,i],1/(X[1,i]*model$coefficients[[2]] + model$coefficients[[1]]), sd(model$residuals))
-              cont = cont + 1
-            }
-            
-            prob = array()
-            if(sum(probabilities)!=0){
-              prob = probabilities/sum(probabilities)
-            }else{
-              prob = 0
-            }
-            
-            index = which.max(x = prob)
-            i_ = 1
-            for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i]) + model$coefficients[[1]])
-              }
-              i_ = i_+1
-            }
-            adyMatrix[i,j] = weight
-            adyMatrix[j,i] = weight
-          }else{
             formula = as.formula(paste(colnames(trainingSet)[j], "~",
                                        paste(colnames(trainingSet)[i], "|", paste(colnames(trainingSet)[targetIndex], collapse = "+"),sep = "")))
             
@@ -264,20 +103,30 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
             cont = 1
             probabilities = array()
             for(model in models){
-              probabilities[cont] = dnorm(X[1,i],X[1,i]*model$coefficients[[2]] + model$coefficients[[1]], sd(model$residuals))
+              if(!is.na(dnorm(X[1,i],X[1,i]*model$coefficients[[2]] + model$coefficients[[1]], sd(model$residuals)))){
+                probabilities[cont] = dnorm(X[1,i],X[1,i]*model$coefficients[[2]] + model$coefficients[[1]], sd(model$residuals))
+              }else{
+                probabilities[cont] = 0
+              }
               cont = cont + 1
             }
             
             prob = array()
-            if(sum(probabilities) != 0){
-              prob = probabilities/sum(probabilities)
+            if(sum(probabilities) != 0 && !any(is.na(probabilities))){
+              #cat("Entra en la primera condición")
+              #prob = probabilities/sum(probabilities)
+            }else{
+              #cat("Entra en la segunda condición")
+              prob = rep(0, length(probabilities))
             }
             
             index = which.max(x = prob)
             i_ = 1
             for(model in models){
-              if(i_ == index){
-                weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i]) + model$coefficients[[1]])
+              if(is.null(index) && i_ == index){
+                weight = abs(X[1,j] - (model$coefficients[[2]]*X[1,i] + model$coefficients[[1]]))
+              }else{
+                weight = 0.5
               }
               i_ = i_+1
             }
@@ -286,7 +135,6 @@ parencliticNetwork = function(trainingSet, testingSet, target, observation, type
           }
         }
       }
-    }
   }
   return(adyMatrix)
 }
