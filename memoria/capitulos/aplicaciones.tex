@@ -174,7 +174,17 @@ Se puede observar que los pacientes con tumores malignos tienen una cantidad de 
 
 \section{Umbralización de las redes parenclíticas}
 
-Hasta ahora, las redes parenclíticas usadas eran grafos completos, es decir, que existe una arista entre cada par de variables. Esto implica que algunas medidas no son adecuadas sobre grafos completos, ya que siempre se obtiene el mismo valor de la medida. Para solventar este problema, normalizaremos (en el intervalo $[0,1]$) los pesos de las aristas de cada una de las redes parenclíticas, y eliminaremos las aristas cuyos pesos sean menores que un valor $x \in [0,1]$, y realizaremos la clasificación de igual manera que en los casos anteriores. La Figura~\ref{fig:umbralizacion} muestra este hecho.\\
+Hasta ahora, las redes parenclíticas usadas eran grafos completos, es decir, que existe una arista entre cada par de variables. Esto implica que algunas medidas no son adecuadas sobre grafos completos, ya que siempre se obtiene el mismo valor de la medida. Para solventar este problema, normalizaremos (en el intervalo $[0,1]$) los pesos de las aristas de cada una de las redes parenclíticas, y eliminaremos las aristas cuyos pesos sean menores que un valor $x \in [0,1]$, y realizaremos la clasificación de igual manera que en los casos anteriores (Figura~\ref{fig:ejemploumbralizacion}).
+
+
+\begin{figure}[tbph!]
+	\centering
+	\ejemploumbralizacion
+	\caption{Ejemplo de umbralización de una red parenclítica. En primer lugar, se normaliza las aristas de la red en el intervalo $[0,1]$, y por cada $x \in [0,1]$ se eliminan las aristas menores que $x$}
+	\label{fig:ejemploumbralizacion}
+\end{figure}
+
+Si aplicamos este procedimiento a los datos de cáncer de mama para cada uno de los cuatro tipos de regresión (lineal, exponencial, cuadrático y recíproco), con paso de umbralización $0.01$, atendiendo a la tasa de aciertos, los resultados se muestran en la Figura~\ref{fig:umbralizacion}.\\
 
 \begin{figure}[tbph!]
 	\centering
@@ -183,4 +193,4 @@ Hasta ahora, las redes parenclíticas usadas eran grafos completos, es decir, qu
 	\label{fig:umbralizacion}
 \end{figure}
 
-Se puede observar que el método de umbralización mejora el porcentaje de clasificación de cada uno de los métodos de regresión. En especial, mejora el método de regresión lineal, que con las redes parenclíticas con grafos completos apenas superaba el 50\% de acierto, con el método de umbralización supera el 90\%. En los otros métodos de regresión, se produce el mismo efecto, pero la mejora es inferior que en el caso del método de regresión lineal. Notar que se producen fuertes variaciones en la tasa de acierto para valores muy cercanos de la umbralización. Esto puede ser debido a que al realizar el entrenamiento con redes neuronales, ésta se queda atrapada en un mínimo local, lo que produce una baja tasa de aciertos.\\
+Se puede observar que el método de umbralización mejora el porcentaje de clasificación de cada uno de los métodos de regresión. En especial, mejora el método de regresión lineal, que con las redes parenclíticas con grafos completos apenas superaba el 50\% de acierto, con el método de umbralización supera el 90\%. En los otros métodos de regresión, se produce el mismo efecto, pero la mejora es inferior que en el caso del método de regresión lineal. Notar que se producen fuertes variaciones en la tasa de acierto para valores muy cercanos de la umbralización. Esto puede ser debido a que al realizar el entrenamiento con redes neuronales, ésta se queda atrapada en un mínimo local, lo que produce una baja tasa de aciertos. El valor óptimo $x$ para los cuatro métodos están el intervalo $[0.55, 0.65]$, ya que es estos valores maximizan la tasa de acierto.\\

@@ -894,3 +894,100 @@ child { node [ingresos] { Ingresos }
 	\end{tikzpicture}
 	
 	}
+	
+\newcommand{\redparencliticacompleta}{
+	
+	\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+	\tikzstyle{every state}=[draw=black,text=black]
+	
+	\node[state]         (v1)                    {$V_1$};
+	\node[state]         (v2) [right of=v1]       {$V_2$};
+	\node[state]         (v3) [below of=v1]       {$V_3$};
+	\node[state]         (v4) [right of=v3]       {$V_4$};
+	
+	
+	\path (v1) edge  [bend left]   node {$3$}  (v2)
+	edge  [bend right]  node {$4$}  (v3)
+	(v2) edge  [bend left]   node {$1$}  (v4)
+	(v2) edge  [bend right = 30, below]   node {$2$}  (v3)
+	(v4) edge  [bend right = 30, below] node {$5$}  (v1)
+	(v3) edge  [bend right]  node {$7$}  (v4);
+	\end{tikzpicture}	
+}
+
+\newcommand{\redparencliticanormalizada}{
+	
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+\tikzstyle{every state}=[draw=black,text=black]
+
+\node[state]         (v1)                    {$V_1$};
+\node[state]         (v2) [right of=v1]       {$V_2$};
+\node[state]         (v3) [below of=v1]       {$V_3$};
+\node[state]         (v4) [right of=v3]       {$V_4$};
+
+
+\path (v1) edge  [bend left]   node {$0.333$}  (v2)
+
+(v3) edge  [bend left]  node {$0.500$}  (v1)
+(v2) edge  [bend left]   node {$0$}  (v4)
+(v2) edge  [bend right = 30, below]   node {$0.166$}  (v3)
+(v4) edge  [bend right = 30, below] node {$0.666$}  (v1)
+(v3) edge  [bend right]  node {$1$}  (v4);
+\end{tikzpicture}	
+}
+
+\newcommand{\redparencliticanormalizadaejemplo}{
+	
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+\tikzstyle{every state}=[draw=black,text=black]
+
+\node[state]         (v1)                    {$V_1$};
+\node[state]         (v2) [right of=v1]       {$V_2$};
+\node[state]         (v3) [below of=v1]       {$V_3$};
+\node[state]         (v4) [right of=v3]       {$V_4$};
+
+
+\path (v3) edge  [bend left]  node {$0.500$}  (v1)
+(v4) edge  [bend right = 30, below] node {$0.666$}  (v1)
+(v3) edge  [bend right]  node {$1$}  (v4);
+\end{tikzpicture}	
+}
+
+\newcommand{\redparencliticanormalizadaejemploo}{
+	
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=3cm,semithick]
+\tikzstyle{every state}=[draw=black,text=black]
+
+\node[state]         (v1)                    {$V_1$};
+\node[state]         (v2) [right of=v1]       {$V_2$};
+\node[state]         (v3) [below of=v1]       {$V_3$};
+\node[state]         (v4) [right of=v3]       {$V_4$};
+
+
+\path (v1) edge  [bend left]   node {$0.333$}  (v2)
+(v3) edge  [bend left]  node {$0.500$}  (v1)
+(v4) edge  [bend right = 30, below] node {$0.666$}  (v1)
+(v3) edge  [bend right]  node {$1$}  (v4);
+\end{tikzpicture}	
+
+}
+
+\newcommand{\ejemploumbralizacion}{
+
+		\begin{tikzpicture}
+		\node[draw=none] at (0, 0)   (a) {		  \redparencliticacompleta};
+		\node[draw=none] at (9, 0)   (b) {		  \redparencliticanormalizada};
+		
+		\draw[-open triangle 90] (a) -- node[auto] {Normalización} (b);
+		
+		\node[draw=none] at (0, -10.25)   (a) {$x = 0.3$};
+		\node[draw=none] at (0, -7)   (c) {		  \redparencliticanormalizadaejemploo};
+		
+		
+		\node[draw=none] at (9, -10.25)   (a) {$x = 0.5$};
+		\node[draw=none] at (9, -7)   (c) {		  \redparencliticanormalizadaejemplo};
+		
+		\node[draw=none] at (4.5, -4.25)   (a) {Umbralización};
+		\end{tikzpicture}	
+	
+}
