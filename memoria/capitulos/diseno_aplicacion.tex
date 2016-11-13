@@ -1,6 +1,6 @@
-\chapter{Diseño de la aplicación}
+\chapter{Diseño de la aplicación}\label{cap:diseño}
 
-En este capítulo veremos cómo construir una aplicación para realizar el problema de clasificación utilizando redes parenclíticas.\\
+En este capítulo veremos cómo construir una aplicación para realizar el problema de clasificación utilizando redes parenclíticas y otras técnicas clásicas de machine learning como redes neuronales, SVM o árboles de decisión, así como la comparación entre ellas.\\
 
 En primer lugar veremos cuál es la arquitectura de la aplicación, posteriormente, qué tecnologías hemos utilizado para desarrollar esta aplicación y, por último describiremos las funcionalidades de la aplicación.
 
@@ -26,13 +26,7 @@ Como lenguaje de programación se ha utilizado R~\cite{R}, un lenguaje desarroll
 \label{fig:R}
 \end{figure}
 
-R incorpora la mayoría los test estadísticos más comunes, gran cantidad de funciones estadísticas y permite el manejo de datos de forma sencilla.\\
-
-R es gratis y software open-source y tiene licencia GNU General Public License. R no tiene restricciones, por lo que puede ser usado cuando y donde se quiera e incluso es posible venderlo bajo las condiciones de la licencia.\\
-
-R dispone de más de 8696 paquetes~\cite{Rpaquetes} disponibles de muchos repositorios especializados en diversas temáticas como minería de datos, econometría o bioestadística.\\
-
-R es multipltaforma, por lo que está disponible en Windows, Mac y Linux, y dispone tanto de versiones de 32 como de 64 bits.\\
+R incorpora la mayoría los test estadísticos más comunes, gran cantidad de funciones estadísticas y permite el manejo de datos de forma sencilla. R es gratis y software open-source y tiene licencia GNU General Public License. R no tiene restricciones, por lo que puede ser usado cuando y donde se quiera e incluso es posible venderlo bajo las condiciones de la licencia. Dispone de más de 8696 paquetes~\cite{Rpaquetes}\footnote{A la fecha de escribir esta memoria} disponibles de muchos repositorios especializados en diversas temáticas como minería de datos, econometría o bioestadística, entre otros muchos. R es multipltaforma, por lo que está disponible en Windows, Mac y Linux, y dispone tanto de versiones de 32 como de 64 bits.\\
 
 Como servidor web se ha utilizado Shiny Server~\cite{ShinyServer} que permite desplegar de forma rápida y sencilla aplicaciones Shiny en la nube. Dispone de dos licencias: Open Source Edition y Commercial. La primera permite acceso a través del navegador, y la segunda dispone de herramientas administrativas, autenticación y, métricas y sistemas de mantenimiento y gestión de recursos avanzados.\\
 
@@ -57,11 +51,11 @@ Shiny Dashboard~\cite{ShinyDashboard} permite crear dashboards sobre aplicacione
 Además, se han utilizado distintos paquetes de R:
 
 \begin{enumerate}
-	\item igraph~\cite{igraph}: análisis de grafos.
-	\item e1071~\cite{e1071}: clasificación con Support Vector Machine.
-	\item nnet~\cite{nnet}: clasificación con redes neuronales (con una sola capa oculta).
-	\item rpart~\cite{rpart}: clasificación con árboles de decisión
-	\item ggplot2~\cite{ggplot2}: librería para visualización. 
+	\item \textbf{igraph}~\cite{igraph}: análisis de grafos.
+	\item \textbf{e1071}~\cite{e1071}: clasificación con Support Vector Machine.
+	\item \textbf{nnet}~\cite{nnet}: clasificación con redes neuronales (con una sola capa oculta).
+	\item \textbf{rpart}~\cite{rpart}: clasificación con árboles de decisión
+	\item \textbf{ggplot2}~\cite{ggplot2}: librería para visualización. 
 \end{enumerate}
 
 
@@ -107,7 +101,7 @@ Una vez cargados los datos, se muestran las variables que pueden ser usadas para
 
 En la parte inferior de la pantalla se muestran los datos cargados en forma de tabla. Es posible ordenar las columnas por orden creciente o decreciente y buscar algún datos en el conjunto de datos.\\
 
-En la pestaña Regression (Figura~\ref{fig:regresion}) se representan para cada par de variables sus curvas de regresión (lineal, exponencial, cuadrática y recíproco). 
+En la pestaña \textit{Regression} (Figura~\ref{fig:regresion}) se representan para cada par de variables sus curvas de regresión (lineal, exponencial, cuadrática y recíproco). 
 
 \begin{figure}[tbph!]
 	\centering
@@ -116,7 +110,7 @@ En la pestaña Regression (Figura~\ref{fig:regresion}) se representan para cada 
 	\label{fig:regresion}
 \end{figure}
 
-En la pestaña Parenclitic Network (Figura~\ref{fig:pn}), se pueden ver las distribuciones de cada clase, calculadas a partir del modelo de regresión deseado y la red parenclítica de cada observación (Figura~\ref{fig:parencliticNetwork}). 
+En la pestaña \textit{Parenclitic Network} (Figura~\ref{fig:pn}), se pueden ver las distribuciones de cada clase, calculadas a partir del modelo de regresión deseado y la red parenclítica de cada observación (Figura~\ref{fig:parencliticNetwork}). 
 
 \begin{figure}[tbph!]
 	\centering
@@ -132,7 +126,7 @@ En la pestaña Parenclitic Network (Figura~\ref{fig:pn}), se pueden ver las dist
 	\label{fig:parencliticNetwork}
 \end{figure}
 
-En la pestaña Prediction se muestran las gráficas de las medidas obtenidas de las redes parenclíticas (Figura~\ref{fig:medidas}) así como la clasificación realizada a partir de estas medidas (Figura~\ref{fig:clasificacion}).\\
+En la pestaña \textit{Prediction} se muestran las gráficas de las medidas obtenidas de las redes parenclíticas (Figura~\ref{fig:medidas}) así como la clasificación realizada a partir de estas medidas (Figura~\ref{fig:clasificacion}).\\
 
 \begin{figure}[tbph!]
 	\centering
@@ -148,7 +142,7 @@ En la pestaña Prediction se muestran las gráficas de las medidas obtenidas de 
 	\label{fig:clasificacion}
 \end{figure}
 
-Por último en la pestaña Other prediction methods, se obtiene la clasificación mediante redes neuronales, Support Vector Machine y árboles de decisión (Figura~\ref{fig:prediccionML}) de los datos iniciales.\\
+Por último en la pestaña \textit{Other prediction methods}, se obtiene la clasificación mediante redes neuronales, Support Vector Machine y árboles de decisión (Figura~\ref{fig:prediccionML}) de los datos iniciales.\\
 
 \begin{figure}[tbph!]
 	\centering

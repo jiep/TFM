@@ -1,18 +1,10 @@
 \chapter{Redes parenclíticas}
 
-En el capítulo anterior hemos visto una serie de algoritmos de machine learning clásicos como lo son los árboles de decisión, las redes neuronales y los Support Vector Machine.\\
+En el capítulo anterior hemos visto una serie de algoritmos de machine learning clásicos como lo son los árboles de decisión, las redes neuronales y los Support Vector Machine. En este capítulo veremos un nuevo método basado en teoría de grafos para el problema de clasificación: las redes parenclíticas.\\
 
-En este capítulo veremos un nuevo método basado en teoría de grafos para el problema de clasificación: las redes parenclíticas.\\
+Este nuevo método se ha utilizado con éxito en la clasificación de sujetos con glomerolunefritis~\cite{metabo3010155, 1304.1896} (enfermedad renal en la que se daña el sector de los riñones que ayuda a filtrar los desechos y los líquidos de la sangre), con magníficos resultados, llegando a clasificar al 100\% de los sujetos con esta enfermedad. Además, se señala que este método es menos sensible ruido que otros algoritmos clásicos de machine learning como el perceptrón multicapa, los árboles de decisión o Naïve Bayes~\cite{metabo3010155}. En~\cite{Zanin2014} se aplican las redes parenclíticas a los genes de la planta \textit{Arabidopsis thaliana}. Este método permitió el descubrimiento de nuevos genes involucrados en respuestas a estrés osmótico. En~\cite{Zanin2012} se usan las redes parenclíticas para la optimización de series temporales multivariantes. En~\cite{1506.04421} se utilizan redes parenclíticas para la clasificación de los datos de metilación del ADN humano. Aplicado en 14 distintos tipos de cáncer, en 12 de ellos se obtiene una gran tasa de clasificación (clasificando como paciente con cáncer o sin cáncer), situándose en torno al 90--100\%.\\
 
-Este nuevo método se ha utilizado con éxito en la clasificación de sujetos con glomerolunefritis~\cite{metabo3010155, 1304.1896} (enfermedad renal en la que se daña el sector de los riñones que ayuda a filtrar los desechos y los líquidos de la sangre), con magníficos resultados, llegando a clasificar al 100\% de los sujetos con esta enfermedad. Además, se señala que este método es menos sensible ruido que otros algoritmos clásicos de machine learning como el perceptrón multicapa, los árboles de decisión o Naïve Bayes.\\
-
-En~\cite{Zanin2014} se aplican las redes parenclíticas a los genes de la planta \textit{Arabidopsis thaliana}. Este método permitió el descubrimiento de nuevos genes involucrados en respuestas a estrés osmótico.\\
-
-En~\cite{Zanin2012} se usan las redes parenclíticas para la optimización de series temporales multivariantes.\\
-
-En~\cite{1506.04421} se utilizan redes parenclíticas para la clasificación de los datos de metilación del ADN humano. Aplicado en 14 distintos tipos de cáncer, en 12 de ellos se obtiene una gran tasa de clasificación (clasificando como paciente con cáncer o sin cáncer), situándose en torno al 90--100\%.\\
-
-El método de redes parenclíticas se puede ver en la Figura~\ref{fig:redesparencliticas}. Partiendo de unos datos estructurados, se calcula la curva de regresión sobre cada par de variables, y se calcula el error de la estimación obtenida sobre un nuevo ejemplo (que no ha sido ajustado el modelo de regresión con él), que será el peso de la arista de entre las dos variables en el grafo. Con todas las redes parenclíticas se obtienen distintas medidas, que se pasan a un algoritmo de machine learning clásico, que obtiene la clasificación final.     
+El método de redes parenclíticas se puede representar de forma sintética en la Figura~\ref{fig:redesparencliticas}. Partiendo de unos datos estructurados (datos que constan de un número fijo de características o variables, representados normalmente en una matriz: cada una de las filas es una observación y las columnas son cada de las variables), se calcula la curva de regresión sobre cada par de variables, y se calcula el error de la estimación obtenida sobre un nuevo ejemplo (que no ha sido ajustado el modelo de regresión con él), que será el peso de la arista de entre las dos variables en el grafo. Con todas las redes parenclíticas (cada una de ellas asociada a una observación cuyos nodos corresponden a las variables) se obtienen distintas medidas, que se pasan a un algoritmo de machine learning clásico, que obtiene la clasificación final.     
 
 \begin{figure}[htbp!]
 	\begin{center}
@@ -24,9 +16,11 @@ El método de redes parenclíticas se puede ver en la Figura~\ref{fig:redesparen
 	\label{fig:redesparencliticas}
 \end{figure}
 
+En este capítulo veremos una introducción a la teoría de grafos, y veremos cómo pasar de la teoría de grafos a las redes complejas, y por último veremos en qué consiste el método de redes parenclíticas.
+
 \section{Introducción a la teoría de grafos}
 
-La teoría de grafos es la rama de las matemáticas que estudia los grafos, objetos matemáticos que constan de dos elementos: los nodos o vértices y las aristas.\\
+La teoría de grafos es la rama de las matemáticas que estudia los grafos, objetos matemáticos que constan de dos elementos: los nodos o vértices y las aristas~\cite{opac-b1093081}.\\
 
 La teoría de grafos se inicia con un artículo de Leonhard Euler publicado en 1736 donde resolvía el problema de los puentes de Königsberg~\cite{Euler1736}. La ciudad de Königsberg es atravesada por el río Pregel, que se bifurca en dos para dividir la ciudad en cuatro zonas distintas, que estaban conectadas por siete puentes (Figura~\ref{fig:bridges}).\\
 
@@ -37,14 +31,12 @@ La teoría de grafos se inicia con un artículo de Leonhard Euler publicado en 1
 \label{fig:bridges}
 \end{figure}
 
-El problema consistía en encontrar un camino que recorriera la ciudad, pasando por cada puentes una única vez y regresara al punto de inicio.\\
-
-Euler probó que este problema no tiene solución, por lo que no es posible recorrer los siete puentes y volver al punto inicial.\\
+El problema consistía en encontrar un camino que recorriera la ciudad, pasando por cada puentes una única vez y regresara al punto de inicio. Euler probó que este problema no tiene solución, por lo que no es posible recorrer los siete puentes y volver al punto inicial, empleando un nuevo concepto: los grafos.\\
 
 A continuación, introduciremos el concepto de grafo, algunas operaciones que se pueden realizar con ellos y alguna de las medidas sobre grafos que utilizaremos a lo largo de la memoria.\\
 
 \begin{defi}
-	Un grafo (o grafo no dirigido) es un par $G = (V,E)$ de conjuntos que satisfacen que $E \subseteq V^2$ y $V \cap E = \emptyset$. Los elementos de $V$ se denominan vértices (o nodos) del grafo $G$ y los elementos de $E$ se denominan arcos (o aristas). Una arista entre los véctices $x, y \in V$ se denota como $xy$ o $yx \in E$.
+	Un grafo (o grafo no dirigido) es un par $G = (V,E)$ de conjuntos que satisfacen que $E \subseteq V^2$ y $V \cap E = \emptyset$. Los elementos de $V$ se denominan vértices (o nodos) del grafo $G$ y los elementos de $E$ se denominan arcos (o aristas). Una arista entre los vértices $x, y \in V$ se denota como $xy$ o $yx \in E$.
 \end{defi}
 
 La forma usual de representar un grafo es dibujar un punto (o círculo) por cada vértice y unir dos de estos dos puntos (o círculos) con una línea para formar un arco. Cómo estén dibujados los vértices y los arcos es irrelevante, sólo importa qué pares de nodos forman una arista y cuáles no.
@@ -74,6 +66,8 @@ La forma usual de representar un grafo es dibujar un punto (o círculo) por cada
 	El grafo de la Figura~\ref{fig:grafo} es un grafo finito, puesto que el número de vértices del grafo es $4$.
 \end{ejemplo}
 
+En esta memoria trabajaremos sólo con grafos finitos.
+
 \begin{defi}
 	Dos vértices $x,y \in V$ del grafo $G = (V,E)$ se dicen adyacentes si existe una arista entre $x$ e $y$ (o $xy \in E$).
 \end{defi}
@@ -92,125 +86,6 @@ La forma usual de representar un grafo es dibujar un punto (o círculo) por cada
 		\label{fig:grafo_completo}
 	\end{figure}
 	
-\end{ejemplo}
-
-\begin{defi}
-	Sean $G = (V,E)$ y $G' = (V',E')$ dos grafos. Decimos que $G$ y $G'$ son isomorfos, y escribimos $G \simeq G'$, si existe una biyección $\phi : V \to V'$ tal que $xy \in E \iff \phi(x)\phi(y) \in E' \ \ \forall x,y \in V$. La aplicación $\phi$ recibe el nombre de isomorfismo. Si $G = G'$, $\phi$ se dice que es un automorfismo. 
-\end{defi}
-
-Podemos definir operaciones sobre grafos, como la unión o la intersección.
-
-\begin{defi}
-	Sean $G = (V,E)$ y $G' = (V',E')$ dos grafos, se definen la unión y la intersección de grafos como
-	
-	\begin{eqnarray*}
-		G \cup G' := (V \cup V', E \cup E')\\
-		G \cap G' := (V \cap V', E \cap E')
-	\end{eqnarray*}
-	
-	Si $G \cap G' = \emptyset$, entonces $G$ y $G'$ son disjuntos.
-\end{defi}
-
-\begin{ejemplo}
-	La Figura~\ref{fig:union_interseccion_grafo} muestra la unión e intersección de grafos. Si $G$ y $G'$ son respectivamente 
-	
-	\begin{eqnarray*}
-		G = (\{A, B, C, D, E\}, \{ \{A,B\}, \{B,C\}, \{B,D\}, \{C,E\}, \{D, E\} \})\\
-		G' = (\{C, D, E, F\}, \{ \{C,D\}, \{C,E\}, \{D,F\}, \{E,F\} \})
-	\end{eqnarray*}
-	
-	Por definición,
-	
-	\begin{multline*}
-	G \cup G' = (\{A, B, C, D, E, F\}, \{ \{A,B\}, \{B,C\}, \{B,D\}, \{C,E\}, \{D, E\}, \\
-	\{C,D\}, \{D,F\},\{E,F\} \})
-	\end{multline*}
-	\[G \cap G' = (\{C, E\}, \{\{C,E\}\})\]
-	
-	
-	\begin{figure}[htb]
-		\centering
-		\ejemplounionintersecciongrafo
-		\caption{Ejemplo de unión de unión e intersección de grafos}
-		\label{fig:union_interseccion_grafo}
-	\end{figure}
-	
-\end{ejemplo}
-
-\begin{defi}
-	
-	Sean $G = (V,E)$ y $G' = (V',E')$ dos grafos. Si $V' \subseteq V$ y $E' \subseteq E$, se dice que $G'$ es un subgrafo de $G$ (y $G$ es un supergrafo de $G'$).
-	
-\end{defi}
-
-\begin{ejemplo}
-	La Figura~\ref{fig:subgrafo} muestra algunos de los subgrafos de $G= (V,E)$ donde
-	
-	\[ V  = \{A, B, C, D, E\}\]
-	\[E = \{ \{A,B\}, \{A,C\}, \{A,E\}, \{B,D\}, \{B, E\},\{C,D\}, \{D,E\},\{C,E\} \} \]
-	
-	Del mismo modo, $G' = (V', E')$ y $G'' = (V'', E'')$ donde
-	
-	\[ V'  = \{A, B, C, D\}\]
-	\[E' = \{ \{A,B\}, \{A,C\}, \{B,D\},\{C,D\} \} \]
-	
-	\[ V''  = \{A, B, C, D, E\}\]
-	\[E'' = \{ \{A,B\}, \{A,C\}, \{B,D\},\{C,D\},\{B,E\} \} \]
-	
-	Se ve claramente que $V' \subseteq V$ y $E' \subseteq E$, por lo que $G'$ es un subgrafo de $G$ (o $G$ es un supergrafo de $G'$). Análogo para $G''$.
-	
-	
-	\begin{figure}[htb]
-		\centering
-		\ejemplosubgrafo
-		\caption[Ejemplo de subgrafos de un grafo]{Ejemplo de subgrafos de un grafo $G$}
-		\label{fig:subgrafo}
-	\end{figure}
-	
-\end{ejemplo}
-
-\begin{defi}
-	Sea $G = (V,E)$ un grafo (no vacío). El grado de un vértice $v \in V$, denotado por $d_G(v) = d(v)$, se define como el número de vértices adyacentes a $v$.\\
-	
-	Si todos los vértices de $G$ tienen el mismo grado $k$, el grafo $G$ es regular.
-\end{defi}
-
-\begin{defi}
-	Se define el grado medio de un grafo $G = (V,E)$ como el número
-	
-	\begin{equation}
-	d(G) = \dfrac{1}{|V|} \sum_{v \in V} d(v)
-	\end{equation}
-\end{defi}
-
-\begin{defi}
-	Un camino es un grafo no vacío $P = (V, E)$ de la forma
-	
-	\begin{equation*}
-	V = \{ x_0,x_1,\dots,x_k\} \quad \quad E = \{ x_0 x_1, x_1 x_2, \dots, x_{k-1}x_k \}
-	\end{equation*}
-	
-	donde $x_i \neq x_j \ \forall i \neq j$.\\
-	
-	Los vértices $x_0$ y $x_k$ se denominan final del camino $P$. Los vértices $x_1, \dots, x_k$ se denominan vértices interiores del camino $P$.\\
-	
-	El número de aristas del camino se denomina longitud del camino.
-\end{defi}
-
-\begin{defi}
-	Un grafo no vacío $G$ se dice conexo si cualquier par de vértices están unidos por un camino de $G$.
-\end{defi}
-
-\begin{defi}
-	Sea $G = (V,E)$ un grafo. Un subgrafo conexo maximal de $G$ se llama componente conexa de $G$.
-\end{defi}
-
-\begin{defi}
-	Un clique es un conjunto de nodos mutuamente conectados entre sí.
-\end{defi}
-
-\begin{ejemplo}
-	Un triángulo es un clique formado por tres nodos.
 \end{ejemplo}
 
 \begin{defi}
@@ -264,7 +139,7 @@ Podemos definir operaciones sobre grafos, como la unión o la intersección.
 \end{ejemplo}
 
 \begin{defi}
-	Un grafo ponderado es un grafo con una función $\mathrm{w} : E \to \R$, es decir, que $\mathrm{w}$ asocia un número real a cada arista. Esta función recibe el nombre de función peso.
+	Un grafo ponderado o pesado es un grafo con una función $\mathrm{w} : E \to \R$, es decir, que $\mathrm{w}$ asocia un número real a cada arista. Esta función recibe el nombre de función peso.
 \end{defi}
 
 \begin{ejemplo}
@@ -352,7 +227,7 @@ La longitud del camino característico es la media aritmética de todos los cami
 En~\cite{cond-mat/0505185} se pueden encontrar una extensa lista con distintas medidas sobre grafos. 
 
 
-\section{Método de redes parenclíticas}
+\section{De la teoría de grafos a las redes parenclíticass}
 
 A continuación describimos el método de redes parenclíticas propuesto en~\cite{metabo3010155}.\\
 
@@ -363,10 +238,10 @@ El objetivo es construir un grafo, extraer de una serie de medidas y conseguir s
 La creación del grafo requiere analizar todos los pares de nodos. Para ello, se proyectan cada par de variables sobre el plano xy y se aplica un modelo. En~\cite{metabo3010155, 1304.1896, Zanin2014} se aplican modelos de regresión lineal.
 
 \begin{equation}
-y = \alpha_1 x + \alpha_2 + \epsilon
+y = \alpha_1 x + \alpha_2 + \varepsilon
 \end{equation} 
 
-donde $\alpha_1$ es la pendiente del modelo, $\alpha_2$ es el término independiente y $\epsilon$ es el término del error del modelo.\\
+donde $\alpha_1$ es la pendiente del modelo, $\alpha_2$ es el término independiente y $\varepsilon$ es el término del error del modelo.\\
 
 Esto se hace por cada clase, dando lugar a dos modelos distintos. Se puede representar la salida de la variable proyecta de la observación $X$ como dos distribuciones normales (una por cada clase) con parámetros $\mu$ como el valor esperado de la variable salida y $\sigma$ como la desviación estándar del vector $\epsilon$.\\
 
@@ -385,7 +260,7 @@ donde $\tilde{p}_d$, $\tilde{p}_d$ son las probabilidades de estar en la clase $
 Para formar el grafo, asociamos un peso a la arista entre esas dos variables dado por el error entre el valor estimado y el valor real, es decir,
 
 \begin{equation}
-\hat{\epsilon} = |\hat{y} - y|
+\hat{\varepsilon} = |\hat{y} - y|,
 \end{equation} 
 
 donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salida, de la clase con mayor probabilidad de las calculadas anteriormente.\\
@@ -432,22 +307,22 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 	Las rectas para las clases A y B son respectivamente:
 	
 	\begin{align*}
-	y_A & = 0.82x + 1.69 \\
-	y_B & = 0.46x - 1.25
+	y_A & = 0.82x + 1.69, \\
+	y_B & = 0.46x - 1.25,
 	\end{align*}
 	
 	y las desviaciones típicas de los residuos son:
 	
 	\begin{align*}
-	\sigma_A & = 0.5135\\
+	\sigma_A & = 0.5135,\\
 	\sigma_B & = 0.2801
 	\end{align*}
 	
-	Por tanto, la probabilidad de que esté en una de las clases son, es una variable aleatoria normal con media, el valor esperado de $x$ sobre la recta de regresión del individuo $X$, y desviación típica, la obtenida de los residuos del modelo:
+	Por tanto, imponemos que la probabilidad de estar en cada una de las clases es una variable aleatoria normal con media, el valor esperado de $x$ sobre la recta de regresión del individuo $X$, y desviación típica, la obtenida de los residuos del modelo:
 	
 	\begin{align*}
 	Y_A & = \mathcal{N}(0.82\cdot 3 + 1.69, 0.5135) = \mathcal{N}(4.15, 0.5135)\\
-	Y_B & = \mathcal{N}(0.46\cdot 3 - 1.25, 0.2801) = \mathcal{0.13, 0.2801}
+	Y_B & = \mathcal{N}(0.46\cdot 3 - 1.25, 0.2801) = \mathcal{N}(0.13, 0.2801)
 	\end{align*}
 	
 	La Figura~\ref{fig:dist_normales} muestra este hecho. Por tanto, la probabilidad de estar en cada una de las clase viene dado por 
@@ -464,7 +339,7 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 	\tilde{p}_B & = \dfrac{\tilde{p}_A}{\tilde{p}_A + \tilde{p}_B} = \dfrac{0}{0.063 + 0} = 0 \\
 	\end{align*}
 	
-	Por tanto, la probabilidad mayor es de el individuo $X$ que pertenezca a la clase A.\\
+	Por tanto, la probabilidad mayor es de que el individuo $X$ que pertenezca a la clase A.\\
 	
 	Así pues, el error cometido en esta aproximación es
 	
@@ -488,7 +363,7 @@ Este método tiene algunas limitaciones:
 
 \begin{enumerate}
 	\item Las variables no tienen por qué comportarse de forma lineal, por lo que este modelo podría ajustar de forma incorrecta.
-	\item Se limita a una limitación binaria. 
+	\item Se limita a una clasificación binaria. 
 \end{enumerate}
 
 La primera limitación se puede solventar aplicando otros métodos distintos al lineal.\\
@@ -499,19 +374,19 @@ Proponemos aplicar tres métodos distintos:
 	\item Exponencial
 	
 	\begin{equation}
-	y = \exp(\alpha_1 + \alpha_2 x)
+	y = \exp(\alpha_1 + \alpha_2 x) \quad \alpha_1, \alpha_2 \in \R
 	\end{equation}
 	
 	\item Cuadrático
 	
 	\begin{equation}
-	y = (\alpha_1 + \alpha_2 x)^2
+	y = (\alpha_1 + \alpha_2 x)^2 \quad \alpha_1, \alpha_2 \in \R
 	\end{equation}
 	
 	\item Recíproco
 	
 	\begin{equation}
-	y = \dfrac{1}{\alpha_1 + \alpha_2 x}
+	y = \dfrac{1}{\alpha_1 + \alpha_2 x} \quad \alpha_1, \alpha_2 \in \R
 	\end{equation}
 \end{enumerate}
 
@@ -525,6 +400,6 @@ p_i = \dfrac{\tilde{p}_i}{\displaystyle \sum_{i} \tilde{p}_i }
 
 donde ${p}_i$ es la probabilidad de pertenecer a la clase $i$.\\
 
-Una vez hecho ésto se puede aplicar el método descrito.\\
+Una vez hecho ésto se puede aplicar el método descrito. Seguimos suponiendo normalidad de las variables.\\
 
 En el capítulo siguiente veremos el diseño y la tecnología utilizada para implementar una aplicación que permita analizar un conjunto de datos utilizando las redes parenclíticas.
