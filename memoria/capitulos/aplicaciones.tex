@@ -1,4 +1,4 @@
-\chapter[Aplicación análisis de datos de cáncer de mama]{Aplicación análisis de datos de cáncer de mama}
+\chapter[Aplicación al cáncer de mama]{Aplicación al análisis de datos de cáncer de mama}
 
 En este capítulo utilizaremos la aplicación descrita en el Capítulo~\ref{cap:diseño} para aplicarla a la detección de tumores en cáncer de mama.
 
@@ -119,8 +119,15 @@ Se puede observar que en el caso de las observaciones con tumor benigno existe u
 Puesto que disponemos de varios modelos de regresión, puede que el modelo lineal no sea el más indicado, por lo que calculamos la regresión para cada uno de los modelos de regresión (lineal, exponencial, cuadrática y recíproca), junto con la de los modelos de machine learning clásicos (árboles de decisión, Support vector Machine y redes neuronales), y calculamos la curva ROC de cada clasificador (Figura~\ref{fig:roc_cancer}).\\
 
 \begin{figure}[tbph!]
-	\centering
-	\includegraphics[width=0.9\linewidth]{imagenes/cancer/ROC_cancer.png}
+	
+		\begin{center}
+			\begin{tikzpicture}[
+			spy using outlines={rectangle, magnification=2,size=4.5cm, height=8cm,connect spies},
+			]
+			\node (box){\includegraphics[width=0.7\linewidth]{imagenes/cancer/ROC_cancer.png}};
+			\spy[orange, very thick] on (-4.5,0) in node[right] at (5.5,4);
+			\end{tikzpicture}%
+		\end{center}
 	\caption{Curvas ROC}
 	\label{fig:roc_cancer}
 \end{figure}
@@ -174,7 +181,7 @@ Se puede observar que los pacientes con tumores malignos tienen una cantidad de 
 
 \section{Umbralización de las redes parenclíticas}
 
-Hasta ahora, las redes parenclíticas usadas eran grafos completos, es decir, que existe una arista entre cada par de variables. Esto implica que algunas medidas no son adecuadas sobre grafos completos, ya que siempre se obtiene el mismo valor de la medida. Para solventar este problema, normalizaremos (en el intervalo $[0,1]$) los pesos de las aristas de cada una de las redes parenclíticas, y eliminaremos las aristas cuyos pesos sean menores o iguales que un valor $x \in [0,1]$, y realizaremos la clasificación de igual manera que en los casos anteriores (Figura~\ref{fig:ejemploumbralizacion}).
+Hasta ahora, las redes parenclíticas usadas eran grafos completos, es decir, que existe una arista entre cada par de nodos (Ver Definición~\ref{def:completo}). Esto implica que algunas medidas no son adecuadas sobre grafos completos, ya que siempre se obtiene el mismo valor de la medida. Para solventar este problema, normalizaremos (en el intervalo $[0,1]$) los pesos de las aristas de cada una de las redes parenclíticas, y eliminaremos las aristas cuyos pesos sean menores o iguales que un valor $x \in [0,1]$, y realizaremos la clasificación de igual manera que en los casos anteriores (Figura~\ref{fig:ejemploumbralizacion}).
 
 
 \begin{figure}[tbph!]
