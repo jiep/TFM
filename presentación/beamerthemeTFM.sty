@@ -12,7 +12,53 @@
 \definecolor{ExecusharesGrey}{RGB}{22,190,255}
 \definecolor{PrimaryBlue}{RGB}{26,35,126}
 
+\usetikzlibrary{backgrounds}
+\makeatletter
 
+\tikzset{%
+	fancy quotes/.style={
+		text width=\fq@width pt,
+		align=justify,
+		inner sep=1em,
+		anchor=north west,
+		minimum width=\linewidth,
+	},
+	fancy quotes width/.initial={.8\linewidth},
+	fancy quotes marks/.style={
+		scale=8,
+		text=white,
+		inner sep=0pt,
+	},
+	fancy quotes opening/.style={
+		fancy quotes marks,
+	},
+	fancy quotes closing/.style={
+		fancy quotes marks,
+	},
+	fancy quotes background/.style={
+		show background rectangle,
+		inner frame xsep=0pt,
+		background rectangle/.style={
+			fill=gray!25,
+			rounded corners,
+		},
+	}
+}
+
+\newenvironment{fancyquotes}[1][]{%
+	\noindent
+	\tikzpicture[fancy quotes background]
+	\node[fancy quotes opening,anchor=north west] (fq@ul) at (0,0) {``};
+	\tikz@scan@one@point\pgfutil@firstofone(fq@ul.east)
+	\pgfmathsetmacro{\fq@width}{\linewidth - 2*\pgf@x}
+	\node[fancy quotes,#1] (fq@txt) at (fq@ul.north west) \bgroup}
+{\egroup;
+	\node[overlay,fancy quotes closing,anchor=east] at (fq@txt.south east) {''};
+	\node[overlay] at (7,-3) {--- \textit{Encyclopedia Britannica} ---};
+
+	\endtikzpicture}
+
+\makeatother
 
 % set colours
 \setbeamercolor{itemize item}{fg=ExecusharesBlue}
@@ -119,7 +165,7 @@
 			% draw the actual text
 			\node[anchor=south,text width=\slidewidth-1cm,inner xsep=0.5cm] at (0.5\slidewidth,6cm) {\color{ExecusharesWhite}\Huge\textbf{\inserttitle}};
 			
-			\node[anchor=north east,text width=\slidewidth-1cm,align=right] at (\slidewidth-2cm,5.25cm) {\color{ExecusharesBlack}\small\insertsubtitle};
+			\node[anchor=north east,text width=\slidewidth-1cm,align=right] at (\slidewidth-2cm,5.5cm) {\color{ExecusharesBlack}\small\insertsubtitle};
 			
 			\node[above] at(0.9\slidewidth,3.75cm) {\inserttitlegraphic};
 			
