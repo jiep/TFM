@@ -177,7 +177,13 @@ En esta memoria trabajaremos sólo con grafos finitos.
 	La fuerza de un vértice en un grafo ponderado se define como la suma de todos los pesos de sus aristas incidentes.
 \end{defi}
 
-\subsection{Algunas medidas}\label{sec:medidas}
+
+\section{De la teoría de grafos a las redes complejas}\label{sec:redes_complejas}
+
+La teoría de grafos permite caracterizar un sistema una vez que sus partes constituyentes y relaciones están definidas, una vez que han eliminando todos los detalles innecesarios para extraer sus partes constituyentes y las relaciones entre ellas. La teoría de grafos no permite establecer cómo aislar las partes constituyentes de un sistema. La estructura creada por las interacciones se conoce como topología de red. La mayoría de redes sociales, biológicas y tecnológicas tienen propiedades topológicas no triviales, es decir, que existen patrones de conexiones entre sus elementos que no son totalmente regulares ni totalmente aleaorios~\cite{Zanin2012}.\\
+La estructura topológica de la red puede ser representada como un conjunto de \textit{métricas topológicas}, que se pueden clasificar en tres tipos atendiendo al tipo de escala: \textit{microescala} (afecta a nodos individuales o relaciones), \textit{mesoescala} (afecta a un grupo de pocos nodos) y \textit{macroescala} (afecta a la red por completo).\\
+
+Las medidas que usaremos a lo largo de la memoria serán las siguientes:
 
 \begin{defi}
 	Se define densidad de enlaces\footnote{Traducción de link density} del grafo $G$ como el número de enlaces dividido entre el número de enlaces que pueden estar presentes en el grafo.
@@ -224,12 +230,13 @@ Para calcular la distancia entre los nodos del grafo se pueden aplicar los algor
 
 La longitud del camino característico es la media aritmética de todos los caminos del grafo.\\
 
-En~\cite{cond-mat/0505185} se pueden encontrar una extensa lista con distintas medidas sobre grafos. 
+Notar que la densidad de enlaces es una medida de microescala, el coeficiente de clustering es de mesoescala, y la eficiencia y la longitud del camino característico son medidas de macroescala.\\
 
+En~\cite{cond-mat/0505185} se pueden encontrar una extensa lista con distintas medidas sobre grafos.\\
 
-\section{De la teoría de grafos a las redes parenclíticas}
+En este contexto, las redes parenclíticas son un tipo de red compleja que se construye a partir de la desviación del ``comportamiento normal''.\\
 
-A continuación describimos el método de redes parenclíticas propuesto en~\cite{metabo3010155}.\\
+A continuación describimos el método de construcción de redes parenclíticas propuesto en~\cite{metabo3010155}.\\
 
 Supongamos que tenemos un conjunto de datos con $n$ variables para cada una de las $m$ observaciones, y cada una de éstas vienen clasificadas en la clase $c$ o $d$. Estas dos clases actuarán como datos de entrenamiento. Además, se supone que existe una observación, que llamaremos X, para la que la clase se desconoce.\\
 
@@ -356,7 +363,7 @@ donde $\hat{y}$ es el valor estimado y $y$ es el valor real de la variable salid
 		\label{fig:red_par}
 	\end{figure}
 	
-	En caso de tener más variables repetiríamos este proceso con cada par de variables. Una vez obtenidas todas las redes parenclíticas de los individuos desconocidos, se extraerían medidas de los grafos como las vistas en la Sección~\ref{sec:medidas}, que actuarían como entrada a un algoritmo de machine learning visto en la Sección~\ref{cap:ml}, que obtendría la clasificación. 
+	En caso de tener más variables repetiríamos este proceso con cada par de variables. Una vez obtenidas todas las redes parenclíticas de los individuos desconocidos, se extraerían medidas de los grafos como las vistas en la Sección~\ref{sec:redes_complejas}, que actuarían como entrada a un algoritmo de machine learning visto en la Sección~\ref{cap:ml}, que obtendría la clasificación. 
 \end{ejemplo}
 
 Este método tiene algunas limitaciones:
