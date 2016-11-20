@@ -440,7 +440,9 @@ child { node [ingresos] { Ingresos }
 		\node[main node] (4) [right = 1cm  of 3] {};
 		
 		\path[draw,thick]
-		(1) edge node {} (2)
+		(1) edge node {} (2)		
+		(1) edge node {} (4)
+		(1) edge node {} (3)
 		(2) edge node {} (4)
 		(3) edge node {} (4)
 		(2) edge node {} (3);

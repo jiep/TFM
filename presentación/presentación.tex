@@ -2,21 +2,34 @@
 %!TEX program = lualatex
 \documentclass[hyperref={unicode}]{beamer}
 
-\usepackage[spanish]{babel}
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
 \usepackage{graphicx}
 \usepackage[unicode]{hyperref}
 \usepackage{bookmark}
 \usepackage{tikz}
 \usepackage{etoolbox}
+\usepackage{subfig}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usetikzlibrary{spy}
 
 
+\input{../memoria/extras/figuras}
+
+\newtheorem{teo}{\textbf{\color{ExecusharesBlue}Teorema}}
+\newtheorem{defi}{\textbf{\color{ExecusharesBlue}Definición}}
 
 \usetheme{TFM}
 
 \title{Título del TFM}
 \subtitle{Trabajo Fin de Máster \\ \textbf{Máster en Ingeniería de Sistemas de Decisión} \\ \textit{Curso 2016--2017}}
 \author{José Ignacio Escribano Pablos}
-\institute{Ana Elizabeth García Sipols \\ Miguel Romance del Río}
+\institute{\begin{tabular}{c}
+Ana Elizabeth García Sipols \\
+Miguel Romance del Río     
+\end{tabular}}
 \titlegraphic{\includegraphics[width=2cm]{imagenes/urjc.png}}
 
 \setcounter{tocdepth}{2}
@@ -45,7 +58,7 @@
 \setcounter{framenumber}{0}
 \setcounter{showProgressBar}{1}
 \setcounter{showSlideNumbers}{1}
-\section{Introducción}
+
 \begin{frame}{Objetivos}
 	\begin{enumerate}
 		\item Introducir los conceptos básicos de Machine Learning, teoría de grafos y redes parenclíticas (basadas en grafos).
@@ -56,6 +69,7 @@
 	\end{enumerate}
 \end{frame}
 
+\section{Introducción}
 \begin{frame}{Introducción}
 	\Huge{\textcolor{red}{TODO}}
 \end{frame}
@@ -67,107 +81,594 @@
 	\end{fancyquotes}
 \end{frame}
 
+\begin{frame}{Definición de Machine Learning}
+	El Machine Learning se basa en la construcción de modelos que permitan aprender y hacer predicciones sobre unos datos, de forma automática, sin intervención humana.\\
+	
+	\begin{figure}
+		\begin{center}
+		\includegraphics[width=0.9\textwidth]{imagenes/ml.png}
+		\caption{\url{http://phdp.github.io/images/ml-900.png}}
+		\end{center}
+	\end{figure}
+
+\end{frame}
+
 \subsection{Problemas que resuelve}
 \begin{frame}{Problemas que resuelve}
-Regresión y clasificación
-Poner imágenes
-\end{frame}
+El Machine Learning permite resolver infinidad de problemas que se pueden clasificar en:\\
 
-\subsubsection{Regresión}
-\begin{frame}{Regresión}
-	
-\end{frame}
-
-\begin{frame}{Regresión lineal}
-	
+\begin{itemize}
+\item Clasificación
+\item Regresión
+\item Clustering
+\item Reducción de la dimensionalidad
+\end{itemize}
 \end{frame}
 
 \subsubsection{Clasificación}
 \begin{frame}{Clasificación}
+	Las entradas del modelo son divididas entre dos o más clases y el modelo debe aprender a asignar a cada entrada una de las clases. 
+	\begin{figure}
+		\begin{center}
+		\includegraphics[width=0.9\textwidth]{imagenes/clasificacion1.png}
+		\caption{\url{http://alex.smola.org/drafts/thebook.pdf}}
+		\end{center}
+	\end{figure}
 	
+	\textbf{Ejemplo}: filtro de spam.  
 \end{frame}
+
+\subsubsection{Regresión}
+\begin{frame}{Regresión}
+	La regresión tiene salidas continuas, es decir, que las salidas pueden tomar todos los valores reales o un intervalo de ellos. 
+		\begin{figure}
+				\begin{center}
+				\includegraphics[width=0.9\textwidth]{imagenes/regresion1.png}
+				\caption{\url{http://alex.smola.org/drafts/thebook.pdf}}
+				\end{center}
+		\end{figure}
+		
+		\textbf{Ejemplo}: predicción del valor de unas acciones en bolsa. 
+\end{frame}
+
+\begin{frame}{Regresión lineal}
+	La regresión lineal viene dada por el modelo
+	
+	\begin{equation}
+	y_i = \alpha_1 x_{i1} + \dots + \alpha_p x_{ip} + \alpha_0, \quad i = 1,...,n
+	\end{equation}
+	
+	donde $y_i$ es la variable salida, $x_{i}$ es la variable de entrada, $n$ es el número de observaciones y $p$ es el número de variables de entrada.
+	
+	\begin{figure}
+	\centering
+	\subfloat[Dos dimensiones]{\includegraphics[width=0.3\textwidth]{imagenes/linear_regression2d.png}}\qquad\qquad
+    \subfloat[Tres dimensiones]{\includegraphics[width=0.3\textwidth]{imagenes/linear_regression.png}}
+	  
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Regresión lineal (bidimensional)}
+	En particular, en el caso bidimensional el modelo viene dado por
+	
+	\begin{equation}
+	y = \alpha_1 x + \alpha_0.
+	\end{equation}
+	
+	Se tiene que $\alpha_0$ y $\alpha_1$ vienen dados por este sistema de ecuaciones lineales:
+	
+	\begin{equation}
+	\begin{cases}
+	\begin{array}{ccccc}
+	\left(\displaystyle\sum_{i=1}^{n} x_i^2\right) \alpha_1 & + & \left(\displaystyle\sum_{i=1}^{n} x_i\right) \alpha_0 & = & \displaystyle \sum_{i=1}^{n} x_i y_i \\
+	 \left(\displaystyle \sum_{i=1}^{n} x_i\right) \alpha_1 & + & n \alpha_0 & = & \displaystyle \sum_{i=1}^{n} y_i
+	\end{array}
+	\end{cases}
+	\end{equation}
+	donde $n$ es el número total de datos.
+\end{frame}
+
+
+\begin{frame}{Linealización de modelos no lineales}
+	\begin{table}[htbp!]
+		\centering
+		\caption{Linealización de distintos modelos}
+		\label{tbl:linealizacion}
+		\resizebox{\textwidth}{!}{%
+		\begin{tabular}{@{}ccc@{}}
+			\toprule
+			$y = f(x)$                             & \begin{tabular}[c]{@{}c@{}}Forma linealizada\\ $y = \alpha_1 x + \alpha_0$\end{tabular} & \begin{tabular}[c]{@{}c@{}}Cambio de variables\\ y constantes\end{tabular} \\ \midrule
+			$y = \dfrac{\alpha_1}{x} + \alpha_0$   & $y = \alpha_1 \dfrac{1}{x} + \alpha_0$                                                  & $X=\dfrac{1}{x}$; $Y=y$                                                    \\
+			$y = \dfrac{1}{\alpha_1 x + \alpha_0}$ & $\dfrac{1}{y} = \alpha_1 x + \alpha_0$                                                  & $Y=\dfrac{1}{y}$; $X=x$                                                    \\
+			$y = \alpha_1 \log x + \alpha_0$       & $y = \alpha_1 \log x + \alpha_0$                                                        & $Y = y$; $X = \log x$                                                      \\
+			$y = \alpha_1 e^{\alpha_0 x}$          & $\log y = \log \alpha_1 + \alpha_2 \log x$                                              & $Y = \log y$; $X = \log x$; $\alpha_1 = \log \alpha_1$                     \\
+			$y = (\alpha_0 + \alpha_1 x)^2$        & $\sqrt{y} = \alpha_0 + \alpha_1 x$                                                      & $Y = \sqrt{y}$; $X=x$                                                      \\ \bottomrule
+		\end{tabular}
+		}
+	\end{table} 
+\end{frame}
+
+
+\begin{frame}{Clustering}
+	El conjunto de entrada se divide en grupos (no fijados de antemano).
+	
+	\begin{figure}
+			\begin{center}
+			\includegraphics[width=0.6\textwidth]{imagenes/clustering.png}
+			\caption{\url{http://i2.wp.com/www.exegetic.biz/blog/wp-content/uploads/2015/09/xclara-clusters-colour.png}}
+			\end{center}
+	\end{figure}
+			
+	\textbf{Ejemplo}: segmentación del mercado. 
+\end{frame}
+
+
+
+\begin{frame}{Reducción de la dimensionalidad}
+	Simplifica las entradas por medio de una función a un espacio de dimensión inferior.
+	
+	\begin{figure}
+			\begin{center}
+			\includegraphics[width=0.35\textwidth]{imagenes/dimesionality_reduction.png}
+			\caption{\url{http://www.holehouse.org/mlclass/14_Dimensionality_Reduction_files/Image\%20[1].png}}
+			\end{center}
+	\end{figure}
+			
+\end{frame}
+
 
 \subsection{Tipos de aprendizaje}
+\begin{frame}{Tipos de aprendizaje}
+	Se pueden clasificar tres tipos de aprendizaje en Machine Learning:
+		
+	\begin{figure}
+				\begin{center}
+				\includegraphics[width=0.65\textwidth]{imagenes/machine-learning-types.png}
+				\caption{\url{https://www.analyticsvidhya.com/blog/2015/06/machine-learning-basics}}
+				\end{center}
+		\end{figure}
+\end{frame}
+
 \subsubsection{Aprendizaje supervisado}
 \begin{frame}{Aprendizaje supervisado}
+
+	\begin{figure}
+					\begin{center}
+					\includegraphics[width=0.9\textwidth]{imagenes/supervisado.jpg}
+					\caption{\url{https://s-media-cache-ak0.pinimg.com/originals/5f/06/5b/5f065b7604e12bb776f9323bb29d33cf.jpg}}
+					\end{center}
+			\end{figure}
+
+\end{frame}
+
+\begin{frame}{Proceso de ML supervisado}
+
+El proceso general para resolver un problema usando aprendizaje supervisado consiste en los siguientes pasos:\\
+
+	\begin{enumerate}
+		\item \pause Obtención de datos y preparación
+		
+		\item \pause Selección de características
+		
+		\item \pause Elección del algoritmo 
+		
+		\item \pause Selección del modelo y sus parámetros
+		
+		\item \pause Entrenamiento
+		
+		\item \pause Evaluación
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Algunos algoritmos}
+	\begin{itemize}
+		\item Redes Neuronales Artificiales
+			\item Support Vector Machine (SVM)
+			\item Árboles de decisión
+			\item k-vecinos más cercanos (kNN)
+			\item Regresión lineal
+			\item Regresión logística
+			\item ...
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Redes neuronales artificiales}
+	Las redes neuronales están basadas en el modo que funcionan las neuronas en el cerebro.\\
+	
+	
+	\begin{figure}[htbp!]
+	\centering
+	\resizebox{!}{0.5\width}{\neuronaMcCullochPitts}
+		
+	\caption{Neurona de McCulloch y Pitts}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Perceptrón}
+
+El \textbf{perceptrón} es la red neuronal más sencilla, ya que no es más que una colección de neuronas de MacCulloch y Pitts
+
+\begin{figure}[htbp!]
+	\centering
+	\resizebox{!}{0.35\textwidth}{\perceptron}
+	\caption{Perceptrón}
+\end{figure}
+
+Sólo es capaz de clasificar conjuntos linealmente separables.
 	
 \end{frame}
 
-\begin{frame}{Proceso}
-	Proceso
+
+
+\begin{frame}{Perceptrón multicapa}
+ 
+El \textbf{perceptrón multicapa} consiste en múltiples capas de neuronas.
+
+\begin{figure}[htbp!]
+	\centering
+	\resizebox{!}{0.4\textwidth}{\perceptronmulticapa}
+	\caption{Perceptrón multicapa}
+\end{figure}
+
 \end{frame}
 
-\begin{frame}{Aplicaciones}
-	Aplicaciones aprendizaje supervisado
+
+\begin{frame}{Teorema de aproximación universal}
+ 
+\begin{teo}
+Un perceptrón multicapa con una sola capa oculta puede aproximar funciones continuas en subconjuntos compactos de $\mathbb{R}^n$.
+\end{teo}
+
+\end{frame}
+
+
+
+\begin{frame}{Support Vector Machine}
+	\begin{figure}[htbp!]
+		\centering
+		\clasificador
+		\caption{Distintos clasificadores lineales}
+		\label{fig:clasificador}
+	\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Support Vector Machine}
+	\begin{figure}[htbp!]
+		\centering
+		\margen
+	 	\caption{Margen en SVM}
+	 	\label{fig:margen}
+	 \end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Support Vector Machine}
+	El problema anterior se puede plantear como un problema de programación cuadrática con la siguiente estructura:
+	
+	\begin{align}
+	 \min & \ \ \ \dfrac{1}{2}\mathbf{w}^T \mathbf{w}\\
+	 \text{s.a. } & \ \ \ y_i (\mathbf{w}^T x_i + b) \geq 1 \ \forall i = 1,\dots, n
+	 \end{align}
+	 
+	 donde $\mathbf{x}$ es el vector de entradas, $\mathbf{w}$ es un vector perpendicular al hiperplano clasificador, $b$ es una constante y $y_i$ es el valor de la salida i-ésima que puede  tomar dos valores $\{-1,1\}$. 
+	 
+\end{frame}
+
+\begin{frame}{Árboles de decisión}
+	La idea de los árboles de decisión es partir el conjunto de clasificación en un conjunto de opciones sobre cada variable comenzando por la raíz del árbol y bajando hasta las hojas, donde se reciben la decisión de clasificación.
+	
+	\begin{figure}[htbp!]
+		\centering
+			\resizebox{!}{0.3\textwidth}{\arboldedecision}
+		\caption{Árbol de decisión}
+		\label{fig:arboldecision}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Algunos algoritmos}
+	\begin{minipage}{0.2\textwidth}
+	\begin{itemize}
+		\item ID3
+		\item C4.5
+		\item CART
+		\item CHAID
+		\item ...
+		\end{itemize}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.7\textwidth}
+		\begin{figure}[htbp!]
+				\centering
+				
+				\resizebox{!}{0.5\textwidth}{\ejemploarboldecision}
+				\caption{Árbol de decisión tras la ejecución del algoritmo ID3}
+				\label{fig:arboldecisionejemplo}
+			\end{figure}
+	\end{minipage}
 \end{frame}
 
 \subsubsection{Aprendizaje no supervisado}
 \begin{frame}{Aprendizaje no supervisado}
+	\begin{figure}
+			\begin{center}
+			\includegraphics[width=0.9\textwidth]{imagenes/no_supervisado.jpg}
+			\caption{\url{https://s-media-cache-ak0.pinimg.com/originals/51/c0/b4/51c0b4e42094987971be43849084c6d9.jpg}}
+			\end{center}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Algunos algoritmos}
+
+\begin{minipage}{0.3\textwidth}
+	\begin{itemize}
+		\item k-Medias
+		\item Clustering jerárquico
+		\item ...
+	\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.65\textwidth}
+	\begin{figure}[htbp!]
+		\centering
+		\resizebox{0.4\textheight}{!}{\includegraphics{imagenes/iris_dendrogram.png}}
+		\caption{Clustering jerárquico}
+	\end{figure}
+\end{minipage}
 	
 \end{frame}
 
-\begin{frame}{Aplicaciones}
-	Aplicaciones aprendizaje no supervisado
-\end{frame}
+
 
 \subsubsection{Aprendizaje por refuerzo}
 \begin{frame}{Aprendizaje por refuerzo}
 	
+	\begin{figure}[htbp!]
+			\centering
+			\resizebox{!}{0.5\textwidth}{\includegraphics{imagenes/reinforcement_learning.jpg}}
+			\caption{\url{http://www.slideshare.net/ckmarkohchang/language-understanding-for-textbased-games-using-deep-reinforcement-learning}}
+		\end{figure}
 \end{frame}
 
-\begin{frame}{Aplicaciones}
-	Aplicaciones aprendizaje por refuerzo
+\begin{frame}{Algunos algoritmos}
+	\begin{minipage}{0.3\textwidth}
+		\begin{itemize}
+			\item Q-learning
+			\item SARSA
+			\item ...
+		\end{itemize}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.65\textwidth}
+		\begin{figure}[htbp!]
+			\centering
+			\resizebox{0.5\textheight}{!}{\includegraphics{imagenes/breakout.png}}
+			\caption{https://youtu.be/V1eYniJ0Rnk}
+		\end{figure}
+	\end{minipage}
 \end{frame}
 
 \section{Redes parenclíticas}
-\begin{frame}{Redes parenclíticas}
-	
-\end{frame}
-
 \subsection{Introducción a la teoría de grafos}
 \begin{frame}{Introducción a la teoría de grafos}
+	\begin{defi}
+		Un grafo (o grafo no dirigido) es un par $G = (V,E)$ de conjuntos que satisfacen que $E \subseteq V\times V$ y $V \cap E = \emptyset$. Los elementos de $V$ se denominan vértices (o nodos) del grafo $G$ y los elementos de $E$ se denominan arcos (o aristas). Una arista entre los vértices $x, y \in V$ se denota como $xy$ o $yx \in E$.
+	\end{defi}
 	
+	\begin{figure}[htb]
+		\centering
+		\resizebox{0.25\textheight}{!}{\ejemplografo}
+		\caption{Ejemplo de grafo}
+		\label{fig:grafo}
+	\end{figure}
 \end{frame}
+
+\begin{frame}{Introducción a la teoría de grafos}
+	\begin{defi}
+
+			Un grafo ponderado o pesado es un grafo con una función $\mathrm{w} : E \to \mathbb{R}$, es decir, que $\mathrm{w}$ asocia un número real a cada arista. Esta función recibe el nombre de función peso.
+
+	\end{defi}
+	
+	\begin{figure}[htb]
+		\centering
+		\resizebox{0.7\textheight}{!}{\ejemplografoponderado}
+		\caption{Ejemplo de grafo ponderado}
+		\label{fig:grafo_ponderado}
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Introducción a la teoría de grafos}
+
+		\begin{defi}\label{def:completo}
+			Un grafo se dice completo si existen una arista entre cada par de nodos.
+		\end{defi}
+
+	\begin{figure}[htb]
+		\centering
+		\resizebox{0.25\textheight}{!}{\ejemplografocompleto}
+		\caption{Ejemplo de grafo completo}
+		\label{fig:grafo_completo}
+	\end{figure}
+\end{frame}
+
+
 
 \subsection{Medidas de redes complejas}
 \begin{frame}{Medidas de redes complejas}
-	
+	\begin{defi}
+		Se define densidad de enlaces del grafo $G$ como el número de enlaces dividido entre el número de enlaces que pueden estar presentes en el grafo.
+		\begin{equation}\label{eq:densidad}
+		d(G) = \dfrac{1}{n(n-1)} \sum_{i,j} a_{i,j}
+		\end{equation}
+		
+		donde $n$ es el número de nodos del grafo y $a_{i,j}$ es la entrada ij-ésima de la matriz de adyacencia (matriz que en su posición $(i,j)$ indica si existe una arista entre el nodo $i$ y $j$).
+	\end{defi}
+\end{frame}
+
+\begin{frame}{Medidas de redes complejas}
+	\begin{defi}
+	Se define longitud del camino característico del grafo $G$ de la siguiente forma:
+		
+		\begin{equation}\label{eq:camino}
+		\mathrm{L}({G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} d(i,j)
+		\end{equation}
+		
+		donde $d(i,j)$ es la distancia entre el nodo $i$ y el nodo $j$ y $n$ es el número de nodos de $G$.
+	\end{defi}
+\end{frame}
+
+\begin{frame}{Medidas de redes complejas}
+	\begin{defi}
+	Se define eficiencia de un grafo $G$ como
+		
+		\begin{equation}\label{eq:eficiencia}
+		\mathrm{E}({G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} \dfrac{1}{d(i,j)}
+		\end{equation}
+		
+		donde $d(i,j)$ es la distancia entre el nodo $i$ y el nodo $j$ y $n$ es el número de nodos de $G$.
+	\end{defi}
+\end{frame}
+
+\begin{frame}{Medidas de redes complejas}
+	\begin{defi}
+	Se define coeficiente de clustering $C$ del grafo $G$ como
+			
+			\begin{equation}\label{eq:clustering}
+			C(G) = \dfrac{3N_{\triangle}}{N_3}
+			\end{equation}
+			
+			donde $N_{\triangle}$ es el número de triángulos del grafo y $N_3$ es el número de tripletas conectadas.
+	\end{defi}
 \end{frame}
 
 \subsection{Descripción del método de redes parenclíticas}
 \begin{frame}{Método de redes parenclíticas}
+	\begin{itemize}
+	\item Aprendizaje supervisado.
+	\item Problema de clasificación.
+	\item Variables numéricas (excepto la de clasificación).
+	\item El esquema del método de redes prenclíticas es el siguiente:
+	\end{itemize}
 	
+	\begin{figure}[htbp!]
+		\begin{center}
+			\resizebox{\textwidth}{!}{%
+				\redesparencliticas
+			}
+		\end{center}
+		\caption{Esquema del método de redes parenclíticas}
+		\label{fig:redesparencliticas}
+	\end{figure}
 \end{frame}
+
+
 
 \section{Diseño de la aplicación}
-\begin{frame}{Diseño de la aplicación}
-	
+\begin{frame}{Arquitectura y tecnología}
+	\begin{figure}[htbp!]
+		\centering
+		\arquitectura
+		\caption{Arquitectura de la aplicación}
+		\label{fig:arquitectura}
+	\end{figure}
 \end{frame}
 
-\begin{frame}{Arquitectura}
-	Arquitectura
-\end{frame}
-
-\begin{frame}{Tecnología}
-	Tecnología
-\end{frame}
 
 \begin{frame}{Vista de la aplicación}
-	[DEMO]
+	\begin{center}
+	\Huge \color{ExecusharesBlue}\textbf{\{DEMO\}}
+	\end{center}
+	\begin{figure}[htbp!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{../memoria/imagenes/descriptiva.png}
+		\label{fig:aplicacion}
+	\end{figure}
 \end{frame}
 
+
+
 \section{Aplicación al cáncer de mama}
-\begin{frame}{Aplicación al cáncer de mama}
-	Aplicación al cáncer de mama
+\begin{frame}{Datos utilizados}
+	699 observaciones y 11 variables (con valores entre 1 y 10):
+	\begin{enumerate}
+		\item Código de la muestra
+		\item Espesor
+		\item Uniformidad del tamaño celular
+		\item Uniformidad de la forma celular
+		\item Adhesión marginal
+		\item Tamaño de las células epiteliales
+		\item Bare nuclei
+		\item Cromatina
+		\item Normal Nucleoli
+		\item Mitosis
+		\item Clase (B = beningno; M = maligno)
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Resultados}
+\begin{figure}[htbp!]
+	\centering
+	\subfloat[Obs. 8]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/b1.png}}
+	\subfloat[Obs. 26]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/b2.png}}
+	\subfloat[Obs. 34]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/b3.png}}\\
+	\subfloat[Obs. 41]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/m1.png}}
+	\subfloat[Obs. 43]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/m2.png}}
+	\subfloat[Obs. 50]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/m3.png}}
+	\caption{Redes parenclíticas por clase de tumor con modelo de regresión lineal}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Resultados}
+\begin{figure}[htbp!]
+	\centering
+	\subfloat[Obs. 8]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/b1_reciproco.png}}
+	\subfloat[Obs. 26]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/b2_reciproco.png}}
+	\subfloat[Obs. 34]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/b3_reciproco.png}}\\
+	\subfloat[Obs. 41]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/m1_reciproco.png}}
+	\subfloat[Obs. 43]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/m2_reciproco.png}}
+	\subfloat[Obs. 50]{\includegraphics[width=0.25\textwidth]{../memoria/imagenes/cancer/m3_reciproco.png}}	
+	\caption{Redes parenclíticas por clase de tumor con modelo de regresión recíproco}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Resultados}
+\begin{figure}
+\begin{center}
+			\includegraphics[width=\linewidth]{../memoria/imagenes/cancer/ROC_cancer.png}
+		\end{center}
+	\caption{Curvas ROC}
+\end{figure}
 \end{frame}
 
 \section{Conclusiones y trabajo futuro}
 \begin{frame}{Conclusiones}
-	Conclusiones
+	\begin{itemize}
+	\item Hemos visto qué es el Machine Learning, qué tipos existen según el tipo de aprendizaje y algunos de los algoritmos clásicos y un nuevo método basado en teoría de grafos para realizar la tarea de clasificación. 
+	
+	\item Hemos desarrollado una aplicación que analiza y compara un conjunto de datos según distintos algoritmos de Machine Learning.
+	
+	\item Hemos aplicado la aplicación al diagnóstico de tumores de cáncer de mama, obteniendo grandes resultados, aunque sin llegar al nivel de los algoritmos clásicos.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Trabajo futuro}
-	Trabajo futuro
+	\begin{itemize}
+		\item Optimización de los algoritmos de redes parenclíticas.
+		 
+		\item Mejora en visualización de la aplicación.
+		
+		\item Nuevos métodos de regresión.
+		
+		\item Persistencia de las redes parenclíticas en bases de datos de grafos.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{¿Preguntas?}

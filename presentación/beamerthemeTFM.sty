@@ -8,7 +8,7 @@
 \definecolor{ExecusharesRed}{RGB}{173,216,230}
 \definecolor{ExecusharesBlack}{RGB}{43,40,40}
 \definecolor{ExecusharesBlue}{RGB}{22,190,207}
-\definecolor{ExecusharesWhite}{RGB}{255,255,243}
+\definecolor{ExecusharesWhite}{RGB}{255,255,255}
 \definecolor{ExecusharesGrey}{RGB}{22,190,255}
 \definecolor{PrimaryBlue}{RGB}{26,35,126}
 
@@ -54,7 +54,7 @@
 	\node[fancy quotes,#1] (fq@txt) at (fq@ul.north west) \bgroup}
 {\egroup;
 	\node[overlay,fancy quotes closing,anchor=east] at (fq@txt.south east) {''};
-	\node[overlay] at (7,-3) {--- \textit{Encyclopedia Britannica} ---};
+	\node[overlay] at (8,-2.25) {--- \textit{Encyclopedia Britannica} ---};
 
 	\endtikzpicture}
 
@@ -64,19 +64,24 @@
 \setbeamercolor{itemize item}{fg=ExecusharesBlue}
 \setbeamercolor{enumerate item}{fg=ExecusharesBlue}
 \setbeamercolor{alerted text}{fg=ExecusharesBlue}
-\setbeamercolor{section in toc}{fg=ExecusharesBlue}
-\setbeamercolor{subsection in toc}{fg=ExecusharesBlue}
-
+\setbeamercolor{section in toc}{fg=black}
+\setbeamercolor{subsection in toc}{fg=black}
+\setbeamercolor{caption name}{fg=ExecusharesBlue}
 % set fonts
 \setbeamerfont{itemize/enumerate body}{size=\large}
 \setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
 \setbeamerfont{itemize/enumerate subsubbody}{size=\small}
+\setbeamerfont{caption name}{series=\bfseries}
+
 
 \setbeamertemplate{section in toc}{%
-  {\color{PrimaryBlue}\inserttocsectionnumber.}~\inserttocsection}
+  {\color{ExecusharesBlue}\inserttocsectionnumber.}~\color{black}\inserttocsection}
+  
+
+
 
 \setbeamertemplate{subsection in toc}{%
-	{\hspace{0.5cm}\color{PrimaryBlue}\inserttocsectionnumber.\inserttocsubsectionnumber.}~\inserttocsubsection\\}
+	{\hspace{0.5cm}\color{ExecusharesBlue}\inserttocsectionnumber.\inserttocsubsectionnumber.}~\inserttocsubsection\\}
 
 % make the itemize bullets pixelated >
 \setbeamertemplate{itemize item}{
@@ -106,7 +111,7 @@
 
 % disable "Figure:" in the captions
 \setbeamertemplate{caption}{\tiny\insertcaption}
-\setbeamertemplate{caption label separator}{}
+\setbeamertemplate{caption}[numbered]{}
 
 % since I don't know a better way to do this, these are all switches
 % doing `\setcounter{showProgressBar}{0}` will turn the progress bar off (I turn it off for Appendix slides)
@@ -146,8 +151,11 @@
 	\progressbar@tmpcounta=\insertframenumber
 	\progressbar@tmpcountb=\inserttotalframenumber
 	\progressbar@tmpdim=\progressbar@pbwidth
-	\multiply\progressbar@tmpdim by \progressbar@tmpcounta
-	\divide\progressbar@tmpdim by \progressbar@tmpcountb
+	\divide\progressbar@tmpdim by 100
+	  \multiply\progressbar@tmpdim by \progressbar@tmpcounta
+	  \divide\progressbar@tmpdim by \progressbar@tmpcountb
+	    \multiply\progressbar@tmpdim by 100
+
 
 	\begin{tikzpicture}
 		% set up the entire slide as the canvas
