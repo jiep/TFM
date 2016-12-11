@@ -1,0 +1,242 @@
+% the various libraries we will be using
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage[none]{hyphenat}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+\definecolor{ExecusharesRed}{RGB}{173,216,230}
+\definecolor{ExecusharesBlack}{RGB}{43,40,40}
+\definecolor{ExecusharesBlue}{RGB}{22,190,207}
+\definecolor{ExecusharesWhite}{RGB}{255,255,255}
+\definecolor{ExecusharesGrey}{RGB}{22,190,255}
+\definecolor{PrimaryBlue}{RGB}{26,35,126}
+
+\usetikzlibrary{backgrounds}
+\makeatletter
+
+\tikzset{%
+	fancy quotes/.style={
+		text width=\fq@width pt,
+		align=justify,
+		inner sep=1em,
+		anchor=north west,
+		minimum width=\linewidth,
+	},
+	fancy quotes width/.initial={.8\linewidth},
+	fancy quotes marks/.style={
+		scale=8,
+		text=white,
+		inner sep=0pt,
+	},
+	fancy quotes opening/.style={
+		fancy quotes marks,
+	},
+	fancy quotes closing/.style={
+		fancy quotes marks,
+	},
+	fancy quotes background/.style={
+		show background rectangle,
+		inner frame xsep=0pt,
+		background rectangle/.style={
+			fill=gray!25,
+			rounded corners,
+		},
+	}
+}
+
+\newenvironment{fancyquotes}[1][]{%
+	\noindent
+	\tikzpicture[fancy quotes background]
+	\node[fancy quotes opening,anchor=north west] (fq@ul) at (0,0) {``};
+	\tikz@scan@one@point\pgfutil@firstofone(fq@ul.east)
+	\pgfmathsetmacro{\fq@width}{\linewidth - 2*\pgf@x}
+	\node[fancy quotes,#1] (fq@txt) at (fq@ul.north west) \bgroup}
+{\egroup;
+	\node[overlay,fancy quotes closing,anchor=east] at (fq@txt.south east) {''};
+	\node[overlay] at (8,-2.25) {--- \textit{Encyclopedia Britannica} ---};
+
+	\endtikzpicture}
+
+\makeatother
+
+% set colours
+\setbeamercolor{itemize item}{fg=ExecusharesBlue}
+\setbeamercolor{enumerate item}{fg=ExecusharesBlue}
+\setbeamercolor{alerted text}{fg=ExecusharesBlue}
+\setbeamercolor{section in toc}{fg=black}
+\setbeamercolor{subsection in toc}{fg=black}
+\setbeamercolor{caption name}{fg=ExecusharesBlue}
+% set fonts
+\setbeamerfont{itemize/enumerate body}{size=\large}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\small}
+\setbeamerfont{caption name}{series=\bfseries}
+
+
+\setbeamertemplate{section in toc}{%
+  {\color{ExecusharesBlue}\inserttocsectionnumber.}~\color{black}\inserttocsection}
+  
+
+
+
+\setbeamertemplate{subsection in toc}{%
+	{\hspace{0.5cm}\color{ExecusharesBlue}\inserttocsectionnumber.\inserttocsubsectionnumber.}~\inserttocsubsection\\}
+
+% make the itemize bullets pixelated >
+\setbeamertemplate{itemize item}{
+	\tikz{
+		\draw[fill=ExecusharesBlue,draw=none] (0, 0) rectangle(0.1, 0.1);
+		\draw[fill=ExecusharesBlue,draw=none] (0.1, 0.1) rectangle(0.2, 0.2);
+		\draw[fill=ExecusharesBlue,draw=none] (0, 0.2) rectangle(0.1, 0.3);
+	}
+}
+% make the subitems also pixelated >, but a little smaller and red
+\setbeamertemplate{itemize subitem}{
+	\tikz{
+		\draw[fill=ExecusharesBlue,draw=none] (0, 0) rectangle(0.075, 0.075);
+		\draw[fill=ExecusharesBlue,draw=none] (0.075, 0.075) rectangle(0.15, 0.15);
+		\draw[fill=ExecusharesBlue,draw=none] (0, 0.15) rectangle(0.075, 0.225);
+	}
+}
+
+% disable navigation
+\setbeamertemplate{navigation symbols}{}
+
+% custom draw the title page above
+\setbeamertemplate{title page}{}
+
+% again, manually draw the frame title above
+\setbeamertemplate{frametitle}{}
+
+% disable "Figure:" in the captions
+\setbeamertemplate{caption}{\tiny\insertcaption}
+\setbeamertemplate{caption}[numbered]{}
+
+% since I don't know a better way to do this, these are all switches
+% doing `\setcounter{showProgressBar}{0}` will turn the progress bar off (I turn it off for Appendix slides)
+% etc
+\newcounter{showProgressBar}
+\setcounter{showProgressBar}{1}
+\newcounter{showSlideNumbers}
+\setcounter{showSlideNumbers}{1}
+\newcounter{showSlideTotal}
+\setcounter{showSlideTotal}{1}
+
+% use \makeatletter for our progress bar definitions
+% progress bar idea from http://tex.stackexchange.com/a/59749/44221
+% slightly adapted for visual purposes here
+\makeatletter
+\newcount\progressbar@tmpcounta% auxiliary counter
+\newcount\progressbar@tmpcountb% auxiliary counter
+\newdimen\progressbar@pbwidth %progressbar width
+\newdimen\progressbar@tmpdim % auxiliary dimension
+
+\newdimen\slidewidth % auxiliary dimension
+\newdimen\slideheight % auxiliary dimension
+
+% make the progress bar go across the screen
+%\progressbar@pbwidth=12.8cm
+\progressbar@pbwidth=\the\paperwidth
+\slidewidth=\the\paperwidth
+\slideheight=\the\paperheight
+
+% use tikz to draw everything
+% it may not be the best, but it's easy to work with
+% and looks good
+% TODO: base title slide and contents slide on something other than slide numbers :/
+\setbeamertemplate{background}{
+	% deal with progress bar stuff
+	% (calculate where it should go)
+	\progressbar@tmpcounta=\insertframenumber
+	\progressbar@tmpcountb=\inserttotalframenumber
+	\progressbar@tmpdim=\progressbar@pbwidth
+	\divide\progressbar@tmpdim by 1000
+	  \multiply\progressbar@tmpdim by \progressbar@tmpcounta
+	  \divide\progressbar@tmpdim by \progressbar@tmpcountb
+	    \multiply\progressbar@tmpdim by 1000
+
+
+	\begin{tikzpicture}
+		% set up the entire slide as the canvas
+		\useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+
+		% the background
+		\fill[color=ExecusharesWhite] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+
+		% separate the drawing based on if we're the first (title) slide or not
+		\ifnum\thepage=1\relax
+			% the title page
+			% draw the fills
+			\fill[color=PrimaryBlue] (0, 6cm) rectangle(\slidewidth,\slideheight);
+
+			% draw the actual text
+			\node[anchor=south,text width=\slidewidth-1cm,inner xsep=0.5cm] at (0.5\slidewidth,6cm) {\color{ExecusharesWhite}\Huge\textbf{\inserttitle}};
+			
+			\node[anchor=north east,text width=\slidewidth-1cm,align=right] at (\slidewidth-2cm,5.5cm) {\color{ExecusharesBlack}\small\insertsubtitle};
+			
+			\node[above] at(0.9\slidewidth,3.75cm) {\inserttitlegraphic};
+			
+			\node[align=center] at (0.5\slidewidth,2.5cm) {\color{ExecusharesBlack}\normalsize\insertinstitute};
+			
+			\node[align=center] at (0.5\slidewidth,3.25cm) {\color{ExecusharesBlack}\normalsize{\textbf{Tutores}}};
+			
+			
+			\node at (0.5\slidewidth,1cm) {\color{ExecusharesBlack}\Large\insertauthor};
+
+			% add the date in the corner
+			\node[anchor=south east] at(\slidewidth,0cm) {\tiny\insertdate};
+		\else
+			% NOT the title page
+			% title bar
+			\fill[color=PrimaryBlue] (0, \slideheight-1cm) rectangle(\slidewidth,\slideheight);
+
+
+			\node[anchor=north,text width=\slidewidth-1cm,inner xsep=0.5cm,inner ysep=0.25cm] at (0.5\slidewidth,\slideheight) {\color{ExecusharesWhite}\huge\textbf{\insertframetitle}};
+			
+			% if we're showing a progress bar, show it
+			% (I disable the progress bar and slide numbers for the "Appendix" slides)
+			\ifnum \value{showProgressBar}>0\relax%
+				% the the progress bar icon in the middle of the screen
+				\draw[fill=ExecusharesRed,draw=none] (0cm,0cm) rectangle(\slidewidth,0.25cm);
+				\draw[fill=ExecusharesBlue,draw=none] (0cm,0cm) rectangle(\progressbar@tmpdim,0.25cm);
+
+				% if slide numbers are active
+				\ifnum \value{showSlideNumbers}>0\relax%
+					% if slide totals are active
+					\ifnum \value{showSlideTotal}>0\relax%
+						% draw both slide number and slide total
+										\else
+					\fi
+				\fi
+			% don't show the progress bar?
+			\else
+				% section title in the bottom left
+				% if we're showing slide numbers
+				\ifnum \value{showSlideNumbers}>0\relax%
+					% if slide totals are active
+					\ifnum \value{showSlideTotal}>0\relax%
+						
+					\else
+						
+					\fi
+				\fi
+			\fi
+		\fi
+	\end{tikzpicture}
+}
+\makeatother
+
+% add section titles
+\AtBeginSection{\frame{\sectionpage}}
+\setbeamertemplate{section page}
+{
+	\begin{tikzpicture}
+		% set up the entire slide as the canvas
+		\useasboundingbox (0,0) rectangle(\slidewidth,\slideheight);
+		%\fill[color=ExecusharesWhite] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+		\fill[color=ExecusharesWhite] (-1cm, 2cm) rectangle (\slidewidth, \slideheight+0.1cm);
+		\fill[color=PrimaryBlue] (-1cm, 0.5\slideheight-1cm) rectangle(\slidewidth, 0.5\slideheight+1cm);
+		\node[text width=\the\paperwidth-1cm,align=center] at (0.4\slidewidth, 0.5\slideheight) {\color{ExecusharesWhite}\Huge\textbf{\insertsection}};
+	\end{tikzpicture}
+}
