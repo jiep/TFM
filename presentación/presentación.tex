@@ -23,7 +23,7 @@
 
 \usetheme{TFM}
 
-\title{Título del TFM}
+\title{Machine Learning clásico y Redes Parenclíticas. Un análisis comparativo}
 \subtitle{Trabajo Fin de Máster \\ \textbf{Máster en Ingeniería de Sistemas de Decisión} \\ \textit{Curso 2016--2017}}
 \author{José Ignacio Escribano Pablos}
 \institute{\begin{tabular}{c}
@@ -268,6 +268,7 @@ El proceso general para resolver un problema usando aprendizaje supervisado cons
 	\end{enumerate}
 \end{frame}
 
+
 \begin{frame}{Algunos algoritmos}
 	\begin{itemize}
 		\item Redes Neuronales Artificiales
@@ -281,7 +282,7 @@ El proceso general para resolver un problema usando aprendizaje supervisado cons
 \end{frame}
 
 
-
+\subsection{Técnicas clásicas consideradas}
 \begin{frame}{Redes neuronales artificiales}
 	Las redes neuronales están basadas en el modo que funcionan las neuronas en el cerebro.\\
 	
@@ -475,93 +476,50 @@ Un perceptrón multicapa con una sola capa oculta puede aproximar funciones cont
 	\end{figure}
 \end{frame}
 
-\begin{frame}{Introducción a la teoría de grafos}
-	\begin{defi}
-
-			Un grafo ponderado o pesado es un grafo con una función $\mathrm{w} : E \to \mathbb{R}$, es decir, que $\mathrm{w}$ asocia un número real a cada arista. Esta función recibe el nombre de función peso.
-
-	\end{defi}
-	
-	\begin{figure}[htb]
-		\centering
-		\resizebox{0.7\textheight}{!}{\ejemplografoponderado}
-		\caption{Ejemplo de grafo ponderado}
-		\label{fig:grafo_ponderado}
-	\end{figure}
-\end{frame}
-
-
-\begin{frame}{Introducción a la teoría de grafos}
-
-		\begin{defi}\label{def:completo}
-			Un grafo se dice completo si existen una arista entre cada par de nodos.
-		\end{defi}
-
-	\begin{figure}[htb]
-		\centering
-		\resizebox{0.25\textheight}{!}{\ejemplografocompleto}
-		\caption{Ejemplo de grafo completo}
-		\label{fig:grafo_completo}
-	\end{figure}
-\end{frame}
-
-
-
 \subsection{Medidas de redes complejas}
 \begin{frame}{Medidas de redes complejas}
-	\begin{defi}
-		Se define densidad de enlaces del grafo $G$ como el número de enlaces dividido entre el número de enlaces que pueden estar presentes en el grafo.
-		\begin{equation}\label{eq:densidad}
-		d(G) = \dfrac{1}{n(n-1)} \sum_{i,j} a_{i,j}
-		\end{equation}
-		
-		donde $n$ es el número de nodos del grafo y $a_{i,j}$ es la entrada ij-ésima de la matriz de adyacencia (matriz que en su posición $(i,j)$ indica si existe una arista entre el nodo $i$ y $j$).
-	\end{defi}
-\end{frame}
-
-\begin{frame}{Medidas de redes complejas}
-	\begin{defi}
-	Se define longitud del camino característico del grafo $G$ de la siguiente forma:
-		
-		\begin{equation}\label{eq:camino}
-		\mathrm{L}({G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} d(i,j)
-		\end{equation}
-		
-		donde $d(i,j)$ es la distancia entre el nodo $i$ y el nodo $j$ y $n$ es el número de nodos de $G$.
-	\end{defi}
-\end{frame}
-
-\begin{frame}{Medidas de redes complejas}
-	\begin{defi}
-	Se define eficiencia de un grafo $G$ como
-		
-		\begin{equation}\label{eq:eficiencia}
-		\mathrm{E}({G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} \dfrac{1}{d(i,j)}
-		\end{equation}
-		
-		donde $d(i,j)$ es la distancia entre el nodo $i$ y el nodo $j$ y $n$ es el número de nodos de $G$.
-	\end{defi}
-\end{frame}
-
-\begin{frame}{Medidas de redes complejas}
-	\begin{defi}
-	Se define coeficiente de clustering $C$ del grafo $G$ como
+	
+	\begin{minipage}[b][.35\textheight][t]{.47\textwidth}
+		\begin{defi}
+			Se define densidad de enlaces del grafo $G$ como el número de enlaces dividido entre el número de enlaces que pueden estar presentes en el grafo.
+		\end{defi}
+	\end{minipage}\hfill%
+	\begin{minipage}[b][.35\textheight][t]{.47\textwidth}
+		\begin{defi}
+			Se define longitud del camino característico del grafo $G$ como
+			
+			\begin{equation}\label{eq:camino}
+			\mathrm{L}({G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} d(i,j)
+			\end{equation}
+		\end{defi}
+	\end{minipage}\\[0.5em]
+	\begin{minipage}[b][.35\textheight][t]{.47\textwidth}
+		\begin{defi}
+			Se define eficiencia de un grafo $G$ como
+			
+			\begin{equation}\label{eq:eficiencia}
+			\mathrm{E}({G}) = \dfrac{1}{\binom{n}{2}} \sum_{i\neq j} \dfrac{1}{d(i,j)}
+			\end{equation}
+			
+		\end{defi}
+	\end{minipage}\hfill
+	\begin{minipage}[b][.35\textheight][t]{.47\textwidth}
+		\begin{defi}
+			Se define coeficiente de clustering $C$ del grafo $G$ como
 			
 			\begin{equation}\label{eq:clustering}
 			C(G) = \dfrac{3N_{\triangle}}{N_3}
 			\end{equation}
-			
-			donde $N_{\triangle}$ es el número de triángulos del grafo y $N_3$ es el número de tripletas conectadas.
-	\end{defi}
+		\end{defi}
+	\end{minipage}%
 \end{frame}
 
 \subsection{Descripción del método de redes parenclíticas}
 \begin{frame}{Método de redes parenclíticas}
 	\begin{itemize}
-	\item Aprendizaje supervisado.
-	\item Problema de clasificación.
+	\item Aprendizaje supervisado. Problema de clasificación.
 	\item Variables numéricas (excepto la de clasificación).
-	\item El esquema del método de redes prenclíticas es el siguiente:
+	\item \textbf{Idea}: asociar a cada observación un grafo y calcular sobre ellos medidas de redes complejas para realizar la clasificación. 
 	\end{itemize}
 	
 	\begin{figure}[htbp!]
