@@ -1,0 +1,117 @@
+%!TeX spellcheck = es_ES
+%!TEX program = lualatex
+\documentclass[hyperref={unicode}]{beamer}
+
+\usepackage[spanish, es-tabla, es-nodecimaldot]{babel}
+\usepackage{graphicx}
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage{tikz}
+\usepackage{etoolbox}
+\usepackage{subfig}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usetikzlibrary{spy}
+
+
+\input{../memoria/extras/figuras}
+
+\newtheorem{teo}{\textbf{\color{ExecusharesBlue}Teorema}}
+\newtheorem{defi}{\textbf{\color{ExecusharesBlue}Definición}}
+
+\usetheme{TFM}
+
+\title{Anexo}
+\subtitle{Trabajo Fin de Máster \\ \textbf{Máster en Ingeniería de Sistemas de Decisión} \\ \textit{Curso 2016--2017}}
+\author{José Ignacio Escribano Pablos}
+\institute{\begin{tabular}{c}
+Ana Elizabeth García Sipols \\
+Miguel Romance del Río     
+\end{tabular}}
+\titlegraphic{\includegraphics[width=2cm]{imagenes/urjc.png}}
+\date{20 de enero de 2017}
+
+\setcounter{tocdepth}{2}
+
+\makeatletter
+\patchcmd{\beamer@sectionintoc}
+{\vfill}
+{\vskip\itemsep}
+{}
+{}
+\makeatother  
+
+
+\setcounter{showSlideNumbers}{1}
+
+\begin{document}
+\setcounter{showProgressBar}{0}
+\setcounter{showSlideNumbers}{0}
+
+\frame{\titlepage}
+
+\begin{frame}{Regresión lineal}
+	La regresión lineal viene dada por el modelo
+	
+	\begin{equation}
+	y_i = \alpha_1 x_{i1} + \dots + \alpha_p x_{ip} + \alpha_0, \quad i = 1,...,n
+	\end{equation}
+	
+	donde $y_i$ es la variable salida, $x_{i}$ es la variable de entrada, $n$ es el número de observaciones y $p$ es el número de variables de entrada.
+	
+	\begin{figure}
+		\centering
+		\subfloat[Dos dimensiones]{\includegraphics[width=0.3\textwidth]{imagenes/linear_regression2d.png}}\qquad\qquad
+		\subfloat[Tres dimensiones]{\includegraphics[width=0.3\textwidth]{imagenes/linear_regression.png}}
+		
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Regresión lineal (bidimensional)}
+	En particular, en el caso bidimensional el modelo viene dado por
+	
+	\begin{equation}
+	y = \alpha_1 x + \alpha_0.
+	\end{equation}
+	
+	Se tiene que $\alpha_0$ y $\alpha_1$ vienen dados por este sistema de ecuaciones lineales:
+	
+	\begin{equation}
+	\begin{cases}
+	\begin{array}{ccccc}
+	\left(\displaystyle\sum_{i=1}^{n} x_i^2\right) \alpha_1 & + & \left(\displaystyle\sum_{i=1}^{n} x_i\right) \alpha_0 & = & \displaystyle \sum_{i=1}^{n} x_i y_i \\
+	\left(\displaystyle \sum_{i=1}^{n} x_i\right) \alpha_1 & + & n \alpha_0 & = & \displaystyle \sum_{i=1}^{n} y_i
+	\end{array}
+	\end{cases}
+	\end{equation}
+	donde $n$ es el número total de datos.
+\end{frame}
+
+
+\begin{frame}{Linealización de modelos no lineales}
+	\begin{table}[htbp!]
+		\centering
+		\caption{Linealización de distintos modelos}
+		\label{tbl:linealizacion}
+		\resizebox{\textwidth}{!}{%
+			\begin{tabular}{@{}ccc@{}}
+				\toprule
+				$y = f(x)$                             & \begin{tabular}[c]{@{}c@{}}Forma linealizada\\ $y = \alpha_1 x + \alpha_0$\end{tabular} & \begin{tabular}[c]{@{}c@{}}Cambio de variables\\ y constantes\end{tabular} \\ \midrule
+				$y = \dfrac{\alpha_1}{x} + \alpha_0$   & $y = \alpha_1 \dfrac{1}{x} + \alpha_0$                                                  & $X=\dfrac{1}{x}$; $Y=y$                                                    \\
+				\addlinespace[1em]
+				$y = \dfrac{1}{\alpha_1 x + \alpha_0}$ & $\dfrac{1}{y} = \alpha_1 x + \alpha_0$                                                  & $Y=\dfrac{1}{y}$; $X=x$                                                    \\
+				\addlinespace[1em]
+				$y = \alpha_1 \log x + \alpha_0$       & $y = \alpha_1 \log x + \alpha_0$                                                        & $Y = y$; $X = \log x$                                                      \\
+				\addlinespace[1em]
+				$y = \alpha_1 e^{\alpha_0 x}$          & $\log y = \log \alpha_1 + \alpha_2 \log x$                                              & $Y = \log y$; $X = \log x$; $\alpha_1 = \log \alpha_1$                     \\
+				\addlinespace[1em]
+				$y = (\alpha_0 + \alpha_1 x)^2$        & $\sqrt{y} = \alpha_0 + \alpha_1 x$                                                      & $Y = \sqrt{y}$; $X=x$                                                      \\ \bottomrule
+			\end{tabular}
+		}
+	\end{table} 
+\end{frame}
+
+\end{document}
