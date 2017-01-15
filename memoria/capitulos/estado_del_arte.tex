@@ -70,7 +70,7 @@ y_i = \alpha_1 x_{i1} + \dots + \alpha_p x_{ip} + \alpha_0, \quad i = 1,...,n
 donde $y_i$ es la variable salida, $x_{i}$ es la variable de entrada, $n$ es el número de observaciones y $p$ es el número de variables de entrada.\\
 
 El método de mínimos cuadrados nos garantiza que los parámetros $\alpha_i$ que minimizan el error cuadrático\footnote{El error cuadrático viene dado por \begin{equation}
-\mathrm{EC} = \sum_{i=1}^{n} (\hat{y}_i - y_i) 
+\mathrm{EC} = \sum_{i=1}^{n} (\hat{y}_i - y_i)^2 
 \end{equation} 
 donde $\hat{y}$ es el valor ajustado de la variable salida y $y$ es el valor real de la variable salida} vienen dados por
 
@@ -89,7 +89,7 @@ donde
 \end{equation*}
 
 \begin{equation*}
-\mathbf{X} = \left(\begin{matrix}{ccc}
+\mathbf{X} = \left(\begin{matrix}
 x_{11} & ... & x_{1p} \\
 x_{21} & ... & x_{2p} \\
 \vdots & \ddots & \vdots \\
@@ -201,7 +201,7 @@ El proceso general para resolver un problema usando aprendizaje supervisado cons
 	\item \textbf{Evaluación:} antes de que el sistema sea desplegado, necesita ser probado y evaluado con datos con los que no ha sido entrenado. A veces, incluye una comparación con expertos humanos en el campo y la selección de métricas apropiadas para esa comparación.    
 \end{enumerate}
 
-De los 6 puntos anteriores, nos centraremos en la elección del algoritmo. De entre todos los algoritmos entraremos en detalle de las redes neuronales, los Support Vector Machine (SVM) y los árboles de decisión, por ser ampliamente estudiados y están basados en conceptos diferentes. Las redes neuronales se basan en el funcionamiento biológico de las neuronas, los SVM en elevar la dimensión y el uso de kernels, y los árboles de decisión que se basan en obtener reglas fácilmente entendibles por humanos.
+De los 6 puntos anteriores, nos centraremos en la elección del algoritmo. De entre todos los algoritmos entraremos en detalle de las redes neuronales, los Support Vector Machine (SVM) y los árboles de decisión, por ser ampliamente estudiados y están basados en conceptos diferentes. Las redes neuronales se basan en el funcionamiento biológico de las neuronas, los SVM en transformar los datos a un espacio de dimensión superior y el uso de kernels, y los árboles de decisión que se basan en obtener reglas fácilmente entendibles por humanos.
 
 \subsection{Redes neuronales}
 
