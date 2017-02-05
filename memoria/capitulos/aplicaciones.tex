@@ -1,0 +1,203 @@
+\chapter[Aplicación al cáncer de mama]{Aplicación al análisis de datos de cáncer de mama}\label{cap:aplicacion}
+
+En este capítulo utilizaremos la aplicación descrita en el Capítulo~\ref{cap:diseño} para aplicarla a la detección de tumores en cáncer de mama.
+
+\section{Datos utilizados}
+
+El conjunto de datos ha sido obtenido de~\cite{cancer}. Consta de 699 observaciones y 10 variables (más la variable de clasificación). Éstas son:
+
+\begin{enumerate}
+	\item Código de la muestra
+	\item Espesor
+	\item Uniformidad del tamaño celular
+	\item Uniformidad de la forma celular
+	\item Adhesión marginal
+	\item Tamaño de las células epiteliales
+	\item Bare nuclei
+	\item Cromatina
+	\item Normal Nucleoli
+	\item Mitosis
+	\item Clase (B = beningno; M = maligno)
+\end{enumerate}
+
+Todas las variables toman valores numéricos entre 1 y 10, excepto el número de muestra.\\
+
+Puesto que esta variable no aporta nada, la eliminamos, dejando 10 variables (9 + variable de clasificación).\\
+
+Un subconjunto de los datos se puede ver en la Figura~\ref{fig:datos_cancer}.\\
+
+\begin{figure}[tbph!]
+\centering
+\includegraphics[width=0.6\linewidth]{imagenes/cancer/datos.png}
+\caption{Subconjunto de los datos de cáncer de mama}
+\label{fig:datos_cancer}
+\end{figure}
+
+Con la aplicación podemos ver cuál es la distribución de cada una de las variables. Por ejemplo, en el caso del espesor la distribución por clase de tumor se puede ver en la Figura~\ref{fig:thickness}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.5\linewidth]{imagenes/cancer/thickness.png}
+	\caption{Distribución del espesor por clase de tumor}
+	\label{fig:thickness}
+\end{figure}
+
+Se puede observar que la presencia de un espesor menor está presente en tumores benignos, y a medida que el espesor es mayor se producen más tumores malignos.\\
+
+\begin{figure}[htbp!]
+	\begin{center}
+		\begin{subfigure}[t]{\textwidth}
+			\centering
+			\includegraphics[height=7.5cm]{imagenes/cancer/1.png}
+			\caption{Red parenclítica de la observación 1}
+		\end{subfigure}
+		\begin{subfigure}[t]{\textwidth}
+			\centering
+			\includegraphics[height=7.5cm]{imagenes/cancer/2.png}
+			\caption{Red parenclítica de la observación 2}
+		\end{subfigure}
+		
+	\end{center}
+	\caption{Redes parenclíticas con modelo de regresión lineal}
+	\label{fig:cancer_par}
+\end{figure}
+ 
+En la Figura~\ref{fig:cancer_par} se pueden observar las redes parenclíticas de las dos primeras observaciones obtenidas con el modelo lineal.\\
+
+Podemos ver si existen diferencias entre las redes parenclíticas de las observaciones con tumores benignos y malignos. La Figura~\ref{fig:cancer_diferencias} muestra cuatro observaciones de cada clase de tumor.\\
+
+\begin{figure}[htbp!]
+	\begin{center}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b1.png}
+			\caption{Obs. 8}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b2.png}
+			\caption{Obs. 26}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b3.png}
+			\caption{Obs. 34}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b4.png}
+			\caption{Obs. 60}
+		\end{subfigure}	
+		
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m1.png}
+			\caption{Obs. 41}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m2.png}
+			\caption{Obs. 43}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m3.png}
+			\caption{Obs. 50}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.2\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m4.png}
+			\caption{Obs. 51}
+		\end{subfigure}		
+	\end{center}
+	\caption[Redes parenclíticas por clase de tumor con modelo de regresión lineal]{Redes parenclíticas por clase de tumor con modelo de regresión lineal. En la primera fila se muestran las observaciones con tumor benigno y, en la segunda, con tumor maligno}
+	\label{fig:cancer_diferencias}
+\end{figure}
+
+Se puede observar que en el caso de las observaciones con tumor benigno existe un menor peso en las aristas (color verde de las aristas), y en las observaciones con tumor maligno existe un mayor entre las aristas (color rojo de las aristas).\\
+
+Puesto que disponemos de varios modelos de regresión, puede que el modelo lineal no sea el más indicado, por lo que calculamos la regresión para cada uno de los modelos de regresión (lineal, exponencial, cuadrática y recíproca), junto con la de los modelos de machine learning clásicos (árboles de decisión, Support vector Machine y redes neuronales), y calculamos la curva ROC de cada clasificador (Figura~\ref{fig:roc_cancer}).\\
+
+\begin{figure}[tbph!]
+	
+		\begin{center}
+			\begin{tikzpicture}[
+			spy using outlines={rectangle, magnification=2,size=4.5cm, height=8cm,connect spies},
+			]
+			\node (box){\includegraphics[width=0.7\linewidth]{imagenes/cancer/ROC_cancer.png}};
+			\spy[orange, very thick] on (-4.5,0) in node[right] at (5.5,4);
+			\end{tikzpicture}%
+		\end{center}
+	\caption{Curvas ROC}
+	\label{fig:roc_cancer}
+\end{figure}
+
+Se puede observar que el mejor clasificador por redes parenclíticas es el obtenido con el modelo de regresión recíproco, seguido del exponencial y el cuadrático. El peor clasificador es el lineal. Respecto a los algoritmos clásicos de machine learning, el mejor clasificador son los árboles de decisión seguido de los Support Vector Machine y de las redes neuronales.\\
+
+Sobre todos los clasificadores, el mejor son los árboles de decisión, seguido de los Support Vector Machine y las redes parenclíticas con modelo recíproco.\\
+ 
+Puesto que el mejor modelo de redes parenclíticas es el modelo recíproco, veamos si existen diferencias entre las redes parenclíticas según la clase de tumor (Figura~\ref{fig:cancer_rec}).\\
+
+\begin{figure}[htbp!]
+	\begin{center}
+		\begin{subfigure}[t]{0.25\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b1_reciproco.png}
+			\caption{Obs. 8}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.25\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b2_reciproco.png}
+			\caption{Obs. 26}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.25\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/b3_reciproco.png}
+			\caption{Obs. 34}
+		\end{subfigure}
+		
+		\begin{subfigure}[t]{0.25\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m1_reciproco.png}
+			\caption{Obs. 41}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.25\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m2_reciproco.png}
+			\caption{Obs. 43}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.25\textwidth}
+			\centering
+			\includegraphics[height=3cm]{imagenes/cancer/m3_reciproco.png}
+			\caption{Obs. 50}
+		\end{subfigure}
+	\end{center}
+	\caption[Redes parenclíticas por clase de tumor con modelo de regresión recíproco]{Redes parenclíticas por clase de tumor con modelo de regresión recíproco. En la primera fila se muestran las observaciones con tumor benigno y, en la segunda, con tumor maligno}
+	\label{fig:cancer_rec}
+\end{figure}
+
+Se puede observar que los pacientes con tumores malignos tienen una cantidad de aristas con mayor peso (representadas con el color rojo), mientras que en el caso de los pacientes con tumores benignos se da el caso contrario, existe una cantidad mayor de aristas con peso pequeño (representado en color verde). Así pues, parece que existen diferencias según el tipo de tumor (benigno y maligno) atendiendo solamente a la estructura de la red parenclítica.
+
+
+\section{Umbralización de las redes parenclíticas}
+
+Hasta ahora, las redes parenclíticas usadas eran grafos completos, es decir, que existe una arista entre cada par de nodos (Ver Definición~\ref{def:completo}). Esto implica que algunas medidas no son adecuadas sobre grafos completos, ya que siempre se obtiene el mismo valor de la medida. Para solventar este problema, normalizaremos (en el intervalo $[0,1]$) los pesos de las aristas de cada una de las redes parenclíticas, y eliminaremos las aristas cuyos pesos sean menores o iguales que un valor $x \in [0,1]$, y realizaremos la clasificación de igual manera que en los casos anteriores (Figura~\ref{fig:ejemploumbralizacion}).
+
+
+\begin{figure}[tbph!]
+	\centering
+	\ejemploumbralizacion
+	\caption{Ejemplo de umbralización de una red parenclítica. En primer lugar, se normaliza las aristas de la red en el intervalo $[0,1]$, y por cada $x \in [0,1]$ se eliminan las aristas menores o iguales que $x$}
+	\label{fig:ejemploumbralizacion}
+\end{figure}
+
+Si aplicamos este procedimiento a los datos de cáncer de mama para cada uno de los cuatro tipos de regresión (lineal, exponencial, cuadrático y recíproco), con paso de umbralización $0.01$, atendiendo a la tasa de aciertos, los resultados se muestran en la Figura~\ref{fig:umbralizacion}.\\
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=1\linewidth]{imagenes/cancer/umbralizacion.png}
+	\caption{Porcentaje de acierto por cada tipo de método de regresión, usando la umbralización de las redes parenclíticas}
+	\label{fig:umbralizacion}
+\end{figure}
+
+Se puede observar que el método de umbralización mejora el porcentaje de clasificación de cada uno de los métodos de regresión. En especial, mejora el método de regresión lineal, que con las redes parenclíticas con grafos completos apenas superaba el 50\% de acierto, con el método de umbralización supera el 90\%. En los otros métodos de regresión, se produce el mismo efecto, pero la mejora es inferior que en el caso del método de regresión lineal. Notar que se producen fuertes variaciones en la tasa de acierto para valores muy cercanos de la umbralización. Esto puede ser debido a que al realizar el entrenamiento con redes neuronales, ésta se queda atrapada en un mínimo local, lo que produce una baja tasa de aciertos. El valor óptimo $x$ para los cuatro métodos están el intervalo $[0.55, 0.65]$, ya que es estos valores maximizan la tasa de acierto.\\
