@@ -157,5 +157,6 @@ pythontex-files-*/
 
 # Latexian
 TSWLatexianTemp*
+.Rproj.user
 
 data*.csv
